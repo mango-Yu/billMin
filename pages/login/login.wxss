@@ -1,0 +1,29 @@
+/* pages/login/login.wxss */
+.login{
+  background: #fff;
+  height: 100%;
+  text-align: center;
+}
+.desc{
+  padding-top: 40px;
+  padding-bottom: 40px;
+  text-align: center;
+}
+.title{
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.remind{
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 50px;
+}
+.vux-flexbox{
+  width: 90%;
+  margin:auto;
+  margin-top: 20px;
+}
+.login_btn button{
+  margin: 10px;
+  width: 100px;
+}

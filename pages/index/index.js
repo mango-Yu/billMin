@@ -11,8 +11,11 @@ Page({
   },
   //事件处理函数
   bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
+    // wx.navigateTo({
+    //   url: '../logs/logs'
+    // })
+    wx.switchTab({
+      url: '/pages/day/day'
     })
   },
   onLoad: function () {
