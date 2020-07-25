@@ -14,7 +14,7 @@ Page({
     // wx.navigateTo({
     //   url: '../logs/logs'
     // })
-    wx.switchTab({
+    wx.navigateTo({
       url: '/pages/day/day'
     })
   },

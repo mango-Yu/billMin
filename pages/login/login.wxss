@@ -18,12 +18,12 @@
   color: #999;
   margin-bottom: 50px;
 }
-.vux-flexbox{
-  width: 90%;
-  margin:auto;
-  margin-top: 20px;
+.login_btn{
+  width: 100%;
+  margin:20px 0;
 }
 .login_btn button{
-  margin: 10px;
-  width: 100px;
+  width: 45% !important;
+  
+  margin: 0 2.5% !important;
 }

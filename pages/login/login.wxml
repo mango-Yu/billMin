@@ -9,19 +9,22 @@
   <view class="login_form">
       <van-cell-group>
         <van-field
-          v-model="username"
+          value="{{ name }}"
           label="用户名"
           placeholder="请输入用户名"
+          bind:change="onChangeUser"
         />
         <van-field
-          v-model="phone"
+          value="{{ password }}"
           label="密码"
           placeholder="请输入密码"
+           type="password"
+           bind:change="onChangePwd"
         />
       </van-cell-group>  
   </view>
   <view  class="login_btn">
-    <van-button type="primary">登陆</van-button> <van-button type="default">注册</van-button>
+    <van-button type="primary"  bindtap="onSubmit">登陆</van-button> <van-button type="default" bindtap="toRegister">注册</van-button>
   </view>
   
 </view>
