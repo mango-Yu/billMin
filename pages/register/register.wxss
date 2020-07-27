@@ -1,1 +1,27 @@
 /* pages/register/register.wxss */
+.register {
+  background: #fff;
+  height: 100%;
+  text-align: center;
+}
+
+.desc {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  text-align: center;
+}
+
+.title {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.remind {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 50px;
+}
+
+.register_form button {
+  width: 110px !important;
+}

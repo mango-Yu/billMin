@@ -13,7 +13,7 @@ Component({
    */
   data: {
     name: '',
-    password:''
+    password: ''
   },
 
   /**

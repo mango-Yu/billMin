@@ -1,12 +1,13 @@
 {
   "pages": [
+    
+    "pages/register/register",
     "pages/login/login",
     "pages/index/index",
     "pages/logs/logs",
     "pages/day/day",
     "pages/month/month",
     "pages/list/list",
-    "pages/register/register",
     "pages/test/test"
   ],
   "window": {
