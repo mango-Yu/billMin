@@ -16,6 +16,12 @@
     "navigationBarTitleText": "WeChat",
     "navigationBarTextStyle": "black"
   },
+  "plugins": {
+    "myPlugin": {
+      "version": "1.3.0",
+      "provider": "wxefa63d84fe9f64a2"
+    }
+  },
   "tabBar": {
     "selectedColor":"#1296db",
     "list": [{

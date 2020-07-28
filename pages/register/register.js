@@ -22,7 +22,11 @@ Component({
     btnContent: "获取验证码", //获取验证码按钮内文字
     time: 0, //发送验证码间隔时间
     disabled: false, //按钮状态
-    verifyImg: false,
+    loadCaptcha: false,
+    gt:'',
+    challenge:'',
+    offline:'',
+    result:''
     // imgsArr: [img0, img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11]
 
   },
@@ -31,6 +35,20 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    onLoadGeet(){
+      var that = this;
+      console.log(333)
+      wx.request({
+        url:  `${config.api + '/geetRegister?t=' +  (new Date()).getTime()}`,
+        type: "get",
+        dataType: "json",
+        success: function (res) {
+          console.log(res);
+          that.setData({ loadCaptcha:true,gt: res.data.gt, challenge: res.data.challenge, offline: !res.data.success})
+          console.log(that.data)
+        }
+      })
+    },
     onChangeUser(event) {
       // event.detail 为当前输入的值
       this.setData({
@@ -58,7 +76,8 @@ Component({
       })
     },
     sendSmsCode() {
-      console.log(11)
+      console.log(11);
+      this.onLoadGeet();
     },
     onRegister() {
       var that = this;
@@ -184,6 +203,39 @@ Component({
       } else {
         return false;
       }
+    },
+    captchaSuccess:function(result){
+      console.log("captcha-Success!");
+      this.setData({
+        result: result.detail
+      })
+    },
+    btnSubmit: function(){
+      var that = this;
+      var data = that.data.result; // 获取完成验证码时存储的验证结果
+      if(typeof data !== 'object'){
+        console.log("请先完成验证！")
+        return 
+      }
+      // 将结果提交给用户服务端进行二次验证
+      wx.request({
+        url: "API2接口（详见服务端部署）",
+        method: 'POST',
+        dataType: 'json',
+        data: {
+          geetest_challenge: data.geetest_challenge,
+          geetest_validate: data.geetest_validate,
+          geetest_seccode: data.geetest_seccode
+        },
+        success: function (res) {
+          wx.showToast({
+            title: res.data.status
+          })
+        },
+        fail: function () {
+          console.log('error')
+        }
+      })
     }
   }
 })
