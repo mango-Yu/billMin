@@ -13,7 +13,7 @@
 			<van-field value="{{ repPassword }}" placeholder="重复密码" type="password" bind:change="onChangeRePwd" />
 			<van-field value="{{ phoneNum }}" placeholder="请输入手机号码" type="number" bind:change="onChangePhone" />
 			<van-field value="{{ verifyNum }}" center clearable label="短信验证码" placeholder="请输入短信验证码" border="{{ false }}" bind:change="onChangeCode" use-button-slot>
-				<van-button slot="button" size="small" disabled="{{disabled}}" type="primary" bindclick="sendSmsCode">发送验证码</van-button>
+				<van-button slot="button" size="small" disabled="{{disabled}}" type="primary" bindclick="sendSmsCode">{{btnContent}}</van-button>
 			</van-field>
 		</van-cell-group>
 		<captcha id="captcha" product="float" wx:if="{{loadCaptcha}}" styleConfig="{{styleConfig}}" gt="{{gt}}" challenge="{{challenge}}" offline="{{offline}}"  bindonSuccess="captchaSuccess" bindonError="captchaError"  toReset = "{{toReset}}"/>

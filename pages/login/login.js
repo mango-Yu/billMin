@@ -47,11 +47,15 @@ Component({
         method: 'POST',
         success: function (res) {
           console.log(res)
-          if (res.code == 1) {
+          if (res.data.code == 1) {
             wx.showToast({
-              title: '成功',
+              title: '登陆成功',
               icon: 'success',
               duration: 2000
+            }) 
+            wx.setStorageSync('name', that.data.name); 
+            wx.switchTab({
+              url: '/pages/day/day'
             })
           } else {
             wx.showToast({

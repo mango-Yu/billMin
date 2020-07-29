@@ -31,3 +31,6 @@
 .register_btn{
   margin-top: 10px;
 }
+.captcha--geetest_holder.captcha--geetest_wind{
+  margin: 0 auto;
+}

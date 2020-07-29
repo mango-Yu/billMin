@@ -41,7 +41,6 @@ Component({
   methods: {
     onLoadGeet(){
       var that = this;
-      console.log(333)
       wx.request({
         url:  `${config.api + '/geetRegister?t=' +  (new Date()).getTime()}`,
         type: "get",
@@ -70,7 +69,6 @@ Component({
       })
     },
     onChangePhone(event) {
-      console.log(event.detail)
       this.setData({
         phoneNum: event.detail
       })
@@ -78,133 +76,6 @@ Component({
     onChangeCode(event) {
       this.setData({
         verifyNum: event.detail
-      })
-    },
-    sendSmsCode() {
-      console.log(11); 
-      let that = this;
-        var reg = 11 && /^((13|14|15|16|17|18)[0-9]{1}\d{8})$/;//手机号正则验证
-        var phoneNum = that.data.phoneNum;
-        console.log(phoneNum)
-        if (!phoneNum) {//未输入手机号
-          wx.showToast({
-            title: '请输入手机号码',
-            image: '../../images/fail.png',
-            duration: 2000
-          })
-          return;
-        }
-        if (!reg.test(phoneNum)) {//手机号不合法
-          wx.showToast({
-            title: '您输入的手机号码不合法，请重新输入',
-            image: '../../images/fail.png',
-            duration: 2000
-          })
-          return;
-        }
-      this.onLoadGeet();
-    },
-    onRegister() {
-      var that = this;
-      if (this.data.name == '') {
-        wx.showToast({
-          title: '请输入用户名',
-          image: '../../images/fail.png',
-          duration: 2000
-        })
-        return
-      }
-      if (!that.CheckPassWord(this.data.name, 0)) {
-        wx.showToast({
-          title: '用户名需为字母加数字且长度不大于6位',
-          image: '../../images/fail.png',
-          duration: 2000
-        })
-        return
-      }
-      if (this.data.password == '') {
-        wx.showToast({
-          title: '请输入密码',
-          image: '../../images/fail.png',
-          duration: 2000
-        })
-        return
-      }
-      if (!that.CheckPassWord(this.data.password, 1)) {
-        wx.showToast({
-          title: '密码需为字母加数字且长度不小于6位',
-          image: '../../images/fail.png',
-          duration: 2000
-        })
-        return
-      }
-      if (this.data.password != this.data.repPassword) {
-        wx.showToast({
-          title: '重复密码与密码不一致',
-          image: '../../images/fail.png',
-          duration: 2000
-        })
-        return
-      }
-      if (this.data.phoneNum == '') {
-        wx.showToast({
-          title: '请输入手机号码',
-          image: '../../images/fail.png',
-          duration: 2000
-        })
-        return
-      }
-      if (this.data.verifyNum == '') {
-        wx.showToast({
-          title: '请输入验证码',
-          image: '../../images/fail.png',
-          duration: 2000
-        })
-        return
-      }
-      wx.showToast({
-        title: 'Loading',
-        icon: 'loading',
-        duration: 2000
-      })
-      let obj = {
-        name: this.data.name,
-        password: this.data.password,
-        phoneNum: this.data.phoneNum,
-        verifyNum: this.data.verifyNum,
-        sessionId: this.sessionId
-      }
-      wx.request({
-        url: `${config.api + '/register'}`,
-        data: obj,
-        header: {
-          'content-type': 'application/json'
-        },
-        method: 'POST',
-        success: function (res) {
-          res = data.res
-          if (res.code == 1) {
-            wx.showToast({
-              title: '注册成功',
-              icon: 'success',
-              duration: 2000
-            })
-          } else {
-            wx.showToast({
-              title: data.msg,
-              image: '../../images/fail.png',
-              duration: 2000
-            })
-          }
-        },
-        fail: function (res) {
-          console.log(res);
-          wx.showToast({
-            title: '注册失败',
-            image: '../../images/fail.png',
-            duration: 2000
-          })
-        }
       })
     },
     CheckPassWord(password, type) {//必须为字母加数字且长度不小于6位
@@ -235,48 +106,51 @@ Component({
         result: result.detail
       })
       let that = this;
-        this.time = 60;
-        this.timer();
-        // 获取验证码请求
-        var obj = {"phoneNum": that.data.phoneNum};
-        wx.request({
-          url: `${config.api + '/msg'}`,
-          data: obj,
-          header: {
-            'content-type': 'application/json'
-          },
-          method: 'POST',
-          success: function (data) {
-            let object = data.data;
-            console.log(data)
-            console.log(data.data.SendStatusSet)
-            data = data.data.SendStatusSet[0];
-            if (data.Code == "Ok") {
-              wx.showToast({
-                title: '发送成功',
-                icon: 'success',
-                duration: 2000
-              })
-              that.sessionId = object.sessionId;
-            } else {
-              wx.showToast({
-                title: data.Message,
-                image: '../../images/fail.png',
-                duration: 2000
-              })
-              that.btnReset();
-            }
-          },
-          fail: function(error){
-            console.log(error)
+      
+      // 获取验证码请求
+      var obj = {"phoneNum": that.data.phoneNum};
+      wx.request({
+        url: `${config.api + '/msg'}`,
+        data: obj,
+        header: {
+          'content-type': 'application/json'
+        },
+        method: 'POST',
+        success: function (data) {
+          let object = data.data;
+          console.log(data)
+          console.log(data.data.SendStatusSet)
+          data = data.data.SendStatusSet[0];
+          if (data.Code == "Ok") {
             wx.showToast({
-              title: '发送失败失败',
-              image: '../../images/fail.png',
+              title: '发送成功',
+              icon: 'success',
               duration: 2000
             })
+            that.time = 60;
+            that.timer();
+            that.sessionId = object.sessionId;
+          } else {
+            wx.showToast({
+              title: data.Message,
+              icon: 'none',
+              duration: 2000
+            })
+            that.setData({ loadCaptcha: false })
             that.btnReset();
           }
-        })
+        },
+        fail: function(error){
+          console.log(error)
+          wx.showToast({
+            title: '发送失败失败',
+            icon: 'none',
+            duration: 2000
+          })
+          that.setData({ loadCaptcha: false })
+          that.btnReset();
+        }
+      })
     },
     captchaError:function(e){
       console.log('captcha-Error!', e.detail)
@@ -321,16 +195,164 @@ Component({
       })
     },
     timer() {
-      if (this.time > 0) {
-        this.time--;
-        this.btnContent = this.time + "s后重新获取";
-        this.disabled = true;
-        var timer = setTimeout(this.timer, 1000);
-      } else if (this.time == 0) {
-        this.btnContent = "获取验证码";
-        clearTimeout(timer);
-        this.disabled = false;
+      let that = this;
+      if (that.time > 0) {
+        that.time--;
+        that.setData({
+          btnContent: that.time + "s后重新获取"
+        })
+        that.setData({
+          disabled: true
+        })
+        var timers = setTimeout(that.timer.bind(that), 1000);
+      } else if (that.time == 0) {
+        that.setData({
+          btnContent: "获取验证码"
+        })
+        clearTimeout(timers);
+        that.setData({
+          disabled: false
+        })
       }
+    },
+    sendSmsCode() {
+      let that = this;
+      var reg = 11 && /^((13|14|15|16|17|18)[0-9]{1}\d{8})$/;//手机号正则验证
+      var phoneNum = that.data.phoneNum;
+      if (!phoneNum) {//未输入手机号
+        wx.showToast({
+          title: '请输入手机号码',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+      if (!reg.test(phoneNum)) {//手机号不合法
+        wx.showToast({
+          title: '您输入的手机号码不合法，请重新输入',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+      this.onLoadGeet();
+    },
+    onRegister() {
+      var that = this;
+      if (this.data.name == '') {
+        wx.showToast({
+          title: '请输入用户名',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+      if (!that.CheckPassWord(this.data.name, 0)) {
+        wx.showToast({
+          title: '用户名需为字母加数字且长度不大于6位',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+      if (this.data.password == '') {
+        wx.showToast({
+          title: '请输入密码',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+      if (!that.CheckPassWord(this.data.password, 1)) {
+        wx.showToast({
+          title: '密码需为字母加数字且长度不小于6位',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+      if (this.data.password != this.data.repPassword) {
+        wx.showToast({
+          title: '重复密码与密码不一致',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+      if (this.data.phoneNum == '') {
+        wx.showToast({
+          title: '请输入手机号码',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+      if (this.data.verifyNum == '') {
+        wx.showToast({
+          title: '请输入验证码',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }
+      var data = that.data.result; // 获取完成验证码时存储的验证结果
+      if(typeof data !== 'object'){
+        console.log("请先完成验证！")
+        return 
+      }
+      let obj = {
+        name: this.data.name,
+        password: this.data.password,
+        phoneNum: this.data.phoneNum,
+        verifyNum: this.data.verifyNum,
+        sessionId: this.sessionId,
+        geetest_challenge: data.geetest_challenge,
+        geetest_validate: data.geetest_validate,
+        geetest_seccode: data.geetest_seccode
+      }
+      wx.request({
+        url: `${config.api + '/validateRegister'}`,
+        data: obj,
+        header: {
+          'content-type': 'application/json'
+        },
+        method: 'POST',
+        success: function (data) {
+          if (data.res) {
+            var res = data.res;
+            if (res.code == 1) {
+              wx.showToast({
+                title: '注册成功',
+                icon: 'success',
+                duration: 2000
+              })
+            } else {
+              wx.showToast({
+                title: data.msg,
+                icon: 'none',
+                duration: 2000
+              })
+            }
+          }else{
+            if (data.result == "fail") {
+              wx.showToast({
+                title: data.msg,
+                icon: 'none',
+                duration: 2000
+              })
+            }
+          }
+          
+        },
+        fail: function (res) {
+          console.log(res);
+          wx.showToast({
+            title: '注册失败',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+      })
     }
   }
 })
