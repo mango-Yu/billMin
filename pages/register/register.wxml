@@ -20,7 +20,7 @@
 	</view>
 
 	<view class="register_btn">
-		<van-button type="primary" bindtap="onRegister">注册</van-button>
+		<van-button type="primary"  size="normal" bindtap="onRegister">注册</van-button>
 	</view>
 
 </view>
