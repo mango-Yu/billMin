@@ -26,7 +26,11 @@ Component({
     gt:'',
     challenge:'',
     offline:'',
-    result:''
+    result:'',
+    styleConfig: {
+      btnWidth: '100%'// minwidth: 210px, maxwidth:320px
+    },
+    toReset: false
     // imgsArr: [img0, img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11]
 
   },
@@ -66,6 +70,7 @@ Component({
       })
     },
     onChangePhone(event) {
+      console.log(event.detail)
       this.setData({
         phoneNum: event.detail
       })
@@ -76,7 +81,27 @@ Component({
       })
     },
     sendSmsCode() {
-      console.log(11);
+      console.log(11); 
+      let that = this;
+        var reg = 11 && /^((13|14|15|16|17|18)[0-9]{1}\d{8})$/;//手机号正则验证
+        var phoneNum = that.data.phoneNum;
+        console.log(phoneNum)
+        if (!phoneNum) {//未输入手机号
+          wx.showToast({
+            title: '请输入手机号码',
+            image: '../../images/fail.png',
+            duration: 2000
+          })
+          return;
+        }
+        if (!reg.test(phoneNum)) {//手机号不合法
+          wx.showToast({
+            title: '您输入的手机号码不合法，请重新输入',
+            image: '../../images/fail.png',
+            duration: 2000
+          })
+          return;
+        }
       this.onLoadGeet();
     },
     onRegister() {
@@ -209,8 +234,66 @@ Component({
       this.setData({
         result: result.detail
       })
+      let that = this;
+        this.time = 60;
+        this.timer();
+        // 获取验证码请求
+        var obj = {"phoneNum": that.data.phoneNum};
+        wx.request({
+          url: `${config.api + '/msg'}`,
+          data: obj,
+          header: {
+            'content-type': 'application/json'
+          },
+          method: 'POST',
+          success: function (data) {
+            let object = data.data;
+            console.log(data)
+            console.log(data.data.SendStatusSet)
+            data = data.data.SendStatusSet[0];
+            if (data.Code == "Ok") {
+              wx.showToast({
+                title: '发送成功',
+                icon: 'success',
+                duration: 2000
+              })
+              that.sessionId = object.sessionId;
+            } else {
+              wx.showToast({
+                title: data.Message,
+                image: '../../images/fail.png',
+                duration: 2000
+              })
+              that.btnReset();
+            }
+          },
+          fail: function(error){
+            console.log(error)
+            wx.showToast({
+              title: '发送失败失败',
+              image: '../../images/fail.png',
+              duration: 2000
+            })
+            that.btnReset();
+          }
+        })
     },
-    btnSubmit: function(){
+    captchaError:function(e){
+      console.log('captcha-Error!', e.detail)
+      if (e.detail.code === 21) {
+        var that = this
+        // 需要先将插件销毁
+        that.setData({ loadCaptcha: false })
+        // 重新调用api1
+        that.btnReset();
+      }
+    },
+    btnReset() {
+      this.setData({
+        toReset: true
+     })
+    },
+    btnSubmit(){
       var that = this;
       var data = that.data.result; // 获取完成验证码时存储的验证结果
       if(typeof data !== 'object'){
@@ -236,6 +319,18 @@ Component({
           console.log('error')
         }
       })
+    },
+    timer() {
+      if (this.time > 0) {
+        this.time--;
+        this.btnContent = this.time + "s后重新获取";
+        this.disabled = true;
+        var timer = setTimeout(this.timer, 1000);
+      } else if (this.time == 0) {
+        this.btnContent = "获取验证码";
+        clearTimeout(timer);
+        this.disabled = false;
+      }
     }
   }
 })

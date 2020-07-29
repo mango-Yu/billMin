@@ -1,4 +1,7 @@
 /* pages/register/register.wxss */
+.register_out{
+  text-align: center;
+}
 .register {
   background: #fff;
   height: 100%;
@@ -24,4 +27,7 @@
 
 .register_form button {
   width: 110px !important;
+}
+.register_btn{
+  margin-top: 10px;
 }
