@@ -46,7 +46,6 @@ Component({
         type: "get",
         dataType: "json",
         success: function (res) {
-          console.log(res);
           that.setData({ loadCaptcha:true,gt: res.data.gt, challenge: res.data.challenge, offline: !res.data.success})
           console.log(that.data)
         }
@@ -119,7 +118,6 @@ Component({
         success: function (data) {
           let object = data.data;
           console.log(data)
-          console.log(data.data.SendStatusSet)
           data = data.data.SendStatusSet[0];
           if (data.Code == "Ok") {
             wx.showToast({
@@ -166,33 +164,6 @@ Component({
       this.setData({
         toReset: true
      })
-    },
-    btnSubmit(){
-      var that = this;
-      var data = that.data.result; // 获取完成验证码时存储的验证结果
-      if(typeof data !== 'object'){
-        console.log("请先完成验证！")
-        return 
-      }
-      // 将结果提交给用户服务端进行二次验证
-      wx.request({
-        url: "API2接口（详见服务端部署）",
-        method: 'POST',
-        dataType: 'json',
-        data: {
-          geetest_challenge: data.geetest_challenge,
-          geetest_validate: data.geetest_validate,
-          geetest_seccode: data.geetest_seccode
-        },
-        success: function (res) {
-          wx.showToast({
-            title: res.data.status
-          })
-        },
-        fail: function () {
-          console.log('error')
-        }
-      })
     },
     timer() {
       let that = this;
@@ -297,7 +268,11 @@ Component({
       }
       var data = that.data.result; // 获取完成验证码时存储的验证结果
       if(typeof data !== 'object'){
-        console.log("请先完成验证！")
+        wx.showToast({
+          title: '请先完成验证！',
+          icon: 'none',
+          duration: 2000
+        })
         return 
       }
       let obj = {
@@ -318,8 +293,8 @@ Component({
         },
         method: 'POST',
         success: function (data) {
-          if (data.res) {
-            var res = data.res;
+          if (data.data) {
+            var res = data.data;
             if (res.code == 1) {
               wx.showToast({
                 title: '注册成功',
@@ -328,21 +303,24 @@ Component({
               })
             } else {
               wx.showToast({
-                title: data.msg,
+                title: res.msg,
                 icon: 'none',
                 duration: 2000
               })
+              that.setData({ loadCaptcha: false })
+            that.btnReset();
             }
           }else{
-            if (data.result == "fail") {
+            if (data.data.result == "fail") {
               wx.showToast({
-                title: data.msg,
+                title: data.data.msg,
                 icon: 'none',
                 duration: 2000
               })
             }
+            that.setData({ loadCaptcha: false })
+            that.btnReset();
           }
-          
         },
         fail: function (res) {
           console.log(res);
@@ -351,6 +329,8 @@ Component({
             icon: 'none',
             duration: 2000
           })
+          that.setData({ loadCaptcha: false })
+          that.btnReset();
         }
       })
     }
