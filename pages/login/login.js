@@ -54,6 +54,7 @@ Component({
               duration: 2000
             }) 
             wx.setStorageSync('name', that.data.name); 
+            wx.setStorageSync("sessionid", res.header["Set-Cookie"]);
             wx.switchTab({
               url: '/pages/day/day'
             })

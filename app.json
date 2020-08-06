@@ -1,11 +1,11 @@
 {
   "pages": [
     
-    "pages/register/register",
     "pages/login/login",
+    "pages/day/day",
+    "pages/register/register",
     "pages/index/index",
     "pages/logs/logs",
-    "pages/day/day",
     "pages/month/month",
     "pages/list/list",
     "pages/test/test"

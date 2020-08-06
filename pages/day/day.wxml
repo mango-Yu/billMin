@@ -1,2 +1,20 @@
 <!--pages/day/day.wxml-->
-<text>pages/day/day.wxml</text>
+<view class="day_form">
+  <view class="date">
+    <van-button class="date_btn" type="primary"  size="normal" bindtap="showDate">{{date}}</van-button>
+    
+  </view>
+  <view class="date_prop">
+    <van-datetime-picker class="select_time"
+        type="date"
+        value="{{ currentDate }}"
+        bind:input="onInput"
+        formatter="{{ formatter }}"
+        bind:confirm="selectDate"
+        bind:cancel="cancelDate"
+        wx:if="{{show}}"
+        visible-item-count="3"
+      />
+  </view>
+</view>
+
