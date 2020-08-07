@@ -1,7 +1,9 @@
 // pages/day/day.js
 const utils = require('../../utils/util.js')
 const config = require('../../utils/config.default.js')
+const computedBehavior = require('miniprogram-computed')
 Component({
+  behaviors: [computedBehavior],
   /**
    * 组件的属性列表
    */
@@ -21,7 +23,7 @@ Component({
     traffic: '',
     sock: '',
     house: '',
-    work: 1,
+    work: true,
     clothes: '',
     clothesRemind: "",
     play: '',
@@ -56,8 +58,22 @@ Component({
       }
       return value;
     },
+    
   },
-
+  computed: {
+    eat(data){
+      let eatSum = (utils.funcDealNull(data) + utils.funcDealNull(data) + utils.funcDealNull(data));
+      let eatTotal = isNaN(eatSum) ? 0 : eatSum.toFixed(2);
+        return '吃饭费用（总计：' + eatTotal + '）'
+    },
+    all(data) {
+      let allSpend = (utils.funcDealNull(data.breakfast) + utils.funcDealNull(data.lunch) + utils.funcDealNull(data.dinner)
+                     + utils.funcDealNull(data.traffic) + utils.funcDealNull(data.sock) + utils.funcDealNull(data.clothes) + utils.funcDealNull(data.play)
+                     + utils.funcDealNull(data.others) + utils.funcDealNull(data.gifts) + utils.funcDealNull(data.buy) + utils.funcDealNull(data.foods)
+                     + utils.funcDealNull(data.visa) + utils.funcDealNull(data.loans) + utils.funcDealNull(data.skin) + utils.funcDealNull(data.health) + utils.funcDealNull(data.insure));
+       return isNaN(allSpend) ? 0 : allSpend.toFixed(2);
+     }
+  },
   /**
    * 组件的方法列表
    */
@@ -66,7 +82,7 @@ Component({
       this.setData({
         date: utils.formatTime(new Date())
       });
-      this.funcGetDay(utils.formatTime(new Date()))
+      // this.funcGetDay(utils.formatTime(new Date()))
     },
     showDate(){
       this.setData({
@@ -107,6 +123,7 @@ Component({
           console.log(res)
         }
       })
-    }
+    },
+    
   }
 })

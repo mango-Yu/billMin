@@ -14,7 +14,22 @@ const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
+const funcDealNull = attr =>{
+  let that = this;
+  if (isNull(attr)){
+    return 0;
+  }else {
+    return parseFloat(attr);
+  }
+}
+const isNull = str => {
+  if (str === '') {
+    return true;
+  }
+}
 
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  funcDealNull: funcDealNull,
+  isNull: isNull
 }

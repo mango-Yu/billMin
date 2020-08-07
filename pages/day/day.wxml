@@ -2,7 +2,6 @@
 <view class="day_form">
   <view class="date">
     <van-button class="date_btn" type="primary"  size="normal" bindtap="showDate">{{date}}</van-button>
-    
   </view>
   <view class="date_prop">
     <van-datetime-picker class="select_time"
@@ -15,6 +14,259 @@
         wx:if="{{show}}"
         visible-item-count="3"
       />
+  </view>
+  <view class="group_con">
+    <text  class="van-doc-demo-block__title">{{ eat }}</text>
+    <van-cell-group>
+        <van-field
+          model:value="{{ breakfast }}"
+          label="早餐"
+          type="number"
+          input-align="right"
+        />
+        <van-field
+          model:value="{{ lunch }}"
+          label="中餐"
+          type="number"
+          input-align="right"
+        />
+        <van-field
+          model:value="{{ dinner }}"
+          label="晚餐"
+          type="number"
+          input-align="right"
+        />
+    </van-cell-group> 
+  </view>
+  <view class="group_con">
+    <van-cell-group>
+      <van-field
+        model:value="{{ traffic }}"
+        label="交通"
+        type="number"
+        input-align="right"
+      />  
+    </van-cell-group> 
+  </view>
+  <view class="group_con">
+    <van-cell-group>
+      <van-field
+        model:value="{{ sock }}"
+        label="零食费用"
+        type="number"
+        input-align="right"
+      />
+      <text class="desc">包含饮料，零食，肯德基麦当劳等各种小吃</text> 
+    </van-cell-group> 
+  </view>    
+  <view class="group_con">
+    <van-cell-group>
+      <van-field
+        model:value="{{ house }}"
+        label="房租"
+        type="number"
+        input-align="right"
+      />  
+    </van-cell-group> 
+  </view>
+  <view class="group_con">
+    <van-cell-group>
+      <van-cell title="是否上班">
+        <van-switch checked="{{ work }}" bind:change="onChange" />
+      </van-cell>
+    </van-cell-group> 
+  </view>
+  <view class="group_con">
+    <van-cell-group>
+      <van-field
+        model:value="{{ buy }}"
+        label="网购费用"
+        type="number"
+        input-align="right"
+      /> 
+      <van-field
+        model:value="{{ buysRemind }}" 
+        type="textarea"
+        input-align="left"
+        placeholder="网购费用备注"
+        autosize
+      /> 
+    </van-cell-group> 
+  </view>
+  <view class="group_con">
+    <van-cell-group>
+      <van-field
+        model:value="{{ foods }}"
+        label="食材超市费用"
+        type="number"
+        input-align="right"
+      /> 
+      <van-field
+        model:value="{{ foodsRemind }}" 
+        type="textarea"
+        input-align="left"
+        placeholder="食材超市费用备注"
+        autosize
+      /> 
+    </van-cell-group> 
+  </view>
+  <view class="group_con">
+    <van-cell-group>
+      <van-field
+        model:value="{{ loans }}"
+        label="贷款费用"
+        type="number"
+        input-align="right"
+      /> 
+      <van-field
+        model:value="{{ loansRemind }}" 
+        type="textarea"
+        input-align="left"
+        placeholder="贷款费用备注"
+        autosize
+      /> 
+    </van-cell-group> 
+  </view>
+  <view class="group_con">
+    <van-cell-group>
+      <van-field
+        model:value="{{ visa }}"
+        label="信用卡花呗费用"
+        type="number"
+        input-align="right"
+      /> 
+      <van-field
+        model:value="{{ visaRemind }}" 
+        type="textarea"
+        input-align="left"
+        placeholder="信用卡花呗费用备注(不计总费用)"
+        autosize
+      /> 
+    </van-cell-group> 
+  </view>
+  <view class="group_con">
+    <van-cell-group>
+      <van-field
+        model:value="{{ clothes }}"
+        label="服装费用"
+        type="number"
+        input-align="right"
+      /> 
+      <van-field
+        model:value="{{ clothesRemind }}" 
+        type="textarea"
+        input-align="left"
+        placeholder="服装费用备注"
+        autosize
+      /> 
+    </van-cell-group> 
+  </view>
+  <view class="group_con">
+    <van-cell-group>
+      <van-field
+        model:value="{{ skin }}"
+        label="化妆品费用"
+        type="number"
+        input-align="right"
+      /> 
+      <van-field
+        model:value="{{ skinRemind }}" 
+        type="textarea"
+        input-align="left"
+        placeholder="化妆品费用备注"
+        autosize
+      /> 
+    </van-cell-group> 
+  </view>
+  <view class="group_con">
+    <van-cell-group>
+      <van-field
+        model:value="{{ health }}"
+        label="医疗费用"
+        type="number"
+        input-align="right"
+      /> 
+      <van-field
+        model:value="{{ healthRemind }}" 
+        type="textarea"
+        input-align="left"
+        placeholder="医疗费用备注"
+        autosize
+      /> 
+    </van-cell-group> 
+  </view>
+  <view class="group_con">
+    <van-cell-group>
+      <van-field
+        model:value="{{ insure }}"
+        label="保险费用"
+        type="number"
+        input-align="right"
+      /> 
+      <van-field
+        model:value="{{ insureRemind }}" 
+        type="textarea"
+        input-align="left"
+        placeholder="保险费用备注"
+        autosize
+      /> 
+    </van-cell-group> 
+  </view>
+  <view class="group_con">
+    <van-cell-group>
+      <van-field
+        model:value="{{ play }}"
+        label="旅游费用"
+        type="number"
+        input-align="right"
+      /> 
+      <van-field
+        model:value="{{ playRemind }}" 
+        type="textarea"
+        input-align="left"
+        placeholder="旅游费用备注"
+        autosize
+      /> 
+    </van-cell-group> 
+  </view>
+  <view class="group_con">
+    <van-cell-group>
+      <van-field
+        model:value="{{ gifts }}"
+        label="人情费用"
+        type="number"
+        input-align="right"
+      /> 
+      <van-field
+        model:value="{{ giftsRemind }}" 
+        type="textarea"
+        input-align="left"
+        placeholder="人情费用备注"
+        autosize
+      /> 
+    </van-cell-group> 
+  </view>
+  <view class="group_con">
+    <van-cell-group>
+      <van-field
+        model:value="{{ others }}"
+        label="其他费用"
+        type="number"
+        input-align="right"
+      /> 
+      <van-field
+        model:value="{{ othersRemind }}" 
+        type="textarea"
+        input-align="left"
+        placeholder="其他费用备注"
+        autosize
+      /> 
+    </van-cell-group> 
+  </view>
+  <view>
+    <van-cell-group>
+      <van-cell title="总计：" value="{{all}}" />
+    </van-cell-group>
   </view>
 </view>
 
