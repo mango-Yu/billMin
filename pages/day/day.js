@@ -62,7 +62,7 @@ Component({
   },
   computed: {
     eat(data){
-      let eatSum = (utils.funcDealNull(data) + utils.funcDealNull(data) + utils.funcDealNull(data));
+      let eatSum = (utils.funcDealNull(data.breakfast) + utils.funcDealNull(data.lunch) + utils.funcDealNull(data.dinner));
       let eatTotal = isNaN(eatSum) ? 0 : eatSum.toFixed(2);
         return '吃饭费用（总计：' + eatTotal + '）'
     },
@@ -80,9 +80,10 @@ Component({
   methods: {
     onLoad(){
       this.setData({
-        date: utils.formatTime(new Date())
+        date: utils.formatTime(new Date()),
+        now: utils.formatTime(new Date())
       });
-      // this.funcGetDay(utils.formatTime(new Date()))
+      this.funcGetDay(utils.formatTime(new Date()))
     },
     showDate(){
       this.setData({
@@ -96,10 +97,33 @@ Component({
     },
     selectDate(event){
       let dateTime = new Date(event.detail); 
+      let selcetTime = utils.formatTime(dateTime);
+      let that = this;
       this.setData({
         date: utils.formatTime(dateTime),
         show: false
       });
+      if (selcetTime < '2020-01-01') {
+        this.setData({
+          date: '2020-01-01'
+        });
+        wx.showToast({
+          title: '2020-01-01是最早时间',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      if (selcetTime > that.data.now) {
+        this.setData({
+          date: that.data.now
+        });
+        wx.showToast({
+          title: that.data.now + '是最晚时间',
+          icon: 'none',
+          duration: 2000
+        })
+
+      }
       this.funcGetDay(utils.formatTime(dateTime))
     },
     cancelDate(){
@@ -107,8 +131,76 @@ Component({
         show: false
       });
     },
+    funcSetData(type, formData){
+      if (type === 2) {
+        this.setData({
+          breakfast: 0,
+          lunch: 0,
+          dinner: 0,
+          traffic: 0,
+          sock: 0,
+          house: 0,
+          work: true,
+          clothes: 0,
+          clothesRemind: '',
+          play: 0,
+          playRemind: '',
+          others: 0,
+          othersRemind: '',
+          gifts: 0,
+          giftsRemind: '',
+          buy: 0,
+          buysRemind: '',
+          loans: 0,
+          loansRemind: '',
+          visa: 0,
+          visaRemind: '',
+          foods: 0,
+          foodsRemind: '',
+          skin: 0,
+          skinRemind: '',
+          health: 0,
+          healthRemind: '',
+          insure: 0,
+          insureRemind: ''
+        })
+      }else if (type === 1){
+        this.setData({
+          breakfast: formData.breakfast,
+          lunch: formData.lunch,
+          dinner: formData.dinner,
+          traffic: formData.traffic,
+          sock: formData.sock,
+          house: formData.house,
+          work: formData.work ? true : false,
+          clothes: formData.clothes,
+          clothesRemind: formData.clothesRemind,
+          play: formData.play,
+          playRemind: formData.playRemind,
+          others: formData.others,
+          othersRemind: formData.othersRemind,
+          gifts: formData.gifts,
+          giftsRemind: formData.giftsRemind,
+          buy: formData.buy,
+          buysRemind: formData.buysRemind,
+          loans: formData.loans,
+          loansRemind: formData.loansRemind,
+          visa: formData.visa,
+          visaRemind: formData.visaRemind,
+          foods: formData.foods,
+          foodsRemind: formData.foodsRemind,
+          skin: formData.skin,
+          skinRemind: formData.skinRemind,
+          health: formData.health,
+          healthRemind: formData.healthRemind,
+          insure: formData.insure,
+          insureRemind: formData.insureRemind
+        })
+      }
+    },
     funcGetDay(d){
       let obj = {date:d}
+      var that = this;
       wx.request({
         url:  `${config.api + '/getSpending'}`,
         data: obj,
@@ -121,6 +213,36 @@ Component({
         dataType: "json",
         success: function (res) {
           console.log(res)
+          let data = res.data;
+          if (data.code == 1) {
+            if (data.data.length > 0) {
+              data.data[0].date = utils.formatTime(new Date(data.data[0].date), "yyyy-MM-dd")
+              that.funcSetData(1, data.data[0]);
+            } else {
+              for (let i in that.data) {
+                if (!(i == "playRemind" || i == "clothesRemind" || i == "giftsRemind" || i == "othersRemind" ||
+                      i == "buysRemind" || i == "loansRemind" || i == "visaRemind" || i == "foodsRemind" || i == "skinRemind" || i == "healthRemind"|| i == "insureRemind"
+                      || i == "date" || i == 'user') && i !== "work") {
+                        that.funcSetData(2);
+                }else if (i == "work") {
+                  that.setData({
+                    work: true
+                  });
+                }else {
+                  if (i != "date" && i != "user" && i !== "work") {
+                    that.funcSetData(2);
+                  }
+                }
+              }
+              console.log(that.data)
+            }
+          } else {
+            wx.showToast({
+              title: '系统异常',
+              image: '../../images/fail.png',
+              duration: 2000
+            })
+          }
         }
       })
     },

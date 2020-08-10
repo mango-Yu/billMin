@@ -15,6 +15,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
+  z-index: 100;
 }
 .group_con{
   margin: 10px 0;
@@ -42,4 +43,8 @@
 }
 .van-doc-demo-block:first-of-type .van-doc-demo-block__title {
   padding-top: 20px;
+}
+.sub_btn{
+  text-align: center;
+  margin: 5px;
 }

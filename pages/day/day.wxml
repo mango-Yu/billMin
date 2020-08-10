@@ -23,18 +23,21 @@
           label="早餐"
           type="number"
           input-align="right"
+          placeholder="0"
         />
         <van-field
           model:value="{{ lunch }}"
           label="中餐"
           type="number"
           input-align="right"
+          placeholder="0"
         />
         <van-field
           model:value="{{ dinner }}"
           label="晚餐"
           type="number"
           input-align="right"
+          placeholder="0"
         />
     </van-cell-group> 
   </view>
@@ -45,6 +48,7 @@
         label="交通"
         type="number"
         input-align="right"
+        placeholder="0"
       />  
     </van-cell-group> 
   </view>
@@ -55,6 +59,7 @@
         label="零食费用"
         type="number"
         input-align="right"
+        placeholder="0"
       />
       <text class="desc">包含饮料，零食，肯德基麦当劳等各种小吃</text> 
     </van-cell-group> 
@@ -66,6 +71,7 @@
         label="房租"
         type="number"
         input-align="right"
+        placeholder="0"
       />  
     </van-cell-group> 
   </view>
@@ -83,6 +89,7 @@
         label="网购费用"
         type="number"
         input-align="right"
+        placeholder="0"
       /> 
       <van-field
         model:value="{{ buysRemind }}" 
@@ -100,6 +107,7 @@
         label="食材超市费用"
         type="number"
         input-align="right"
+        placeholder="0"
       /> 
       <van-field
         model:value="{{ foodsRemind }}" 
@@ -117,6 +125,7 @@
         label="贷款费用"
         type="number"
         input-align="right"
+        placeholder="0"
       /> 
       <van-field
         model:value="{{ loansRemind }}" 
@@ -134,6 +143,7 @@
         label="信用卡花呗费用"
         type="number"
         input-align="right"
+        placeholder="0"
       /> 
       <van-field
         model:value="{{ visaRemind }}" 
@@ -151,6 +161,7 @@
         label="服装费用"
         type="number"
         input-align="right"
+        placeholder="0"
       /> 
       <van-field
         model:value="{{ clothesRemind }}" 
@@ -168,6 +179,7 @@
         label="化妆品费用"
         type="number"
         input-align="right"
+        placeholder="0"
       /> 
       <van-field
         model:value="{{ skinRemind }}" 
@@ -185,6 +197,7 @@
         label="医疗费用"
         type="number"
         input-align="right"
+        placeholder="0"
       /> 
       <van-field
         model:value="{{ healthRemind }}" 
@@ -202,6 +215,7 @@
         label="保险费用"
         type="number"
         input-align="right"
+        placeholder="0"
       /> 
       <van-field
         model:value="{{ insureRemind }}" 
@@ -219,6 +233,7 @@
         label="旅游费用"
         type="number"
         input-align="right"
+        placeholder="0"
       /> 
       <van-field
         model:value="{{ playRemind }}" 
@@ -236,6 +251,7 @@
         label="人情费用"
         type="number"
         input-align="right"
+        placeholder="0"
       /> 
       <van-field
         model:value="{{ giftsRemind }}" 
@@ -253,6 +269,7 @@
         label="其他费用"
         type="number"
         input-align="right"
+        placeholder="0"
       /> 
       <van-field
         model:value="{{ othersRemind }}" 
@@ -267,6 +284,9 @@
     <van-cell-group>
       <van-cell title="总计：" value="{{all}}" />
     </van-cell-group>
+  </view>
+  <view class="sub_btn">
+      <van-button type="primary"  bindtap="onSubmit">提交</van-button>
   </view>
 </view>
 
