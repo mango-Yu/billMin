@@ -286,7 +286,7 @@
     </van-cell-group>
   </view>
   <view class="sub_btn">
-      <van-button type="primary"  bindtap="onSubmit">提交</van-button>
+      <van-button type="primary"  bindtap="onSubmitDay">提交</van-button>
   </view>
 </view>
 
