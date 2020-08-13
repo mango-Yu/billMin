@@ -48,3 +48,6 @@
   text-align: center;
   margin: 5px;
 }
+.day_form .van-button,  .sub_btn .van-button{
+  border-radius: 5px !important;
+}

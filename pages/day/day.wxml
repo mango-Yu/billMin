@@ -1,7 +1,7 @@
 <!--pages/day/day.wxml-->
 <view class="day_form">
   <view class="date">
-    <van-button class="date_btn" type="primary"  size="normal" bindtap="showDate">{{date}}</van-button>
+    <van-button class="date_btn" type="primary"  size="normal" bindtap="showDate">{{form.date}}</van-button>
   </view>
   <view class="date_prop">
     <van-datetime-picker class="select_time"
@@ -19,47 +19,52 @@
     <text  class="van-doc-demo-block__title">{{ eat }}</text>
     <van-cell-group>
         <van-field
-          model:value="{{ breakfast }}"
+          model:value="{{ form.breakfast }}"
           label="早餐"
           type="number"
           input-align="right"
           placeholder="0"
+          bind:blur="blurInput('breakfast')"
         />
         <van-field
-          model:value="{{ lunch }}"
+          model:value="{{ form.lunch }}"
           label="中餐"
           type="number"
           input-align="right"
           placeholder="0"
+          bind:blur="blurInput('lunch')"
         />
         <van-field
-          model:value="{{ dinner }}"
+          model:value="{{ form.dinner }}"
           label="晚餐"
           type="number"
           input-align="right"
           placeholder="0"
+          bind:change="blurInput"
         />
     </van-cell-group> 
   </view>
   <view class="group_con">
     <van-cell-group>
       <van-field
-        model:value="{{ traffic }}"
+        model:value="{{ form.traffic }}"
         label="交通"
         type="number"
         input-align="right"
         placeholder="0"
+        bind:blur="blurInput('traffic')"
       />  
     </van-cell-group> 
   </view>
   <view class="group_con">
     <van-cell-group>
       <van-field
-        model:value="{{ sock }}"
+        model:value="{{ form.sock }}"
         label="零食费用"
         type="number"
         input-align="right"
         placeholder="0"
+        bind:blur="blurInput('sock')"
       />
       <text class="desc">包含饮料，零食，肯德基麦当劳等各种小吃</text> 
     </van-cell-group> 
@@ -67,32 +72,34 @@
   <view class="group_con">
     <van-cell-group>
       <van-field
-        model:value="{{ house }}"
+        model:value="{{ form.house }}"
         label="房租"
         type="number"
         input-align="right"
         placeholder="0"
+        bind:blur="blurInput('house')"
       />  
     </van-cell-group> 
   </view>
   <view class="group_con">
     <van-cell-group>
       <van-cell title="是否上班">
-        <van-switch checked="{{ work }}" bind:change="onChange" />
+        <van-switch checked="{{ form.work }}" bind:blur="onChange" />
       </van-cell>
     </van-cell-group> 
   </view>
   <view class="group_con">
     <van-cell-group>
       <van-field
-        model:value="{{ buy }}"
+        model:value="{{ form.buy }}"
         label="网购费用"
         type="number"
         input-align="right"
         placeholder="0"
+        bind:blur="blurInput('buy')"
       /> 
       <van-field
-        model:value="{{ buysRemind }}" 
+        model:value="{{ form.buysRemind }}" 
         type="textarea"
         input-align="left"
         placeholder="网购费用备注"
@@ -103,14 +110,15 @@
   <view class="group_con">
     <van-cell-group>
       <van-field
-        model:value="{{ foods }}"
+        model:value="{{ form.foods }}"
         label="食材超市费用"
         type="number"
         input-align="right"
         placeholder="0"
+        bind:blur="blurInput('foods')"
       /> 
       <van-field
-        model:value="{{ foodsRemind }}" 
+        model:value="{{ form.foodsRemind }}" 
         type="textarea"
         input-align="left"
         placeholder="食材超市费用备注"
@@ -121,14 +129,15 @@
   <view class="group_con">
     <van-cell-group>
       <van-field
-        model:value="{{ loans }}"
+        model:value="{{ form.loans }}"
         label="贷款费用"
         type="number"
         input-align="right"
         placeholder="0"
+        bind:blur="blurInput('loans')"
       /> 
       <van-field
-        model:value="{{ loansRemind }}" 
+        model:value="{{ form.loansRemind }}" 
         type="textarea"
         input-align="left"
         placeholder="贷款费用备注"
@@ -139,14 +148,15 @@
   <view class="group_con">
     <van-cell-group>
       <van-field
-        model:value="{{ visa }}"
+        model:value="{{ form.visa }}"
         label="信用卡花呗费用"
         type="number"
         input-align="right"
         placeholder="0"
+        bind:blur="blurInput('visa')"
       /> 
       <van-field
-        model:value="{{ visaRemind }}" 
+        model:value="{{ form.visaRemind }}" 
         type="textarea"
         input-align="left"
         placeholder="信用卡花呗费用备注(不计总费用)"
@@ -157,14 +167,15 @@
   <view class="group_con">
     <van-cell-group>
       <van-field
-        model:value="{{ clothes }}"
+        model:value="{{ form.clothes }}"
         label="服装费用"
         type="number"
         input-align="right"
         placeholder="0"
+        bind:blur="blurInput('clothes')"
       /> 
       <van-field
-        model:value="{{ clothesRemind }}" 
+        model:value="{{ form.clothesRemind }}" 
         type="textarea"
         input-align="left"
         placeholder="服装费用备注"
@@ -175,14 +186,15 @@
   <view class="group_con">
     <van-cell-group>
       <van-field
-        model:value="{{ skin }}"
+        model:value="{{ form.skin }}"
         label="化妆品费用"
         type="number"
         input-align="right"
         placeholder="0"
+        bind:blur="blurInput('skin')"
       /> 
       <van-field
-        model:value="{{ skinRemind }}" 
+        model:value="{{ form.skinRemind }}" 
         type="textarea"
         input-align="left"
         placeholder="化妆品费用备注"
@@ -193,14 +205,15 @@
   <view class="group_con">
     <van-cell-group>
       <van-field
-        model:value="{{ health }}"
+        model:value="{{ form.health }}"
         label="医疗费用"
         type="number"
         input-align="right"
         placeholder="0"
+        bind:blur="blurInput('health')"
       /> 
       <van-field
-        model:value="{{ healthRemind }}" 
+        model:value="{{ form.healthRemind }}" 
         type="textarea"
         input-align="left"
         placeholder="医疗费用备注"
@@ -211,14 +224,15 @@
   <view class="group_con">
     <van-cell-group>
       <van-field
-        model:value="{{ insure }}"
+        model:value="{{ form.insure }}"
         label="保险费用"
         type="number"
         input-align="right"
         placeholder="0"
+        bind:blur="blurInput('insure')"
       /> 
       <van-field
-        model:value="{{ insureRemind }}" 
+        model:value="{{ form.insureRemind }}" 
         type="textarea"
         input-align="left"
         placeholder="保险费用备注"
@@ -229,14 +243,15 @@
   <view class="group_con">
     <van-cell-group>
       <van-field
-        model:value="{{ play }}"
+        model:value="{{ form.play }}"
         label="旅游费用"
         type="number"
         input-align="right"
         placeholder="0"
+        bind:blur="blurInput('play')"
       /> 
       <van-field
-        model:value="{{ playRemind }}" 
+        model:value="{{ form.playRemind }}" 
         type="textarea"
         input-align="left"
         placeholder="旅游费用备注"
@@ -247,14 +262,15 @@
   <view class="group_con">
     <van-cell-group>
       <van-field
-        model:value="{{ gifts }}"
+        model:value="{{ form.gifts }}"
         label="人情费用"
         type="number"
         input-align="right"
         placeholder="0"
+        bind:blur="blurInput('gifts')"
       /> 
       <van-field
-        model:value="{{ giftsRemind }}" 
+        model:value="{{ form.giftsRemind }}" 
         type="textarea"
         input-align="left"
         placeholder="人情费用备注"
@@ -265,14 +281,15 @@
   <view class="group_con">
     <van-cell-group>
       <van-field
-        model:value="{{ others }}"
+        model:value="{{ form.others }}"
         label="其他费用"
         type="number"
         input-align="right"
         placeholder="0"
+        bind:blur="blurInput('others')"
       /> 
       <van-field
-        model:value="{{ othersRemind }}" 
+        model:value="{{ form.othersRemind }}" 
         type="textarea"
         input-align="left"
         placeholder="其他费用备注"
