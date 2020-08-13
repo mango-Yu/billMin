@@ -15,8 +15,8 @@ Component({
    * 组件的初始数据
    */
   data: {
-    show: false, 
-    form:{
+    show: false,
+    form: {
       date: '',
       breakfast: '',
       lunch: '',
@@ -47,7 +47,7 @@ Component({
       healthRemind: "",
       insure: '',
       insureRemind: "",
-      user: "" ,
+      user: "",
     },
     now: "",
     currentDate: new Date().getTime(),
@@ -60,29 +60,29 @@ Component({
       }
       return value;
     },
-    
+
   },
   computed: {
-    eat(data){
+    eat(data) {
       let eatSum = (utils.funcDealNull(data.form.breakfast) + utils.funcDealNull(data.form.lunch) + utils.funcDealNull(data.form.dinner));
       let eatTotal = isNaN(eatSum) ? 0 : eatSum.toFixed(2);
-        return '吃饭费用（总计：' + eatTotal + '）'
+      return '吃饭费用（总计：' + eatTotal + '）'
     },
     all(data) {
-      let allSpend = (utils.funcDealNull(data.form.breakfast) + utils.funcDealNull(data.form.lunch) + utils.funcDealNull(data.form.dinner)
-                     + utils.funcDealNull(data.form.traffic) + utils.funcDealNull(data.form.sock) + utils.funcDealNull(data.form.clothes) + utils.funcDealNull(data.form.play)
-                     + utils.funcDealNull(data.form.others) + utils.funcDealNull(data.form.gifts) + utils.funcDealNull(data.form.buy) + utils.funcDealNull(data.form.foods)
-                     + utils.funcDealNull(data.form.visa) + utils.funcDealNull(data.form.loans) + utils.funcDealNull(data.form.skin) + utils.funcDealNull(data.form.health) + utils.funcDealNull(data.form.insure));
-       return isNaN(allSpend) ? 0 : allSpend.toFixed(2);
-     }
+      let allSpend = (utils.funcDealNull(data.form.breakfast) + utils.funcDealNull(data.form.lunch) + utils.funcDealNull(data.form.dinner) +
+        utils.funcDealNull(data.form.traffic) + utils.funcDealNull(data.form.sock) + utils.funcDealNull(data.form.clothes) + utils.funcDealNull(data.form.play) +
+        utils.funcDealNull(data.form.others) + utils.funcDealNull(data.form.gifts) + utils.funcDealNull(data.form.buy) + utils.funcDealNull(data.form.foods) +
+        utils.funcDealNull(data.form.visa) + utils.funcDealNull(data.form.loans) + utils.funcDealNull(data.form.skin) + utils.funcDealNull(data.form.health) + utils.funcDealNull(data.form.insure));
+      return isNaN(allSpend) ? 0 : allSpend.toFixed(2);
+    }
   },
   /**
    * 组件的方法列表
    */
   methods: {
-    onLoad(){
+    onLoad() {
       this.setData({
-        form:{
+        form: {
           date: utils.formatTime(new Date()),
           user: wx.getStorageSync('name')
         },
@@ -90,7 +90,7 @@ Component({
       });
       this.funcGetDay(utils.formatTime(new Date()))
     },
-    showDate(){
+    showDate() {
       this.setData({
         show: true
       });
@@ -100,19 +100,19 @@ Component({
         currentDate: event.detail,
       });
     },
-    selectDate(event){
-      let dateTime = new Date(event.detail); 
+    selectDate(event) {
+      let dateTime = new Date(event.detail);
       let selcetTime = utils.formatTime(dateTime);
       let that = this;
       this.setData({
-        form:{
+        form: {
           date: utils.formatTime(dateTime),
         },
         show: false
       });
       if (selcetTime < '2020-01-01') {
         this.setData({
-          form:{
+          form: {
             date: '2020-01-01'
           }
         });
@@ -137,15 +137,15 @@ Component({
       }
       this.funcGetDay(utils.formatTime(dateTime))
     },
-    cancelDate(){
+    cancelDate() {
       this.setData({
         show: false
       });
     },
-    funcSetData(type, formData){
+    funcSetData(type, formData) {
       if (type === 2) {
         this.setData({
-          form:{
+          form: {
             date: that.data.form.date,
             breakfast: 0,
             lunch: 0,
@@ -178,7 +178,7 @@ Component({
             insureRemind: ''
           }
         })
-      }else if (type === 1){
+      } else if (type === 1) {
         this.setData({
           form: {
             date: utils.formatTime(new Date(formData.date)),
@@ -215,26 +215,48 @@ Component({
         })
       }
     },
-    blurInput(e) {
-      console.log(e)
-      // let that = this;
-      // let num = this.data.form[val] + "";
-      // console.log(num)
-      // num = num.replace(/[^\-?\d.]/g, '');
-      // if (num == "" || num < 0) {
-      //   num = 0
-      // }
-      // this.setData({
-      //   form:{
-      //     val: num
-      //   }
-      // })
+    changeInput(e) {
+      let key = e.currentTarget.dataset.key;
+      if (key === "work") {
+        let work = e.detail;
+        this.data.form[key] = work;
+      } else {
+        let num = e.detail + "";
+        num = num.replace(/[^\-?\d.]/g, '');
+        if (num == "" || num < 0) {
+          return;
+        }
+        this.data.form[key] = num;
+      }
+      this.setData({
+        form: this.data.form
+      });
     },
-    funcGetDay(d){
-      let obj = {date:d}
+    blurInput(e) {
+      let key = e.currentTarget.dataset.key;
+      let inputVal = e.detail.value + "";
+      console.log(key)
+      if (key.indexOf('Remind') > 0) {
+        inputVal = inputVal.replace(/(^\s*)|(\s*$)/g, "");
+      } else {
+        inputVal = inputVal.replace(/[^\-?\d.]/g, '');
+        if (inputVal == "" || inputVal < 0) {
+          inputVal = 0
+        }
+      }
+      this.data.form[key] = inputVal;
+      this.setData({
+        form: this.data.form
+      });
+      console.log(this.data.form)
+    },
+    funcGetDay(d) {
+      let obj = {
+        date: d
+      }
       var that = this;
       wx.request({
-        url:  `${config.api + '/getSpending'}`,
+        url: `${config.api + '/getSpending'}`,
         data: obj,
         header: {
           'content-type': 'application/json', // 默认值
@@ -244,25 +266,24 @@ Component({
         method: 'POST',
         dataType: "json",
         success: function (res) {
-          console.log(res)
           let data = res.data;
           if (data.code == 1) {
             if (data.data.length > 0) {
               data.data[0].date = utils.formatTime(new Date(data.data[0].date), "yyyy-MM-dd")
               that.funcSetData(1, data.data[0]);
             } else {
-              for (let i in that.data) {
+              for (let i in that.data.form) {
                 if (!(i == "playRemind" || i == "clothesRemind" || i == "giftsRemind" || i == "othersRemind" ||
-                      i == "buysRemind" || i == "loansRemind" || i == "visaRemind" || i == "foodsRemind" || i == "skinRemind" || i == "healthRemind"|| i == "insureRemind"
-                      || i == "date" || i == 'user') && i !== "work") {
-                        that.funcSetData(2);
-                }else if (i == "work") {
+                    i == "buysRemind" || i == "loansRemind" || i == "visaRemind" || i == "foodsRemind" || i == "skinRemind" || i == "healthRemind" || i == "insureRemind" ||
+                    i == "date" || i == 'user') && i !== "work") {
+                  that.funcSetData(2);
+                } else if (i == "work") {
                   that.setData({
                     form: {
                       work: true
                     }
                   });
-                }else {
+                } else {
                   if (i != "date" && i != "user" && i !== "work") {
                     that.funcSetData(2);
                   }
@@ -280,21 +301,24 @@ Component({
         }
       })
     },
-    onSubmitDay(){
+    onSubmitDay() {
       var obj = this.data.form;
       for (let i in obj) {
         if (!(i == "playRemind" || i == "clothesRemind" || i == "othersRemind" || i == "giftsRemind" ||
-              i == "buysRemind" || i == "loansRemind" || i == "visaRemind" || i == "foodsRemind" || i == "skinRemind" || i == "healthRemind"|| i == "insureRemind"
-              || i == "date" || i == 'user')) {
-          if ((obj[i] + "") == "") {
-            obj[i] = isNaN(parseFloat(obj[i])) ? 0 : parseFloat(obj[i])
+            i == "buysRemind" || i == "loansRemind" || i == "visaRemind" || i == "foodsRemind" || i == "skinRemind" || i == "healthRemind" || i == "insureRemind" ||
+            i == "date" || i == 'user')) {
+          if (i === "work") {
+            obj[i] = obj[i] ? 1 : 0;
+          } else {
+            if ((obj[i] + "") == "") {
+              obj[i] = isNaN(parseFloat(obj[i])) ? 0 : parseFloat(obj[i])
+            }
           }
         }
       }
       var that = this;
-      console.log(obj)
       wx.request({
-        url:  `${config.api + '/subSpending'}`,
+        url: `${config.api + '/subSpending'}`,
         data: obj,
         header: {
           'content-type': 'application/json', // 默认值
@@ -304,14 +328,14 @@ Component({
         method: 'POST',
         dataType: "json",
         success: function (res) {
-          data = data.data
+          let data = res.data
           if (data.code == 1) {
             wx.showToast({
               title: '提交成功',
               icon: 'success',
               duration: 2000
             })
-            this.funcGetDay(utils.formatTime(that.data.date))
+            that.funcGetDay(that.data.form.date)
           } else {
             wx.showToast({
               title: '提交失败',
@@ -320,7 +344,7 @@ Component({
             })
           }
         },
-        fail: function(err) {
+        fail: function (err) {
           console.log(err)
           wx.showToast({
             title: '提交失败',

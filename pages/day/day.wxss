@@ -1,8 +1,9 @@
 /* pages/day/day.wxss */
-.day_form{
+.day_form {
   position: relative;
   height: 100%;
 }
+
 .date {
   width: 100%;
   margin: 10px auto;
@@ -10,24 +11,28 @@
   text-align: center;
 
 }
-.date_prop{ 
+
+.date_prop {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   z-index: 100;
 }
-.group_con{
+
+.group_con {
   margin: 10px 0;
   background: #fff;
 }
-.desc{
+
+.desc {
   margin-left: 10px;
   color: rgba(69, 90, 100, 0.6);
   font-weight: normal;
   font-size: 14px;
   line-height: 16px;
 }
+
 .van-doc-demo-block__title {
   margin: 0;
   padding: 32px 16px 16px;
@@ -36,18 +41,23 @@
   font-size: 14px;
   line-height: 16px;
 }
+
 .van-doc-demo-block__card {
   margin: 0 12px 0;
   overflow: hidden;
   border-radius: 8px;
 }
+
 .van-doc-demo-block:first-of-type .van-doc-demo-block__title {
   padding-top: 20px;
 }
-.sub_btn{
+
+.sub_btn {
   text-align: center;
   margin: 5px;
 }
-.day_form .van-button,  .sub_btn .van-button{
+
+.day_form .van-button,
+.sub_btn .van-button {
   border-radius: 5px !important;
 }
