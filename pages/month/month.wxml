@@ -1,2 +1,39 @@
 <!--pages/month/month.wxml-->
-<text>pages/month/month.wxml</text>
+ <view>
+  <view class="date">
+      <van-button class="date_btn" type="primary" size="normal" bindtap="showDate">{{month}}</van-button>
+  </view>
+  <view class="date_prop">
+		<van-datetime-picker class="select_time" type="year-month" value="{{ currentDate }}" bind:input="onInput" formatter="{{ formatter }}" bind:confirm="selectDate" bind:cancel="cancelDate" wx:if="{{show}}" visible-item-count="3" />
+	</view>
+  <view class="remind-title">
+    <text >整月小结</text>
+  </view>
+  <view>
+    <van-cell-group>
+      <van-cell title="吃饭费用" value="{{eat}}" />
+      <van-cell title-class="eating-item" title="早" value="{{form.breakfast}}" />
+      <van-cell title-class="eating-item" title="中" value="{{form.lunch}}" />
+      <van-cell title-class="eating-item" title="晚" value="{{form.dinner}}" />
+    </van-cell-group>
+    <van-cell-group>
+      <van-cell title="交通费用" value="{{form.traffic}}" />
+      <van-cell title="食材超市费用" value="{{form.foods}}" />
+      <van-cell title="贷款费用" value="{{form.loans}}" />
+      <van-cell title="信用卡花呗费用(不计总费用)" value="{{form.visa}}" />
+      <van-cell title="购物费用" value="{{form.buy}}" />
+      <van-cell title="衣服费用" value="{{form.clothes}}" />
+      <van-cell title="零食费用" value="{{form.sock}}" />
+      <van-cell title="旅游费用" value="{{form.play}}" />
+      <van-cell title="化妆品费用" value="{{form.skin}}" />
+      <van-cell title="医疗费用" value="{{form.health}}" />
+      <van-cell title="保险费用" value="{{form.insure}}" />
+      <van-cell title="房租费用" value="{{form.house}}" />
+      <van-cell title="人情费用" value="{{form.gifts}}" />
+      <van-cell title="其他费用" value="{{form.others}}" />
+    </van-cell-group>
+    <van-cell-group >
+      <van-cell title-class="total-group" title="费用总计" value="{{count}}" />
+    </van-cell-group>
+  </view>
+ </view>

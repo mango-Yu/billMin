@@ -1,4 +1,4 @@
-const formatTime = date => {
+const formatTime = (date, type) => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
@@ -7,7 +7,11 @@ const formatTime = date => {
   const second = date.getSeconds()
 
   // return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
-  return [year, month, day].map(formatNumber).join('-')
+  if (type && type === "month") {
+    return [year, month].map(formatNumber).join('-')
+  }else{
+    return [year, month, day].map(formatNumber).join('-')
+  }
 }
 
 const formatNumber = n => {

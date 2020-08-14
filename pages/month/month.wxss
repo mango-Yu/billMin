@@ -1,1 +1,29 @@
 /* pages/month/month.wxss */
+.date {
+  width: 100%;
+  margin: 10px auto;
+  display: block;
+  text-align: center;
+
+}
+.date_prop {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+.remind-title{
+  background: #fff;
+  padding: 10px 15px;
+  line-height: 1.41176471;
+  font-size: 17px;
+}
+.eating-item{
+  color: #a29c9c;
+}
+.total-group{
+  font-size: medium;
+  font-weight: bolder;
+
+}
