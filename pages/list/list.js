@@ -1,323 +1,67 @@
 // pages/list/list.js  
-import * as echarts from '../../utils/ec-canvas/echarts';
-let chart = null;
-
-function initChart(canvas, width, height, dpr) {
-  chart = echarts.init(canvas, null, {
-    width: width,
-    height: height,
-    devicePixelRatio: dpr // new
-  });
-  canvas.setChart(chart);
-
-  var option = {
-    color: ['#37a2da', '#32c5e9', '#67e0e3'],
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-      },
-      confine: true
-    },
-    legend: {
-      data: ['热度', '正面', '负面']
-    },
-    grid: {
-      left: 20,
-      right: 20,
-      bottom: 15,
-      top: 40,
-      containLabel: true
-    },
-    xAxis: [
-      {
-        type: 'value',
-        axisLine: {
-          lineStyle: {
-            color: '#999'
-          }
-        },
-        axisLabel: {
-          color: '#666'
-        }
-      }
-    ],
-    yAxis: [
-      {
-        type: 'category',
-        axisTick: { show: false },
-        data: ['汽车之家', '今日头条', '百度贴吧', '一点资讯', '微信', '微博', '知乎'],
-        axisLine: {
-          lineStyle: {
-            color: '#999'
-          }
-        },
-        axisLabel: {
-          color: '#666'
-        }
-      }
-    ],
-    series: [
-      {
-        name: '热度',
-        type: 'bar',
-        label: {
-          normal: {
-            show: true,
-            position: 'inside'
-          }
-        },
-        data: [300, 270, 340, 344, 300, 320, 310],
-        itemStyle: {
-          // emphasis: {
-          //   color: '#37a2da'
-          // }
-        }
-      },
-      {
-        name: '正面',
-        type: 'bar',
-        stack: '总量',
-        label: {
-          normal: {
-            show: true
-          }
-        },
-        data: [120, 102, 141, 174, 190, 250, 220],
-        itemStyle: {
-          // emphasis: {
-          //   color: '#32c5e9'
-          // }
-        }
-      },
-      {
-        name: '负面',
-        type: 'bar',
-        stack: '总量',
-        label: {
-          normal: {
-            show: true,
-            position: 'left'
-          }
-        },
-        data: [-20, -32, -21, -34, -90, -130, -110],
-        itemStyle: {
-          // emphasis: {
-          //   color: '#67e0e3'
-          // }
-        }
-      }
-    ]
-  };
-
-  chart.setOption(option);
-  return chart;
-}
-function getBarOption() {
-  return {
-    color: ['#37a2da', '#32c5e9', '#67e0e3'],
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-      }
-    },
-    legend: {
-      data: ['热度', '正面', '负面']
-    },
-    grid: {
-      left: 20,
-      right: 20,
-      bottom: 15,
-      top: 40,
-      containLabel: true
-    },
-    xAxis: [
-      {
-        type: 'value',
-        axisLine: {
-          lineStyle: {
-            color: '#999'
-          }
-        },
-        axisLabel: {
-          color: '#666'
-        }
-      }
-    ],
-    yAxis: [
-      {
-        type: 'category',
-        axisTick: { show: false },
-        data: ['汽车之家', '今日头条', '百度贴吧', '一点资讯', '微信', '微博', '知乎'],
-        axisLine: {
-          lineStyle: {
-            color: '#999'
-          }
-        },
-        axisLabel: {
-          color: '#666'
-        }
-      }
-    ],
-    series: [
-      {
-        name: '热度',
-        type: 'bar',
-        label: {
-          normal: {
-            show: true,
-            position: 'inside'
-          }
-        },
-        data: [300, 270, 340, 344, 300, 320, 310]
-      },
-      {
-        name: '正面',
-        type: 'bar',
-        stack: '总量',
-        label: {
-          normal: {
-            show: true
-          }
-        },
-        data: [120, 102, 141, 174, 190, 250, 220]
-      },
-      {
-        name: '负面',
-        type: 'bar',
-        stack: '总量',
-        label: {
-          normal: {
-            show: true,
-            position: 'left'
-          }
-        },
-        data: [-200, -32, -21, -34, -90, -130, -110]
-      }
-    ]
-  };
-}
-
-function getScatterOption() {
-
-  var data = [];
-  var data2 = [];
-
-  for (var i = 0; i < 10; i++) {
-    data.push(
-      [
-        Math.round(Math.random() * 100),
-        Math.round(Math.random() * 100),
-        Math.round(Math.random() * 40)
-      ]
-    );
-    data2.push(
-      [
-        Math.round(Math.random() * 100),
-        Math.round(Math.random() * 100),
-        Math.round(Math.random() * 100)
-      ]
-    );
-  }
-
-  var axisCommon = {
-    axisLabel: {
-      textStyle: {
-        color: '#C8C8C8'
-      }
-    },
-    axisTick: {
-      lineStyle: {
-        color: '#fff'
-      }
-    },
-    axisLine: {
-      lineStyle: {
-        color: '#C8C8C8'
-      }
-    },
-    splitLine: {
-      lineStyle: {
-        color: '#C8C8C8',
-        type: 'solid'
-      }
-    }
-  };
-
-  return {
-    color: ["#FF7070", "#60B6E3"],
-    backgroundColor: '#eee',
-    xAxis: axisCommon,
-    yAxis: axisCommon,
-    legend: {
-      data: ['aaaa', 'bbbb']
-    },
-    visualMap: {
-      show: false,
-      max: 100,
-      inRange: {
-        symbolSize: [20, 70]
-      }
-    },
-    series: [{
-      type: 'scatter',
-      name: 'aaaa',
-      data: data
-    },
-    {
-      name: 'bbbb',
-      type: 'scatter',
-      data: data2
-    }
-    ],
-    animationDelay: function (idx) {
-      return idx * 50;
-    },
-    animationEasing: 'elasticOut'
-  };
-}
+const utils = require('../../utils/util.js')
+const config = require('../../utils/config.default.js')
+const computedBehavior = require('miniprogram-computed')
 Component({
+  behaviors: [computedBehavior],
   /**
    * 组件的属性列表
    */
   properties: {
 
   },
-
+  computed: {
+     
+  },
   /**
    * 组件的初始数据
    */
   data: {
-    ec: {
-      onInit: initChart
+    loading: false,
+    idShow: true,
+    total: 0,
+    currentPage: 1,
+    pageSize: 10,
+    tableData: [],
+    objectData: [],
+    detailId: 0, // 详情ID
+    filters: { // 搜索表单
+      number: ''
     },
-    ecBar: {
-      onInit: function (canvas, width, height, dpr) {
-        const barChart = echarts.init(canvas, null, {
-          width: width,
-          height: height,
-          devicePixelRatio: dpr // new
-        });
-        canvas.setChart(barChart);
-        barChart.setOption(getBarOption());
-
-        return barChart;
-      }
-    },
-
-    ecScatter: {
-      onInit: function (canvas, width, height, dpr) {
-        const scatterChart = echarts.init(canvas, null, {
-          width: width,
-          height: height,
-          devicePixelRatio: dpr // new
-        });
-        canvas.setChart(scatterChart);
-        scatterChart.setOption(getScatterOption());
-
-        return scatterChart;
-      }
+    chartColumn: null,
+    chartBar: null,
+    dateArr: [],
+    costArr: [],
+    costTypeSumArr: [],
+    onInitChart(F2, config) {
+      const chart = new F2.Chart(config);
+      const data = [
+        { value: 63.4, city: 'New York', date: '2011-10-01' },
+        { value: 62.7, city: 'Alaska', date: '2011-10-01' },
+        { value: 72.2, city: 'Austin', date: '2011-10-01' },
+        { value: 58, city: 'New York', date: '2011-10-02' },
+        { value: 59.9, city: 'Alaska', date: '2011-10-02' },
+        { value: 67.7, city: 'Austin', date: '2011-10-02' },
+        { value: 53.3, city: 'New York', date: '2011-10-03' },
+        { value: 59.1, city: 'Alaska', date: '2011-10-03' },
+        { value: 69.4, city: 'Austin', date: '2011-10-03' },
+      ];
+      chart.source(data, {
+        date: {
+          range: [0, 1],
+          type: 'timeCat',
+          mask: 'MM-DD'
+        },
+        value: {
+          max: 300,
+          tickCount: 4
+        }
+      });
+      chart.area().position('date*value').color('city').adjust('stack');
+      chart.line().position('date*value').color('city').adjust('stack');
+      chart.render();
+      // 注意：需要把chart return 出来
+      return chart;
     }
   },
 
@@ -325,19 +69,101 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    onShareAppMessage: function (res) {
-      return {
-        title: 'ECharts 可以在微信小程序中使用啦！',
-        path: "pages/list/list",
-        success: function () { },
-        fail: function () { }
-      }
+     onLoad(){
+      this.funcGetListData()
+     },
+     funcGetListData() {
+      let that = this;
+      wx.request({
+        url: `${config.api + '/getAllSpending'}`,
+        header: {
+          'content-type': 'application/json', // 默认值
+          'cookie': wx.getStorageSync("sessionid")
+          //读取sessionid,当作cookie传入后台将PHPSESSID做session_id使用
+        },
+        method: 'POST',
+        dataType: "json",
+        success: function (res) {
+          let data=res.data
+          if(1 === data.code){
+            if(data.data.length>0){
+              that.setData({
+                dateArr:[],
+                costArr:[],
+                costTypeSumArr:[],
+                objectData:  data.data,
+                total: data.data.length
+              }) 
+              that.data.objectData.sort(function(a,b) {
+                return Date.parse((utils.formatTime(new Date(b.date), "yyyy-MM-dd")).replace(/-/g,"/"))-Date.parse((utils.formatTime(new Date(a.date), "yyyy-MM-dd")).replace(/-/g,"/"));
+              });
+              var breakfastSum = 0, lunchSum = 0, dinnerSum = 0, eatSum = 0, trafficSum = 0, sockSum = 0,
+                  clothesSum = 0, playSum = 0, othersSum = 0, giftsSum = 0, buySum = 0, foodsSum = 0, visaSum = 0, loansSum = 0, skinSum = 0, healthSum = 0, insureSum = 0, houseSum = 0;
+              that.data.objectData.forEach((item, index) => {
+                item["idIndex"] = index+1;
+                that.data.objectData[index].sumCalc = (parseFloat(item.breakfast)+parseFloat(item.lunch)+parseFloat(item.dinner)+
+                  parseFloat(item.traffic)+parseFloat(item.sock)+parseFloat(item.clothes)+
+                  parseFloat(item.play)+parseFloat(item.others)+parseFloat(item.gifts)+
+                  parseFloat(item.buy)+parseFloat(item.foods)+parseFloat(item.loans)+parseFloat(item.skin)+parseFloat(item.health)+parseFloat(item.insure)).toFixed(2);
+                breakfastSum = parseFloat(item.breakfast)+breakfastSum;
+                lunchSum = parseFloat(item.lunch)+lunchSum;
+                dinnerSum = parseFloat(item.dinner)+dinnerSum;
+                trafficSum = parseFloat(item.traffic)+trafficSum;
+                sockSum = parseFloat(item.sock)+sockSum;
+                clothesSum = parseFloat(item.clothes)+clothesSum;
+                playSum = parseFloat(item.play)+playSum;
+                othersSum = parseFloat(item.others)+othersSum;
+                giftsSum = parseFloat(item.gifts)+giftsSum;
+                buySum = parseFloat(item.buy)+buySum;
+                foodsSum = parseFloat(item.foods)+foodsSum;
+                visaSum = parseFloat(item.visa)+visaSum;
+                loansSum = parseFloat(item.loans)+loansSum;
+                skinSum = parseFloat(item.skin)+skinSum;
+                healthSum = parseFloat(item.health)+healthSum;
+                insureSum = parseFloat(item.insure)+insureSum;
+                houseSum = parseFloat(item.house)+houseSum;
+                that.data.dateArr.push(utils.formatTime(new Date(item.date), "yyyy-MM-dd"));
+                that.data.costArr.push({"value":that.data.objectData[index].sumCalc,"name":utils.formatTime(new Date(item.date), "yyyy-MM-dd")});
+
+              });
+              that.data.costTypeSumArr.push(
+                {"value": breakfastSum.toFixed(2), "name": "早餐"},
+                {"value": lunchSum.toFixed(2), "name": "午餐"},
+                {"value": dinnerSum.toFixed(2), "name": "晚餐"},
+                {"value": (breakfastSum+lunchSum+dinnerSum).toFixed(2),"name":"餐飲"},
+                {"value": trafficSum.toFixed(2), "name": "交通"},
+                {"value": sockSum.toFixed(2), "name": "零食"},
+                {"value": buySum.toFixed(2), "name": "购物"},
+                {"value": foodsSum.toFixed(2), "name": "食材超市"},
+                {"value": visaSum.toFixed(2), "name": "信用花呗"},
+                {"value": loansSum.toFixed(2), "name": "贷款"},
+                {"value": clothesSum.toFixed(2), "name": "服装"},
+                {"value": skinSum.toFixed(2), "name": "化妆品"},
+                {"value": healthSum.toFixed(2), "name": "医疗"},
+                {"value": insureSum.toFixed(2), "name": "保险"},
+                {"value": playSum.toFixed(2), "name": "娱乐"},
+                {"value": othersSum.toFixed(2), "name": "其他"},
+                {"value": giftsSum.toFixed(2), "name": "人情"},
+                {"value": houseSum.toFixed(2), "name": "房租"},
+              );
+              that.setData({
+                tableData: that.pagination(1,10,that.data.objectData)
+              })
+              that.data.dateArr.reverse();
+              that.data.costArr.reverse(); 
+              console.log(that.data.tableData)
+              console.log(that.data.dateArr)
+              console.log(that.data.costArr)
+            }else{
+
+            }
+          }
+        }
+      })
     },
-    onReady() {
-      setTimeout(function () {
-        // 获取 chart 实例的方式
-        console.log(chart)
-      }, 2000);
-    }
+    pagination(pageNo, pageSize, array) {
+      var offset = (pageNo - 1) * pageSize;
+      return (offset + pageSize >= array.length) ? array.slice(offset, array.length) : array.slice(offset, offset + pageSize);
+    },
   }
 })

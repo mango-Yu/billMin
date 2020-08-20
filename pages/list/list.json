@@ -1,6 +1,6 @@
 {
   "component": true,
-  "usingComponents": {
-    "ec-canvas": "../../utils/ec-canvas/ec-canvas"
+  "usingComponents": { 
+    "f2": "@antv/wx-f2"
   }
 }
