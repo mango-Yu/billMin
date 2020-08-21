@@ -1,10 +1,44 @@
 // pages/list/list.js  
 const utils = require('../../utils/util.js')
-const configs = require('../../utils/config.default.js')
-const computedBehavior = require('miniprogram-computed')   
-
-Component({
-  behaviors: [computedBehavior],
+const configs = require('../../utils/config.default.js')  
+let chart = null;
+ 
+function initChart(canvas, width, height, F2) { // 使用 F2 绘制图表
+  const data = [
+    { year: '1951 年', sales: 38 },
+    { year: '1952 年', sales: 52 },
+    { year: '1956 年', sales: 61 },
+    { year: '1957 年', sales: 145 },
+    { year: '1958 年', sales: 48 },
+    { year: '1959 年', sales: 38 },
+    { year: '1960 年', sales: 38 },
+    { year: '1962 年', sales: 38 },
+  ];
+  chart = new F2.Chart({
+    el: canvas,
+    width,
+    height
+  });
+ 
+  chart.source(data, {
+    sales: {
+      tickCount: 5
+    }
+  });
+  chart.tooltip({
+    showItemMarker: false,
+    onShow(ev) {
+      const { items } = ev;
+      items[0].name = null;
+      items[0].name = items[0].title;
+      items[0].value = '¥ ' + items[0].value;
+    }
+  });
+  chart.interval().position('year*sales');
+  chart.render();
+  return chart;
+}
+Component({ 
   /**
    * 组件的属性列表
    */
@@ -34,7 +68,10 @@ Component({
     dateArr: [],
     costArr: [],
     costTypeSumArr: [],
-    initChart:null
+    // initChart:null
+    opts: {
+      onInit: initChart
+    }
   },
 
   /**
@@ -492,9 +529,9 @@ Component({
         "rank": "23",
         "count": 29
       }]
-       this.setData({
-         initChart: (F2, config) => _this.onInitChart(F2, config, data)
-        })
+      //  this.setData({
+      //    initChart: (F2, config) => _this.onInitChart(F2, config, data)
+      //   })
       
       // this.funcGetListData()
      },
@@ -591,61 +628,61 @@ Component({
       var offset = (pageNo - 1) * pageSize;
       return (offset + pageSize >= array.length) ? array.slice(offset, array.length) : array.slice(offset, offset + pageSize);
     },
-    onInitChart(F2, config, datas){
+    // onInitChart(F2, config, datas){
       // F2.Chart.registerInteraction('ScrollBar', ScrollBar);
       // const ScrollBar = require('@antv/f2/lib/plugin/scroll-bar')
       // const chart = new F2.Chart({config, plugins: ScrollBar });
-      const chart = new F2.Chart(config);
-      chart.source(datas, {
-        release: {
-          min: 1990,
-          max: 2010
-        }
-      });
-      chart.tooltip({
-        showCrosshairs: true,
-        showItemMarker: false,
-        background: {
-          radius: 2,
-          fill: '#1890FF',
-          padding: [ 3, 5 ]
-        },
-        nameStyle: {
-          fill: '#fff'
-        },
-        onShow: function onShow(ev) {
-          const items = ev.items;
-          items[0].name = items[0].title;
-        }
-      });
-      chart.line().position('release*count');
-      chart.point().position('release*count').style({
-        lineWidth: 1,
-        stroke: '#fff'
-      });
+    //   const chart = new F2.Chart(config);
+    //   chart.source(datas, {
+    //     release: {
+    //       min: 1990,
+    //       max: 2010
+    //     }
+    //   });
+    //   chart.tooltip({
+    //     showCrosshairs: true,
+    //     showItemMarker: false,
+    //     background: {
+    //       radius: 2,
+    //       fill: '#1890FF',
+    //       padding: [ 3, 5 ]
+    //     },
+    //     nameStyle: {
+    //       fill: '#fff'
+    //     },
+    //     onShow: function onShow(ev) {
+    //       const items = ev.items;
+    //       items[0].name = items[0].title;
+    //     }
+    //   });
+    //   chart.line().position('release*count');
+    //   chart.point().position('release*count').style({
+    //     lineWidth: 1,
+    //     stroke: '#fff'
+    //   });
   
-      chart.interaction('pan');
-      // 定义进度条
-      // chart.scrollBar({
-      //   mode: 'x',
-      //   xStyle: {
-      //     offsetY: -5
-      //   }
-      // });
+    //   chart.interaction('pan');
+    //   // 定义进度条
+    //   // chart.scrollBar({
+    //   //   mode: 'x',
+    //   //   xStyle: {
+    //   //     offsetY: -5
+    //   //   }
+    //   // });
   
-      // 绘制 tag
-      chart.guide().tag({
-        position: [ 1969, 1344 ],
-        withPoint: false,
-        content: '1,344',
-        limitInPlot: true,
-        offsetX: 0,
-        direct: 'cr'
-      });
-      chart.render();
-      // 注意：需要把chart return 出来
+    //   // 绘制 tag
+    //   chart.guide().tag({
+    //     position: [ 1969, 1344 ],
+    //     withPoint: false,
+    //     content: '1,344',
+    //     limitInPlot: true,
+    //     offsetX: 0,
+    //     direct: 'cr'
+    //   });
+    //   chart.render();
+    //   // 注意：需要把chart return 出来
      
-      return chart;
-    }
+    //   return chart;
+    // }
   }
 })

@@ -1,5 +1,7 @@
 <!--pages/list/list.wxml-->
 <text>pages/list/list.wxml</text>
 <view class="container"> 
-  <f2 class="f2-chart" id="kChart" onInit="{{initChart}}" />
+  <!-- <f2 class="f2-chart" id="kChart" onInit="{{initChart}}" /> -->
+  
+  <ff-canvas class="f2-chart" id="column-dom" canvas-id="column" opts="{{ opts }}"></ff-canvas>
 </view>
