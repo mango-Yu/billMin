@@ -8,8 +8,7 @@
     "pages/register/register",
     "pages/index/index",
     "pages/logs/logs",
-    "pages/test/test",
-    "miniprogram_npm/@antv/f2-canvas"
+    "pages/test/test"
   ],
   "window": {
     "backgroundTextStyle": "light",

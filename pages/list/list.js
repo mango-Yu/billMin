@@ -1,43 +1,160 @@
 // pages/list/list.js  
 const utils = require('../../utils/util.js')
 const configs = require('../../utils/config.default.js')  
+const F2 = require('@antv/wx-f2');
+
+var dataTest = [{
+  date: '2017-06-05',
+  value: 116
+}, {
+  date: '2017-06-06',
+  value: 129
+}, {
+  date: '2017-06-07',
+  value: 135
+}, {
+  date: '2017-06-08',
+  value: 86
+}, {
+  date: '2017-06-09',
+  value: 73
+}, {
+  date: '2017-06-10',
+  value: 85
+}, {
+  date: '2017-06-11',
+  value: 73
+}, {
+  date: '2017-06-12',
+  value: 68
+}, {
+  date: '2017-06-13',
+  value: 92
+}, {
+  date: '2017-06-14',
+  value: 130
+}, {
+  date: '2017-06-15',
+  value: 245
+}, {
+  date: '2017-06-16',
+  value: 139
+}, {
+  date: '2017-06-17',
+  value: 115
+}, {
+  date: '2017-06-18',
+  value: 111
+}, {
+  date: '2017-06-19',
+  value: 309
+}, {
+  date: '2017-06-20',
+  value: 206
+}, {
+  date: '2017-06-21',
+  value: 137
+}, {
+  date: '2017-06-22',
+  value: 128
+}, {
+  date: '2017-06-23',
+  value: 85
+}, {
+  date: '2017-06-24',
+  value: 94
+}, {
+  date: '2017-06-25',
+  value: 71
+}, {
+  date: '2017-06-26',
+  value: 106
+}, {
+  date: '2017-06-27',
+  value: 84
+}, {
+  date: '2017-06-28',
+  value: 93
+}, {
+  date: '2017-06-29',
+  value: 85
+}, {
+  date: '2017-06-30',
+  value: 73
+}, {
+  date: '2017-07-01',
+  value: 83
+}, {
+  date: '2017-07-02',
+  value: 125
+}, {
+  date: '2017-07-03',
+  value: 107
+}, {
+  date: '2017-07-04',
+  value: 82
+}, {
+  date: '2017-07-05',
+  value: 44
+}, {
+  date: '2017-07-06',
+  value: 72
+}, {
+  date: '2017-07-07',
+  value: 106
+}, {
+  date: '2017-07-08',
+  value: 107
+}, {
+  date: '2017-07-09',
+  value: 66
+}, {
+  date: '2017-07-10',
+  value: 91
+}, {
+  date: '2017-07-11',
+  value: 92
+}, {
+  date: '2017-07-12',
+  value: 113
+}, {
+  date: '2017-07-13',
+  value: 107
+}, {
+  date: '2017-07-14',
+  value: 131
+}, {
+  date: '2017-07-15',
+  value: 111
+}, {
+  date: '2017-07-16',
+  value: 64
+}, {
+  date: '2017-07-17',
+  value: 69
+}, {
+  date: '2017-07-18',
+  value: 88
+}, {
+  date: '2017-07-19',
+  value: 77
+}, {
+  date: '2017-07-20',
+  value: 83
+}, {
+  date: '2017-07-21',
+  value: 111
+}, {
+  date: '2017-07-22',
+  value: 57
+}, {
+  date: '2017-07-23',
+  value: 55
+}, {
+  date: '2017-07-24',
+  value: 60
+}]
 let chart = null;
- 
-function initChart(canvas, width, height, F2) { // 使用 F2 绘制图表
-  const data = [
-    { year: '1951 年', sales: 38 },
-    { year: '1952 年', sales: 52 },
-    { year: '1956 年', sales: 61 },
-    { year: '1957 年', sales: 145 },
-    { year: '1958 年', sales: 48 },
-    { year: '1959 年', sales: 38 },
-    { year: '1960 年', sales: 38 },
-    { year: '1962 年', sales: 38 },
-  ];
-  chart = new F2.Chart({
-    el: canvas,
-    width,
-    height
-  });
- 
-  chart.source(data, {
-    sales: {
-      tickCount: 5
-    }
-  });
-  chart.tooltip({
-    showItemMarker: false,
-    onShow(ev) {
-      const { items } = ev;
-      items[0].name = null;
-      items[0].name = items[0].title;
-      items[0].value = '¥ ' + items[0].value;
-    }
-  });
-  chart.interval().position('year*sales');
-  chart.render();
-  return chart;
-}
 Component({ 
   /**
    * 组件的属性列表
@@ -68,9 +185,8 @@ Component({
     dateArr: [],
     costArr: [],
     costTypeSumArr: [],
-    // initChart:null
     opts: {
-      onInit: initChart
+      lazyLoad: true // 延迟加载组件
     }
   },
 
@@ -80,460 +196,10 @@ Component({
   methods: {
      onLoad(){
        let _this = this;
-       var data = [{
-        "title": "Bohemian Rhapsody",
-        "artist": "Queen",
-        "release": 1975,
-        "year": "1999",
-        "rank": "1",
-        "count": 978
-      }, {
-        "title": "Hotel California",
-        "artist": "Eagles",
-        "release": 1977,
-        "year": "1999",
-        "rank": "2",
-        "count": 1284
-      }, {
-        "title": "Child In Time",
-        "artist": "Deep Purple",
-        "release": 1972,
-        "year": "1999",
-        "rank": "3",
-        "count": 1117
-      }, {
-        "title": "Stairway To Heaven",
-        "artist": "Led Zeppelin",
-        "release": 1971,
-        "year": "1999",
-        "rank": "4",
-        "count": 1132
-      }, {
-        "title": "Paradise By The Dashboard Light",
-        "artist": "Meat Loaf",
-        "release": 1978,
-        "year": "1999",
-        "rank": "5",
-        "count": 1187
-      }, {
-        "title": "Yesterday",
-        "artist": "The Beatles",
-        "release": 1965,
-        "year": "1999",
-        "rank": "6",
-        "count": 909
-      }, {
-        "title": "Angie",
-        "artist": "The Rolling Stones",
-        "release": 1973,
-        "year": "1999",
-        "rank": "8",
-        "count": 1183
-      }, {
-        "title": "Bridge Over Troubled Water",
-        "artist": "Simon & Garfunkel",
-        "release": 1970,
-        "year": "1999",
-        "rank": "9",
-        "count": 1111
-      }, {
-        "title": "A Whiter Shade Of Pale",
-        "artist": "Procol Harum",
-        "release": 1967,
-        "year": "1999",
-        "rank": "10",
-        "count": 1190
-      }, {
-        "title": "Hey Jude",
-        "artist": "The Beatles",
-        "release": 1968,
-        "year": "1999",
-        "rank": "11",
-        "count": 1037
-      }, {
-        "title": "House Of The Rising Sun",
-        "artist": "The Animals",
-        "release": 1964,
-        "year": "1999",
-        "rank": "13",
-        "count": 543
-      }, {
-        "title": "Goodnight Saigon",
-        "artist": "Billy Joel",
-        "release": 1983,
-        "year": "1999",
-        "rank": "14",
-        "count": 748
-      }, {
-        "title": "Dancing Queen",
-        "artist": "ABBA",
-        "release": 1976,
-        "year": "1999",
-        "rank": "16",
-        "count": 1111
-      }, {
-        "title": "Another Brick In The Wall",
-        "artist": "Pink Floyd",
-        "release": 1979,
-        "year": "1999",
-        "rank": "17",
-        "count": 1266
-      }, {
-        "title": "Sunday Bloody Sunday",
-        "artist": "U2",
-        "release": 1985,
-        "year": "1999",
-        "rank": "18",
-        "count": 1087
-      }, {
-        "title": "Tears In Heaven",
-        "artist": "Eric Clapton",
-        "release": 1992,
-        "year": "1999",
-        "rank": "21",
-        "count": 435
-      }, {
-        "title": "Old And Wise",
-        "artist": "The Alan Parsons Project",
-        "release": 1982,
-        "year": "1999",
-        "rank": "24",
-        "count": 945
-      }, {
-        "title": "Losing My Religion",
-        "artist": "R.E.M.",
-        "release": 1991,
-        "year": "1999",
-        "rank": "25",
-        "count": 415
-      }, {
-        "title": "School",
-        "artist": "Supertramp",
-        "release": 1974,
-        "year": "1999",
-        "rank": "26",
-        "count": 1011
-      }, {
-        "title": "Who Wants To Live Forever",
-        "artist": "Queen",
-        "release": 1986,
-        "year": "1999",
-        "rank": "30",
-        "count": 836
-      }, {
-        "title": "Everybody Hurts",
-        "artist": "R.E.M.",
-        "release": 1993,
-        "year": "1999",
-        "rank": "31",
-        "count": 301
-      }, {
-        "title": "Over De Muur",
-        "artist": "Klein Orkest",
-        "release": 1984,
-        "year": "1999",
-        "rank": "32",
-        "count": 1166
-      }, {
-        "title": "Paint It Black",
-        "artist": "The Rolling Stones",
-        "release": 1966,
-        "year": "1999",
-        "rank": "33",
-        "count": 1077
-      }, {
-        "title": "The Winner Takes It All",
-        "artist": "ABBA",
-        "release": 1980,
-        "year": "1999",
-        "rank": "35",
-        "count": 926
-      }, {
-        "title": "Candle In The Wind (1997)",
-        "artist": "Elton John",
-        "release": 1997,
-        "year": "1999",
-        "rank": "37",
-        "count": 451
-      }, {
-        "title": "My Heart Will Go On",
-        "artist": "Celine Dion",
-        "release": 1998,
-        "year": "1999",
-        "rank": "41",
-        "count": 415
-      }, {
-        "title": "The River",
-        "artist": "Bruce Springsteen",
-        "release": 1981,
-        "year": "1999",
-        "rank": "48",
-        "count": 723
-      }, {
-        "title": "With Or Without You",
-        "artist": "U2",
-        "release": 1987,
-        "year": "1999",
-        "rank": "51",
-        "count": 816
-      }, {
-        "title": "Space Oddity",
-        "artist": "David Bowie",
-        "release": 1969,
-        "year": "1999",
-        "rank": "59",
-        "count": 1344
-      }, {
-        "title": "Stil In Mij",
-        "artist": "Van Dik Hout",
-        "release": 1994,
-        "year": "1999",
-        "rank": "65",
-        "count": 373
-      }, {
-        "title": "Nothing Compares 2 U",
-        "artist": "Sinead O'Connor",
-        "release": 1990,
-        "year": "1999",
-        "rank": "90",
-        "count": 426
-      }, {
-        "title": "Wonderful Tonight",
-        "artist": "Eric Clapton",
-        "release": 1988,
-        "year": "1999",
-        "rank": "91",
-        "count": 515
-      }, {
-        "title": "Blowing In The Wind",
-        "artist": "Bob Dylan",
-        "release": 1963,
-        "year": "1999",
-        "rank": "94",
-        "count": 323
-      }, {
-        "title": "Eternal Flame",
-        "artist": "Bangles",
-        "release": 1989,
-        "year": "1999",
-        "rank": "96",
-        "count": 495
-      }, {
-        "title": "Non Je Ne Regrette Rien",
-        "artist": "Edith Piaf",
-        "release": 1961,
-        "year": "1999",
-        "rank": "106",
-        "count": 178
-      }, {
-        "title": "Con Te Partiro",
-        "artist": "Andrea Bocelli",
-        "release": 1996,
-        "year": "1999",
-        "rank": "109",
-        "count": 362
-      }, {
-        "title": "Conquest Of Paradise",
-        "artist": "Vangelis",
-        "release": 1995,
-        "year": "1999",
-        "rank": "157",
-        "count": 315
-      }, {
-        "title": "White Christmas",
-        "artist": "Bing Crosby",
-        "release": 1954,
-        "year": "1999",
-        "rank": "218",
-        "count": 10
-      }, {
-        "title": "(We're gonna) Rock Around The Clock",
-        "artist": "Bill Haley & The Comets",
-        "release": 1955,
-        "year": "1999",
-        "rank": "239",
-        "count": 19
-      }, {
-        "title": "Jailhouse Rock",
-        "artist": "Elvis Presley",
-        "release": 1957,
-        "year": "1999",
-        "rank": "247",
-        "count": 188
-      }, {
-        "title": "Take Five",
-        "artist": "Dave Brubeck",
-        "release": 1962,
-        "year": "1999",
-        "rank": "279",
-        "count": 204
-      }, {
-        "title": "It's Now Or Never",
-        "artist": "Elvis Presley",
-        "release": 1960,
-        "year": "1999",
-        "rank": "285",
-        "count": 221
-      }, {
-        "title": "Heartbreak Hotel",
-        "artist": "Elvis Presley",
-        "release": 1956,
-        "year": "1999",
-        "rank": "558",
-        "count": 109
-      }, {
-        "title": "One Night",
-        "artist": "Elvis Presley",
-        "release": 1959,
-        "year": "1999",
-        "rank": "622",
-        "count": 71
-      }, {
-        "title": "Johnny B. Goode",
-        "artist": "Chuck Berry",
-        "release": 1958,
-        "year": "1999",
-        "rank": "714",
-        "count": 89
-      }, {
-        "title": "Unforgettable",
-        "artist": "Nat 'King' Cole",
-        "release": 1951,
-        "year": "1999",
-        "rank": "1188",
-        "count": 20
-      }, {
-        "title": "La Mer",
-        "artist": "Charles Trenet",
-        "release": 1952,
-        "year": "1999",
-        "rank": "1249",
-        "count": 24
-      }, {
-        "title": "The Road Ahead",
-        "artist": "City To City",
-        "release": 1999,
-        "year": "1999",
-        "rank": "1999",
-        "count": 262
-      }, {
-        "title": "What It Is",
-        "artist": "Mark Knopfler",
-        "release": 2000,
-        "year": "2000",
-        "rank": "545",
-        "count": 291
-      }, {
-        "title": "Overcome",
-        "artist": "Live",
-        "release": 2001,
-        "year": "2001",
-        "rank": "879",
-        "count": 111
-      }, {
-        "title": "Mooie Dag",
-        "artist": "Blof",
-        "release": 2002,
-        "year": "2003",
-        "rank": "147",
-        "count": 256
-      }, {
-        "title": "Clocks",
-        "artist": "Coldplay",
-        "release": 2003,
-        "year": "2003",
-        "rank": "733",
-        "count": 169
-      }, {
-        "title": "Sunrise",
-        "artist": "Norah Jones",
-        "release": 2004,
-        "year": "2004",
-        "rank": "405",
-        "count": 256
-      }, {
-        "title": "Nine Million Bicycles",
-        "artist": "Katie Melua",
-        "release": 2005,
-        "year": "2005",
-        "rank": "23",
-        "count": 250
-      }, {
-        "title": "Rood",
-        "artist": "Marco Borsato",
-        "release": 2006,
-        "year": "2006",
-        "rank": "17",
-        "count": 159
-      }, {
-        "title": "If You Were A Sailboat",
-        "artist": "Katie Melua",
-        "release": 2007,
-        "year": "2007",
-        "rank": "101",
-        "count": 256
-      }, {
-        "title": "Viva La Vida",
-        "artist": "Coldplay",
-        "release": 2009,
-        "year": "2009",
-        "rank": "11",
-        "count": 228
-      }, {
-        "title": "Dochters",
-        "artist": "Marco Borsato",
-        "release": 2008,
-        "year": "2009",
-        "rank": "25",
-        "count": 268
-      }, {
-        "title": "Need You Now",
-        "artist": "Lady Antebellum",
-        "release": 2010,
-        "year": "2010",
-        "rank": "210",
-        "count": 121
-      }, {
-        "title": "Someone Like You",
-        "artist": "Adele",
-        "release": 2011,
-        "year": "2011",
-        "rank": "6",
-        "count": 187
-      }, {
-        "title": "I Follow Rivers",
-        "artist": "Triggerfinger",
-        "release": 2012,
-        "year": "2012",
-        "rank": "79",
-        "count": 167
-      }, {
-        "title": "Get Lucky",
-        "artist": "Daft Punk",
-        "release": 2013,
-        "year": "2013",
-        "rank": "357",
-        "count": 141
-      }, {
-        "title": "Home",
-        "artist": "Dotan",
-        "release": 2014,
-        "year": "2014",
-        "rank": "82",
-        "count": 76
-      }, {
-        "title": "Hello",
-        "artist": "Adele",
-        "release": 2015,
-        "year": "2015",
-        "rank": "23",
-        "count": 29
-      }]
-      //  this.setData({
-      //    initChart: (F2, config) => _this.onInitChart(F2, config, data)
-      //   })
+       
       
-      // this.funcGetListData()
+      //  _this.initLineChart(dataTest)
+      this.funcGetListData()
      },
      funcGetListData() {
       let that = this;
@@ -586,7 +252,7 @@ Component({
                 insureSum = parseFloat(item.insure)+insureSum;
                 houseSum = parseFloat(item.house)+houseSum;
                 that.data.dateArr.push(utils.formatTime(new Date(item.date), "yyyy-MM-dd"));
-                that.data.costArr.push({"value":that.data.objectData[index].sumCalc,"name":utils.formatTime(new Date(item.date), "yyyy-MM-dd")});
+                that.data.costArr.push({"value":parseFloat(that.data.objectData[index].sumCalc),"date":utils.formatTime(new Date(item.date), "yyyy-MM-dd")});
 
               });
               that.data.costTypeSumArr.push(
@@ -614,9 +280,10 @@ Component({
               })
               that.data.dateArr.reverse();
               that.data.costArr.reverse(); 
-              console.log(that.data.tableData)
-              console.log(that.data.dateArr)
-              console.log(that.data.costArr)
+              // console.log(that.data.tableData)
+              // console.log(that.data.dateArr)
+              // console.log(that.data.costArr)
+              that.initLineChart(that.data.costArr, that.data.dateArr)
             }else{
 
             }
@@ -628,61 +295,109 @@ Component({
       var offset = (pageNo - 1) * pageSize;
       return (offset + pageSize >= array.length) ? array.slice(offset, array.length) : array.slice(offset, offset + pageSize);
     },
-    // onInitChart(F2, config, datas){
-      // F2.Chart.registerInteraction('ScrollBar', ScrollBar);
-      // const ScrollBar = require('@antv/f2/lib/plugin/scroll-bar')
-      // const chart = new F2.Chart({config, plugins: ScrollBar });
-    //   const chart = new F2.Chart(config);
-    //   chart.source(datas, {
-    //     release: {
-    //       min: 1990,
-    //       max: 2010
-    //     }
-    //   });
-    //   chart.tooltip({
-    //     showCrosshairs: true,
-    //     showItemMarker: false,
-    //     background: {
-    //       radius: 2,
-    //       fill: '#1890FF',
-    //       padding: [ 3, 5 ]
-    //     },
-    //     nameStyle: {
-    //       fill: '#fff'
-    //     },
-    //     onShow: function onShow(ev) {
-    //       const items = ev.items;
-    //       items[0].name = items[0].title;
-    //     }
-    //   });
-    //   chart.line().position('release*count');
-    //   chart.point().position('release*count').style({
-    //     lineWidth: 1,
-    //     stroke: '#fff'
-    //   });
-  
-    //   chart.interaction('pan');
-    //   // 定义进度条
-    //   // chart.scrollBar({
-    //   //   mode: 'x',
-    //   //   xStyle: {
-    //   //     offsetY: -5
-    //   //   }
-    //   // });
-  
-    //   // 绘制 tag
-    //   chart.guide().tag({
-    //     position: [ 1969, 1344 ],
-    //     withPoint: false,
-    //     content: '1,344',
-    //     limitInPlot: true,
-    //     offsetX: 0,
-    //     direct: 'cr'
-    //   });
-    //   chart.render();
-    //   // 注意：需要把chart return 出来
-     
-    //   return chart;
-    // }
+    formatNumber(n) {
+      var num = String(Math.floor(n * 100) / 100).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return num;
+    },
+    initLineChart(lineData, dateData) {
+      let _this = this;
+      // var originDates = dateData.slice(dateData.length-5, dateData.length);
+      var originDates = [];
+      dateData.forEach(obj => {
+        if (obj >= '2020-08-01') {
+          originDates.push(obj);
+        }
+      }); 
+      _this.chartComponent = _this.selectComponent('#column-dom');
+      _this.chartComponent.init((canvas, width, height)=>{
+        chart = new F2.Chart({
+          el: canvas,
+          width,
+          height,
+          animate: false
+        });
+        chart.source(lineData, {
+          date: {
+            type: 'timeCat',
+            tickCount: 10,
+            values: originDates,
+            mask: 'MM-DD'
+          },
+          value: {
+            tickCount: 5,  
+          }
+        });
+        chart.tooltip({
+          showCrosshairs: true,
+          showItemMarker: false,
+          background: {
+            radius: 2,
+            fill: '#1890FF',
+            padding: [3, 5]
+          },
+          onShow(ev) {
+            const items = ev.items;
+            items[0].name = '';
+            items[0].value = items[0].value;
+          }
+        });
+        chart.axis('date', {
+          tickLine: {
+            length: 4,
+            stroke: '#cacaca'
+          },
+          label: {
+            fill: '#cacaca'
+          },
+          line: {
+            top: true
+          }
+        });
+        chart.axis('value', {
+          position: 'left',
+          label(text) {
+            console.log(text)
+            return {
+              text: _this.formatNumber(text * 1),
+              fill: '#cacaca'
+            };
+          },
+          grid: {
+            stroke: '#d1d1d1'
+          }
+        });
+        chart.line().position('date*value').shape('smooth').style({
+          radius: [ 2, 2, 0, 0 ]
+        });
+        // chart.point()
+        //   .position('date*value')
+        //   .style({
+        //     lineWidth: 1,
+        //     stroke: '#fff'
+        //   });
+      // 定义进度条
+      chart.scrollBar({
+        mode: 'x',
+        xStyle: {
+          offsetY: -10
+        }
+      });
+        chart.interaction('pan');
+        
+        
+      
+        // // 绘制 tag
+        // chart.guide().tag({
+        //   position: [ lineData[10].date, lineData[10].value ],
+        //   withPoint: false,
+        //   content:  lineData[10].value,
+        //   limitInPlot: true,
+        //   offsetX: 5,
+        //   direct: 'cr'
+        // });
+        chart.render();
+        return chart;
+      })
+    }
   }
 })
