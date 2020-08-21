@@ -8,8 +8,7 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@antv/wx-f2": "^2.1.0",
+  "dependencies": { 
     "@vant/weapp": "^1.4.3",
     "miniprogram-computed": "^2.1.1"
   }
