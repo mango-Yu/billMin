@@ -1,6 +1,7 @@
 {
   "component": true,
   "usingComponents": {  
-    "ff-canvas": "@antv/f2-canvas"
+    "ff-canvas": "@antv/f2-canvas",
+    "table": "../../components/index"
   }
 }

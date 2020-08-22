@@ -2,6 +2,7 @@
 const utils = require('../../utils/util.js')
 const configs = require('../../utils/config.default.js')  
 const F2 = require('@antv/wx-f2');
+import {tableHeader2}  from './config.js'
 
 var dataTest = [{
   date: '2017-06-05',
@@ -187,7 +188,17 @@ Component({
     costTypeSumArr: [],
     opts: {
       lazyLoad: true // 延迟加载组件
-    }
+    },
+    month: '',
+    user_name: '', 
+    tableHeader2,
+    stripe: true,
+    border: true,
+    outBorder: true,
+    height: '150px',
+    row: [],
+    row2: [],
+    msg: '没有打卡记录哦～'
   },
 
   /**
@@ -196,9 +207,7 @@ Component({
   methods: {
      onLoad(){
        let _this = this;
-       
-      
-      //  _this.initLineChart(dataTest)
+       //  _this.initLineChart(dataTest)
       this.funcGetListData()
      },
      funcGetListData() {
@@ -224,12 +233,13 @@ Component({
                 total: data.data.length
               }) 
               that.data.objectData.sort(function(a,b) {
-                return Date.parse((utils.formatTime(new Date(b.date), "yyyy-MM-dd")).replace(/-/g,"/"))-Date.parse((utils.formatTime(new Date(a.date), "yyyy-MM-dd")).replace(/-/g,"/"));
+                return Date.parse((utils.formatDate(new Date(b.date), "yyyy-MM-dd")).replace(/-/g,"/"))-Date.parse((utils.formatDate(new Date(a.date), "yyyy-MM-dd")).replace(/-/g,"/"));
               });
               var breakfastSum = 0, lunchSum = 0, dinnerSum = 0, eatSum = 0, trafficSum = 0, sockSum = 0,
                   clothesSum = 0, playSum = 0, othersSum = 0, giftsSum = 0, buySum = 0, foodsSum = 0, visaSum = 0, loansSum = 0, skinSum = 0, healthSum = 0, insureSum = 0, houseSum = 0;
               that.data.objectData.forEach((item, index) => {
                 item["idIndex"] = index+1;
+                that.data.objectData[index].date = utils.formatDate(new Date(that.data.objectData[index].date), "yyyy-MM-dd");
                 that.data.objectData[index].sumCalc = (parseFloat(item.breakfast)+parseFloat(item.lunch)+parseFloat(item.dinner)+
                   parseFloat(item.traffic)+parseFloat(item.sock)+parseFloat(item.clothes)+
                   parseFloat(item.play)+parseFloat(item.others)+parseFloat(item.gifts)+
@@ -251,30 +261,31 @@ Component({
                 healthSum = parseFloat(item.health)+healthSum;
                 insureSum = parseFloat(item.insure)+insureSum;
                 houseSum = parseFloat(item.house)+houseSum;
-                that.data.dateArr.push(utils.formatTime(new Date(item.date), "yyyy-MM-dd"));
-                that.data.costArr.push({"value":parseFloat(that.data.objectData[index].sumCalc),"date":utils.formatTime(new Date(item.date), "yyyy-MM-dd")});
+                that.data.dateArr.push(utils.formatDate(new Date(item.date), "yyyy-MM-dd"));
+                that.data.costArr.push({"value":parseFloat(that.data.objectData[index].sumCalc),"date":utils.formatDate(new Date(item.date), "yyyy-MM-dd")});
 
               });
               that.data.costTypeSumArr.push(
-                {"value": breakfastSum.toFixed(2), "name": "早餐"},
-                {"value": lunchSum.toFixed(2), "name": "午餐"},
-                {"value": dinnerSum.toFixed(2), "name": "晚餐"},
-                {"value": (breakfastSum+lunchSum+dinnerSum).toFixed(2),"name":"餐飲"},
-                {"value": trafficSum.toFixed(2), "name": "交通"},
-                {"value": sockSum.toFixed(2), "name": "零食"},
-                {"value": buySum.toFixed(2), "name": "购物"},
-                {"value": foodsSum.toFixed(2), "name": "食材超市"},
-                {"value": visaSum.toFixed(2), "name": "信用花呗"},
-                {"value": loansSum.toFixed(2), "name": "贷款"},
-                {"value": clothesSum.toFixed(2), "name": "服装"},
-                {"value": skinSum.toFixed(2), "name": "化妆品"},
-                {"value": healthSum.toFixed(2), "name": "医疗"},
-                {"value": insureSum.toFixed(2), "name": "保险"},
-                {"value": playSum.toFixed(2), "name": "娱乐"},
-                {"value": othersSum.toFixed(2), "name": "其他"},
-                {"value": giftsSum.toFixed(2), "name": "人情"},
-                {"value": houseSum.toFixed(2), "name": "房租"},
+                {"value": parseFloat(breakfastSum.toFixed(2)), "name": "早餐", "const": "const"},
+                {"value": parseFloat(lunchSum.toFixed(2)), "name": "午餐", "const": "const"},
+                {"value": parseFloat(dinnerSum.toFixed(2)), "name": "晚餐", "const": "const"},
+                {"value": parseFloat((breakfastSum+lunchSum+dinnerSum).toFixed(2)),"name":"餐飲", "const": "const"},
+                {"value": parseFloat(trafficSum.toFixed(2)), "name": "交通", "const": "const"},
+                {"value": parseFloat(sockSum.toFixed(2)), "name": "零食", "const": "const"},
+                {"value": parseFloat(buySum.toFixed(2)), "name": "购物", "const": "const"},
+                {"value": parseFloat(foodsSum.toFixed(2)), "name": "食材超市", "const": "const"},
+                {"value": parseFloat(visaSum.toFixed(2)), "name": "信用花呗", "const": "const"},
+                {"value": parseFloat(loansSum.toFixed(2)), "name": "贷款", "const": "const"},
+                {"value": parseFloat(clothesSum.toFixed(2)), "name": "服装", "const": "const"},
+                {"value": parseFloat(skinSum.toFixed(2)), "name": "化妆品", "const": "const"},
+                {"value": parseFloat(healthSum.toFixed(2)), "name": "医疗", "const": "const"},
+                {"value": parseFloat(insureSum.toFixed(2)), "name": "保险", "const": "const"},
+                {"value": parseFloat(playSum.toFixed(2)), "name": "娱乐", "const": "const"},
+                {"value": parseFloat(othersSum.toFixed(2)), "name": "其他", "const": "const"},
+                {"value": parseFloat(giftsSum.toFixed(2)), "name": "人情", "const": "const"},
+                {"value": parseFloat(houseSum.toFixed(2)), "name": "房租", "const": "const"}
               );
+              
               that.setData({
                 tableData: that.pagination(1,10,that.data.objectData)
               })
@@ -282,8 +293,13 @@ Component({
               that.data.costArr.reverse(); 
               // console.log(that.data.tableData)
               // console.log(that.data.dateArr)
-              // console.log(that.data.costArr)
+              // console.log(that.data.costTypeSumArr)
+              that.setData({
+                row: that.data.tableData
+              })
               that.initLineChart(that.data.costArr, that.data.dateArr)
+              that.initBarChart(that.data.costArr, that.data.dateArr)
+              that.initPieChart(that.data.costTypeSumArr)
             }else{
 
             }
@@ -308,7 +324,7 @@ Component({
           originDates.push(obj);
         }
       }); 
-      _this.chartComponent = _this.selectComponent('#column-dom');
+      _this.chartComponent = _this.selectComponent('#lineChart');
       _this.chartComponent.init((canvas, width, height)=>{
         chart = new F2.Chart({
           el: canvas,
@@ -319,7 +335,7 @@ Component({
         chart.source(lineData, {
           date: {
             type: 'timeCat',
-            tickCount: 10,
+            tickCount: 8,
             values: originDates,
             mask: 'MM-DD'
           },
@@ -356,7 +372,7 @@ Component({
         chart.axis('value', {
           position: 'left',
           label(text) {
-            console.log(text)
+            // console.log(text)
             return {
               text: _this.formatNumber(text * 1),
               fill: '#cacaca'
@@ -395,6 +411,166 @@ Component({
         //   offsetX: 5,
         //   direct: 'cr'
         // });
+        chart.render();
+        return chart;
+      })
+    },
+    initBarChart(barData, dateData) {
+      let _this = this;
+      // var originDates = dateData.slice(dateData.length-5, dateData.length);
+      var originDates = [];
+      dateData.forEach(obj => {
+        if (obj >= '2020-08-01') {
+          originDates.push(obj);
+        }
+      }); 
+      _this.chartComponent = _this.selectComponent('#barChart');
+      _this.chartComponent.init((canvas, width, height)=>{
+        chart = new F2.Chart({
+          el: canvas,
+          width,
+          height,
+          animate: false
+        });
+        chart.source(barData, {
+          date: {
+            type: 'timeCat',
+            tickCount: 8,
+            values: originDates,
+            mask: 'MM-DD'
+          },
+          value: {
+            tickCount: 15,  
+          }
+        });
+        chart.tooltip({
+          showCrosshairs: true,
+          showItemMarker: false,
+          background: {
+            radius: 2,
+            fill: '#1890FF',
+            padding: [3, 5]
+          },
+          onShow(ev) {
+            const items = ev.items;
+            items[0].name = '';
+            items[0].value = items[0].value;
+          }
+        });
+        chart.axis('date', {
+          tickLine: {
+            length: 4,
+            stroke: '#cacaca'
+          },
+          label: {
+            fill: '#cacaca'
+          },
+          line: {
+            top: true
+          }
+        });
+        chart.axis('value', {
+          position: 'left',
+          label(text) {
+            return {
+              text: _this.formatNumber(text * 1),
+              fill: '#cacaca'
+            };
+          },
+          grid: {
+            stroke: '#d1d1d1'
+          }
+        });
+        chart.interval().position('date*value').shape('smooth').style({
+          radius: [ 2, 2, 0, 0 ]
+        });
+        // chart.point()
+        //   .position('date*value')
+        //   .style({
+        //     lineWidth: 1,
+        //     stroke: '#fff'
+        //   });
+      // 定义进度条
+      chart.scrollBar({
+        mode: 'x',
+        xStyle: {
+          offsetY: -10
+        }
+      });
+        chart.interaction('pan');
+        
+        
+      
+        // // 绘制 tag
+        // chart.guide().tag({
+        //   position: [ lineData[10].date, lineData[10].value ],
+        //   withPoint: false,
+        //   content:  lineData[10].value,
+        //   limitInPlot: true,
+        //   offsetX: 5,
+        //   direct: 'cr'
+        // });
+        chart.render();
+        return chart;
+      })
+    },
+    initPieChart(pieData) {
+      let _this = this;
+      _this.chartComponent = _this.selectComponent('#pieChart');
+      _this.chartComponent.init((canvas, width, height)=>{
+        chart = new F2.Chart({
+          el: canvas,
+          width,
+          height
+        });
+        chart.source(pieData, {
+           
+        });
+        chart.legend({
+          position: 'bottom',
+          align: 'center'
+        });
+        chart.tooltip(false);
+        chart.coord('polar', {
+          transposed: true,
+          radius: 0.85
+        });
+        chart.axis(false);
+        chart.pieLabel({
+          sidePadding: 2,
+          label1: function label1(data, color) {
+            return {
+              text: data.name,
+              fill: color
+            };
+          },
+          label2: function label2(data) {
+            return {
+              text: '￥' + String(Math.floor(data.value * 100) / 100).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+              fill: '#808080',
+              fontWeight: 'bold',
+              fontSize: '10'
+            };
+          }
+        });
+        chart.interval()
+          .position('const*value')
+          .color('name', ['#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864', '#8543E0',
+                        '#decdc3', '#ffaa71', '#776d8a', '#8fc0a9', '#197163', '#56556e',
+                        '#ffa36c', '#00b7c2', '#e97171', '#93b5e1', '#e94560', '#8543E0'])
+          .adjust('stack')
+          .style({
+            lineWidth: 1,
+            stroke: '#fff',
+            lineJoin: 'round',
+            lineCap: 'round'
+          })
+          .animate({
+            appear: {
+              duration: 1200,
+              easing: 'bounceOut'
+            }
+          }); 
         chart.render();
         return chart;
       })
