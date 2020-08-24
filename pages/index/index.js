@@ -14,12 +14,37 @@ Page({
     // wx.navigateTo({
     //   url: '../logs/logs'
     // })
-    wx.navigateTo({
-      url: '/pages/day/day'
-    })
+    // wx.navigateTo({ 
+    //   url: '/pages/login/login'
+    // })
+    // wx.switchTab({ 
+    //   url: '/pages/login/login'
+    // })
   },
   onLoad: function () {
-    if (app.globalData.userInfo) {
+    wx.checkSession({
+      success () {
+        if (wx.getStorageSync('name')) {
+          setTimeout(function(){
+            wx.switchTab({ 
+              url: '/pages/day/day' 
+            })
+          },1000)
+        }else{
+          setTimeout(function(){
+            wx.navigateTo({ 
+              url: '/pages/login/login' 
+            })
+          },1000)
+        }
+        //session_key 未过期，并且在本生命周期一直有效
+      },
+      fail () {
+        // session_key 已经失效，需要重新执行登录流程
+        wx.login() //重新登录
+      }
+    })
+    if (app.globalData.userInfo) { 
       this.setData({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true

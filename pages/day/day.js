@@ -238,7 +238,6 @@ Component({
     blurInput(e) {
       let key = e.currentTarget.dataset.key;
       let inputVal = e.detail.value + "";
-      console.log(key)
       if (key.indexOf('Remind') > 0) {
         inputVal = inputVal.replace(/(^\s*)|(\s*$)/g, "");
       } else {
@@ -251,7 +250,6 @@ Component({
       this.setData({
         form: this.data.form
       });
-      console.log(this.data.form)
     },
     funcGetDay(d) {
       let obj = {
@@ -276,7 +274,6 @@ Component({
               that.funcSetData(1, data.data[0]);
             } else {
               that.funcSetData(2);
-              console.log(that.data.form)
             }
           } else {
             wx.showToast({

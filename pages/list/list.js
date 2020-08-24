@@ -216,17 +216,22 @@ Component({
           //读取sessionid,当作cookie传入后台将PHPSESSID做session_id使用
         },
         method: 'POST',
+        data:{
+          start: 0,
+          pageSize: 10
+        },
         dataType: "json",
         success: function (res) {
           let data=res.data
+          console.log(res)
           if(1 === data.code){
-            if(data.data.length>0){
+            if(data.data.dataList.length>0){
               that.setData({
                 dateArr:[],
                 costArr:[],
                 costTypeSumArr:[],
-                objectData:  data.data,
-                total: data.data.length
+                objectData:  data.data.dataList,
+                total: data.data.total
               }) 
               that.data.objectData.sort(function(a,b) {
                 return Date.parse((utils.formatDate(new Date(b.date), "yyyy-MM-dd")).replace(/-/g,"/"))-Date.parse((utils.formatDate(new Date(a.date), "yyyy-MM-dd")).replace(/-/g,"/"));
