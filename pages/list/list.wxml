@@ -12,8 +12,9 @@
             border="{{ border }}"
             height="{{ height }}"
         />
-         
+         <text>共{{total}}条</text>
     </view>
+    
 </view>
 <view class="container">   
     <text>月度趋势图(￥)</text>  

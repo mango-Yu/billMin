@@ -178,10 +178,8 @@ Component({
     tableData: [],
     objectData: [],
     allCostData: [],
-    detailId: 0, // 详情ID
-    filters: { // 搜索表单
-      number: ''
-    },
+    currentPage: 1,
+    pageSize: 10,
     chartColumn: null,
     chartBar: null,
     dateArr: [],
@@ -190,8 +188,6 @@ Component({
     opts: {
       lazyLoad: true // 延迟加载组件
     },
-    month: '',
-    user_name: '', 
     tableHeader2,
     stripe: true,
     border: true,
@@ -575,6 +571,25 @@ Component({
         chart.render();
         return chart;
       })
-    }
+    },
+    // 选择每页显示条数
+    handleSizeChange(val){
+      let that = this;
+      that.data.pageSize = val;
+      that.data.currentPage = 1;
+      that.data.tableData = that.pagination(that.data.currentPage,that.data.pageSize,that.data.objectData);
+    },
+    handleCurrentChange(val) {
+      let that = this;
+      that.data.tableData = that.pagination(val,that.data.pageSize,that.data.objectData);
+    },
+    handlePrevChange(val) {
+      let that = this;
+      that.data.tableData = that.pagination(val,that.data.pageSize,that.data.objectData);
+    },
+    handleNextChange(val) {
+      let that = this;
+      that.data.tableData = that.pagination(val,that.data.pageSize,that.data.objectData);
+    },
   }
 })
