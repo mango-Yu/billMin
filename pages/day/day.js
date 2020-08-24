@@ -143,38 +143,40 @@ Component({
       });
     },
     funcSetData(type, formData) {
+      let that = this;
       if (type === 2) {
         this.setData({
           form: {
-            date: that.data.form.date,
-            breakfast: 0,
-            lunch: 0,
-            dinner: 0,
-            traffic: 0,
-            sock: 0,
-            house: 0,
+            date: utils.formatTime(new Date()),
+            user: wx.getStorageSync('name'),
+            breakfast: '',
+            lunch: '',
+            dinner: '',
+            traffic: '',
+            sock: '',
+            house: '',
             work: true,
-            clothes: 0,
+            clothes: '',
             clothesRemind: '',
-            play: 0,
+            play: '',
             playRemind: '',
-            others: 0,
+            others: '',
             othersRemind: '',
-            gifts: 0,
+            gifts: '',
             giftsRemind: '',
-            buy: 0,
+            buy: '',
             buysRemind: '',
-            loans: 0,
+            loans: '',
             loansRemind: '',
-            visa: 0,
+            visa: '',
             visaRemind: '',
-            foods: 0,
+            foods: '',
             foodsRemind: '',
-            skin: 0,
+            skin: '',
             skinRemind: '',
-            health: 0,
+            health: '',
             healthRemind: '',
-            insure: 0,
+            insure: '',
             insureRemind: ''
           }
         })
@@ -182,6 +184,7 @@ Component({
         this.setData({
           form: {
             date: utils.formatTime(new Date(formData.date)),
+            user: wx.getStorageSync('name'),
             breakfast: formData.breakfast,
             lunch: formData.lunch,
             dinner: formData.dinner,
@@ -272,24 +275,8 @@ Component({
               data.data[0].date = utils.formatTime(new Date(data.data[0].date), "yyyy-MM-dd")
               that.funcSetData(1, data.data[0]);
             } else {
-              for (let i in that.data.form) {
-                if (!(i == "playRemind" || i == "clothesRemind" || i == "giftsRemind" || i == "othersRemind" ||
-                    i == "buysRemind" || i == "loansRemind" || i == "visaRemind" || i == "foodsRemind" || i == "skinRemind" || i == "healthRemind" || i == "insureRemind" ||
-                    i == "date" || i == 'user') && i !== "work") {
-                  that.funcSetData(2);
-                } else if (i == "work") {
-                  that.setData({
-                    form: {
-                      work: true
-                    }
-                  });
-                } else {
-                  if (i != "date" && i != "user" && i !== "work") {
-                    that.funcSetData(2);
-                  }
-                }
-              }
-              console.log(that.data)
+              that.funcSetData(2);
+              console.log(that.data.form)
             }
           } else {
             wx.showToast({

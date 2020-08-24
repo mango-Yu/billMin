@@ -177,6 +177,7 @@ Component({
     pageSize: 10,
     tableData: [],
     objectData: [],
+    allCostData: [],
     detailId: 0, // 详情ID
     filters: { // 搜索表单
       number: ''
@@ -195,9 +196,8 @@ Component({
     stripe: true,
     border: true,
     outBorder: true,
-    height: '150px',
+    height: '300px',
     row: [],
-    row2: [],
     msg: '没有打卡记录哦～'
   },
 
@@ -287,6 +287,7 @@ Component({
               );
               
               that.setData({
+                allCostData: that.data.objectData,
                 tableData: that.pagination(1,10,that.data.objectData)
               })
               that.data.dateArr.reverse();

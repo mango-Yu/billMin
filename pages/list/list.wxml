@@ -8,7 +8,9 @@
             header-row-class-name="header-class"
             headers="{{tableHeader2}}" 
             data="{{ row }}" 
+            allData="{{ allCostData }}" 
             border="{{ border }}"
+            height="{{ height }}"
         />
          
     </view>

@@ -29,7 +29,7 @@
 		"userConfirmedUseCompilerModuleSwitch": false
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.12.0",
+	"libVersion": "2.12.1",
 	"appid": "wx7d1d9a546e13c4c5",
 	"projectname": "yima",
 	"debugOptions": {

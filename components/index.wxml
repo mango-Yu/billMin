@@ -49,20 +49,21 @@
         <view class="no-data">{{ msg }}</view>
       </block>
     </scroll-view>
-    <!-- <view 
+    <view 
         class="thead {{ border ? 'thead-border' : ''}} header-row-class-name" 
         style="width:{{ scrolWidth }}px;"
     >
       <view 
-        wx:for="{{ headers }}" 
+        wx:for="{{ totalCost }}" 
         wx:key="*this" 
         class="td" 
+        data-it="{{allData}}" 
         style="width:{{ item.width }}px;"
       >
-     {{data[0][(headers[index].prop)]}}
+     {{ totalCost[index].allCost}}
       
       </view> 
-    </view> -->
+    </view>
     <!-- 表格体 end -->
 </scroll-view>
   

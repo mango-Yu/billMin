@@ -117,6 +117,10 @@ Component({
       type: Array,
       value: []
     },
+    allData: {
+      type: Array,
+      value: []
+    },
     headers: {
       type: Array,
       value: []
@@ -165,7 +169,8 @@ Component({
    */
   data: {
     scrolWidth: '100%',
-    
+    totalCost: [],
+    allProp: []
   },
 
   /**
@@ -180,8 +185,26 @@ Component({
       var scrolWidth = _headers.reduce(reducer, 0);
 
       this.setData({
-        scrolWidth: scrolWidth
+        scrolWidth: scrolWidth,
+        allProp: _headers
       });
+     
+    },
+    'allData': function allData (_allData) {
+      let allPropLen = this.data.allProp;
+      for(let j = 0; j < _allData.length; j++){
+        for (let i = 0; i < allPropLen.length; i++) {
+          if ((allPropLen[i].prop != 'id' && allPropLen[i].prop != 'date' && allPropLen[i].prop != 'user' && allPropLen[i].prop != 'work') && (allPropLen[i].prop).indexOf("Remind") < 0) {
+            allPropLen[i].allCost += parseFloat(_allData[j][allPropLen[i].prop]); 
+            allPropLen[i].allCost = Number(parseFloat(allPropLen[i].allCost).toFixed(2))
+          } else{
+            allPropLen[i].allCost = '==='
+          }
+        }
+      }
+      this.setData({
+        totalCost: allPropLen,
+      })
     }
   },
 
@@ -190,9 +213,13 @@ Component({
    */
   methods: {
     onRowClick: function onRowClick(e) {
-      this.triggerEvent('rowClick', e, e.currentTarget.dataset.it);
+      // this.triggerEvent('rowClick', e, e.currentTarget.dataset.it);
+     
     },
-   
+    pagination(pageNo, pageSize, array) {
+      var offset = (pageNo - 1) * pageSize;
+      return (offset + pageSize >= array.length) ? array.slice(offset, array.length) : array.slice(offset, offset + pageSize);
+    }, 
   }
 });
 
