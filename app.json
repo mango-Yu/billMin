@@ -2,8 +2,8 @@
   "pages": [
     
     "pages/index/index",
-    "pages/login/login",
     "pages/list/list",
+    "pages/login/login",
     "pages/month/month",
     "pages/day/day",
     "pages/register/register",

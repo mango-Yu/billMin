@@ -3,158 +3,8 @@ const utils = require('../../utils/util.js')
 const configs = require('../../utils/config.default.js')  
 const F2 = require('@antv/wx-f2');
 import {tableHeader2}  from './config.js'
+import storage from '../../utils/storage.js'
 
-var dataTest = [{
-  date: '2017-06-05',
-  value: 116
-}, {
-  date: '2017-06-06',
-  value: 129
-}, {
-  date: '2017-06-07',
-  value: 135
-}, {
-  date: '2017-06-08',
-  value: 86
-}, {
-  date: '2017-06-09',
-  value: 73
-}, {
-  date: '2017-06-10',
-  value: 85
-}, {
-  date: '2017-06-11',
-  value: 73
-}, {
-  date: '2017-06-12',
-  value: 68
-}, {
-  date: '2017-06-13',
-  value: 92
-}, {
-  date: '2017-06-14',
-  value: 130
-}, {
-  date: '2017-06-15',
-  value: 245
-}, {
-  date: '2017-06-16',
-  value: 139
-}, {
-  date: '2017-06-17',
-  value: 115
-}, {
-  date: '2017-06-18',
-  value: 111
-}, {
-  date: '2017-06-19',
-  value: 309
-}, {
-  date: '2017-06-20',
-  value: 206
-}, {
-  date: '2017-06-21',
-  value: 137
-}, {
-  date: '2017-06-22',
-  value: 128
-}, {
-  date: '2017-06-23',
-  value: 85
-}, {
-  date: '2017-06-24',
-  value: 94
-}, {
-  date: '2017-06-25',
-  value: 71
-}, {
-  date: '2017-06-26',
-  value: 106
-}, {
-  date: '2017-06-27',
-  value: 84
-}, {
-  date: '2017-06-28',
-  value: 93
-}, {
-  date: '2017-06-29',
-  value: 85
-}, {
-  date: '2017-06-30',
-  value: 73
-}, {
-  date: '2017-07-01',
-  value: 83
-}, {
-  date: '2017-07-02',
-  value: 125
-}, {
-  date: '2017-07-03',
-  value: 107
-}, {
-  date: '2017-07-04',
-  value: 82
-}, {
-  date: '2017-07-05',
-  value: 44
-}, {
-  date: '2017-07-06',
-  value: 72
-}, {
-  date: '2017-07-07',
-  value: 106
-}, {
-  date: '2017-07-08',
-  value: 107
-}, {
-  date: '2017-07-09',
-  value: 66
-}, {
-  date: '2017-07-10',
-  value: 91
-}, {
-  date: '2017-07-11',
-  value: 92
-}, {
-  date: '2017-07-12',
-  value: 113
-}, {
-  date: '2017-07-13',
-  value: 107
-}, {
-  date: '2017-07-14',
-  value: 131
-}, {
-  date: '2017-07-15',
-  value: 111
-}, {
-  date: '2017-07-16',
-  value: 64
-}, {
-  date: '2017-07-17',
-  value: 69
-}, {
-  date: '2017-07-18',
-  value: 88
-}, {
-  date: '2017-07-19',
-  value: 77
-}, {
-  date: '2017-07-20',
-  value: 83
-}, {
-  date: '2017-07-21',
-  value: 111
-}, {
-  date: '2017-07-22',
-  value: 57
-}, {
-  date: '2017-07-23',
-  value: 55
-}, {
-  date: '2017-07-24',
-  value: 60
-}]
 let chart = null;
 Component({ 
   /**
@@ -194,7 +44,26 @@ Component({
     outBorder: true,
     height: '300px',
     row: [],
-    msg: '没有打卡记录哦～'
+    msg: '没有打卡记录哦～',
+    form: {
+      breakfast: 0,
+      lunch: 0,
+      dinner: 0,
+      traffic: 0,
+      sock: 0,
+      clothes: 0,
+      play: 0,
+      others: 0,
+      buy: 0,
+      gifts: 0,
+      loans: 0,
+      visa: 0,
+      foods: 0,
+      skin: 0,
+      health: 0,
+      insure: 0,
+      house: 0,
+    },
   },
 
   /**
@@ -205,6 +74,7 @@ Component({
        let _this = this;
        //  _this.initLineChart(dataTest)
       this.funcGetListData()
+      this.funcGetSumData()
      },
      funcGetListData() {
       let that = this;
@@ -212,7 +82,7 @@ Component({
         url: `${configs.api + '/getAllSpending'}`,
         header: {
           'content-type': 'application/json', // 默认值
-          'cookie': wx.getStorageSync("sessionid")
+          'cookie': storage.get("sessionid")
           //读取sessionid,当作cookie传入后台将PHPSESSID做session_id使用
         },
         method: 'POST',
@@ -222,22 +92,112 @@ Component({
         },
         dataType: "json",
         success: function (res) {
-          let data=res.data
-          console.log(res)
+          let data=res.data;
           if(1 === data.code){
             if(data.data.dataList.length>0){
               that.setData({
+                tableData:  data.data.dataList,
+                total: data.data.total
+              }) 
+              that.data.tableData.sort(function(a,b) {
+                return Date.parse((utils.formatDate(new Date(b.date), "yyyy-MM-dd")).replace(/-/g,"/"))-Date.parse((utils.formatDate(new Date(a.date), "yyyy-MM-dd")).replace(/-/g,"/"));
+              });
+              that.data.tableData.forEach((item, index) => {
+                item["idIndex"] = index+1;
+                that.data.tableData[index].date = utils.formatDate(new Date(that.data.tableData[index].date), "yyyy-MM-dd");
+                that.data.tableData[index].sumCalc = (parseFloat(item.breakfast)+parseFloat(item.lunch)+parseFloat(item.dinner)+
+                  parseFloat(item.traffic)+parseFloat(item.sock)+parseFloat(item.clothes)+
+                  parseFloat(item.play)+parseFloat(item.others)+parseFloat(item.gifts)+
+                  parseFloat(item.buy)+parseFloat(item.foods)+parseFloat(item.loans)+parseFloat(item.skin)+parseFloat(item.health)+parseFloat(item.insure)).toFixed(2);
+              });
+              that.setData({
+                row: that.data.tableData
+              })
+            }else{
+
+            }
+          }
+        }
+      })
+    },
+    funcGetSumData(){
+      let that = this;
+      wx.request({
+        url: `${configs.api + '/getSumByUser'}`,
+        header: {
+          'content-type': 'application/json', // 默认值
+          'cookie': storage.get("sessionid")
+          //读取sessionid,当作cookie传入后台将PHPSESSID做session_id使用
+        },
+        method: 'POST',
+        dataType: "json",
+        success: function (res) {
+          let data = res.data.data
+          if (res.data.code === 1) {
+            let objData = data.allCostSumList[0];
+            if (objData) {
+              that.setData({
+                allCostData: objData,
+                costTypeSumArr:[]
+              }) 
+              for(let i in objData){
+                if(objData[i]==null){
+                  let str=i.split(')')[0].split('(')[1]
+                  that.data.form[str]=0
+                  that.data.form.allCost = 0;
+                  that.setData({
+                    form: that.data.form
+                  });
+                }else{
+                  let str=i.split(')')[0].split('(')[1];
+                  that.data.form[str]=parseFloat(objData[i]).toFixed(2); 
+                  that.data.form.allCost = 0;
+                  that.setData({
+                    form: that.data.form
+                  });
+                }
+              }
+              setTimeout(() => {
+                for(let j in  that.data.form){
+                  if (j.indexOf('visa') > -1 || j.indexOf('house') > -1) {
+                    that.data.form.allCost += 0;
+                  }else{
+                    that.data.form.allCost += parseFloat(that.data.form[j]) ;
+                  }
+                }
+                that.data.form.allCost = (that.data.form.allCost).toFixed(2);
+              }, 200);
+              that.data.costTypeSumArr.push(
+                {"value": parseFloat(that.data.form.breakfast), "name": "早餐", "const": "const"},
+                {"value": parseFloat(that.data.form.lunch) , "name": "午餐", "const": "const"},
+                {"value": parseFloat(that.data.form.dinner) , "name": "晚餐", "const": "const"},
+                {"value": parseFloat(that.data.form.breakfast+that.data.form.lunch+that.data.form.dinner),"name":"餐飲", "const": "const"},
+                {"value": parseFloat(that.data.form.traffic), "name": "交通", "const": "const"},
+                {"value": parseFloat(that.data.form.sock), "name": "零食", "const": "const"},
+                {"value": parseFloat(that.data.form.buy), "name": "购物", "const": "const"},
+                {"value": parseFloat(that.data.form.foods), "name": "食材超市", "const": "const"},
+                {"value": parseFloat(that.data.form.visa), "name": "信用花呗", "const": "const"},
+                {"value": parseFloat(that.data.form.loans), "name": "贷款", "const": "const"},
+                {"value": parseFloat(that.data.form.clothes), "name": "服装", "const": "const"},
+                {"value": parseFloat(that.data.form.skin), "name": "化妆品", "const": "const"},
+                {"value": parseFloat(that.data.form.health), "name": "医疗", "const": "const"},
+                {"value": parseFloat(that.data.form.insure), "name": "保险", "const": "const"},
+                {"value": parseFloat(that.data.form.play), "name": "娱乐", "const": "const"},
+                {"value": parseFloat(that.data.form.others), "name": "其他", "const": "const"},
+                {"value": parseFloat(that.data.form.gifts), "name": "人情", "const": "const"},
+                {"value": parseFloat(that.data.form.house), "name": "房租", "const": "const"}
+              );
+              that.initPieChart(that.data.costTypeSumArr)
+            }
+            if ( data.allCostDataList.length > 0) {
+              that.setData({
                 dateArr:[],
                 costArr:[],
-                costTypeSumArr:[],
-                objectData:  data.data.dataList,
-                total: data.data.total
+                objectData:  data.allCostDataList
               }) 
               that.data.objectData.sort(function(a,b) {
                 return Date.parse((utils.formatDate(new Date(b.date), "yyyy-MM-dd")).replace(/-/g,"/"))-Date.parse((utils.formatDate(new Date(a.date), "yyyy-MM-dd")).replace(/-/g,"/"));
               });
-              var breakfastSum = 0, lunchSum = 0, dinnerSum = 0, eatSum = 0, trafficSum = 0, sockSum = 0,
-                  clothesSum = 0, playSum = 0, othersSum = 0, giftsSum = 0, buySum = 0, foodsSum = 0, visaSum = 0, loansSum = 0, skinSum = 0, healthSum = 0, insureSum = 0, houseSum = 0;
               that.data.objectData.forEach((item, index) => {
                 item["idIndex"] = index+1;
                 that.data.objectData[index].date = utils.formatDate(new Date(that.data.objectData[index].date), "yyyy-MM-dd");
@@ -245,67 +205,16 @@ Component({
                   parseFloat(item.traffic)+parseFloat(item.sock)+parseFloat(item.clothes)+
                   parseFloat(item.play)+parseFloat(item.others)+parseFloat(item.gifts)+
                   parseFloat(item.buy)+parseFloat(item.foods)+parseFloat(item.loans)+parseFloat(item.skin)+parseFloat(item.health)+parseFloat(item.insure)).toFixed(2);
-                breakfastSum = parseFloat(item.breakfast)+breakfastSum;
-                lunchSum = parseFloat(item.lunch)+lunchSum;
-                dinnerSum = parseFloat(item.dinner)+dinnerSum;
-                trafficSum = parseFloat(item.traffic)+trafficSum;
-                sockSum = parseFloat(item.sock)+sockSum;
-                clothesSum = parseFloat(item.clothes)+clothesSum;
-                playSum = parseFloat(item.play)+playSum;
-                othersSum = parseFloat(item.others)+othersSum;
-                giftsSum = parseFloat(item.gifts)+giftsSum;
-                buySum = parseFloat(item.buy)+buySum;
-                foodsSum = parseFloat(item.foods)+foodsSum;
-                visaSum = parseFloat(item.visa)+visaSum;
-                loansSum = parseFloat(item.loans)+loansSum;
-                skinSum = parseFloat(item.skin)+skinSum;
-                healthSum = parseFloat(item.health)+healthSum;
-                insureSum = parseFloat(item.insure)+insureSum;
-                houseSum = parseFloat(item.house)+houseSum;
                 that.data.dateArr.push(utils.formatDate(new Date(item.date), "yyyy-MM-dd"));
                 that.data.costArr.push({"value":parseFloat(that.data.objectData[index].sumCalc),"date":utils.formatDate(new Date(item.date), "yyyy-MM-dd")});
-
               });
-              that.data.costTypeSumArr.push(
-                {"value": parseFloat(breakfastSum.toFixed(2)), "name": "早餐", "const": "const"},
-                {"value": parseFloat(lunchSum.toFixed(2)), "name": "午餐", "const": "const"},
-                {"value": parseFloat(dinnerSum.toFixed(2)), "name": "晚餐", "const": "const"},
-                {"value": parseFloat((breakfastSum+lunchSum+dinnerSum).toFixed(2)),"name":"餐飲", "const": "const"},
-                {"value": parseFloat(trafficSum.toFixed(2)), "name": "交通", "const": "const"},
-                {"value": parseFloat(sockSum.toFixed(2)), "name": "零食", "const": "const"},
-                {"value": parseFloat(buySum.toFixed(2)), "name": "购物", "const": "const"},
-                {"value": parseFloat(foodsSum.toFixed(2)), "name": "食材超市", "const": "const"},
-                {"value": parseFloat(visaSum.toFixed(2)), "name": "信用花呗", "const": "const"},
-                {"value": parseFloat(loansSum.toFixed(2)), "name": "贷款", "const": "const"},
-                {"value": parseFloat(clothesSum.toFixed(2)), "name": "服装", "const": "const"},
-                {"value": parseFloat(skinSum.toFixed(2)), "name": "化妆品", "const": "const"},
-                {"value": parseFloat(healthSum.toFixed(2)), "name": "医疗", "const": "const"},
-                {"value": parseFloat(insureSum.toFixed(2)), "name": "保险", "const": "const"},
-                {"value": parseFloat(playSum.toFixed(2)), "name": "娱乐", "const": "const"},
-                {"value": parseFloat(othersSum.toFixed(2)), "name": "其他", "const": "const"},
-                {"value": parseFloat(giftsSum.toFixed(2)), "name": "人情", "const": "const"},
-                {"value": parseFloat(houseSum.toFixed(2)), "name": "房租", "const": "const"}
-              );
-              
-              that.setData({
-                allCostData: that.data.objectData,
-                tableData: that.pagination(1,10,that.data.objectData)
-              })
-              that.data.dateArr.reverse();
-              that.data.costArr.reverse(); 
-              // console.log(that.data.tableData)
-              // console.log(that.data.dateArr)
-              // console.log(that.data.costTypeSumArr)
-              that.setData({
-                row: that.data.tableData
-              })
               that.initLineChart(that.data.costArr, that.data.dateArr)
               that.initBarChart(that.data.costArr, that.data.dateArr)
-              that.initPieChart(that.data.costTypeSumArr)
-            }else{
+            }           
+          }else{
 
-            }
           }
+          
         }
       })
     },

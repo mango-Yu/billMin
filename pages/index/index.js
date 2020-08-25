@@ -1,7 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
-
+import storage from '../../utils/storage.js'
 Page({
   data: {
     motto: 'Hello World',
@@ -24,7 +24,7 @@ Page({
   onLoad: function () {
     wx.checkSession({
       success () {
-        if (wx.getStorageSync('name')) {
+        if (storage.get('name') != "") {
           setTimeout(function(){
             wx.switchTab({ 
               url: '/pages/day/day' 

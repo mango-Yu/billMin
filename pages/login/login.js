@@ -1,5 +1,6 @@
 // pages/login/login.js
 const config = require('../../utils/config.default.js')
+import storage from '../../utils/storage.js'
 Component({
   /**
    * 组件的属性列表
@@ -53,8 +54,8 @@ Component({
               icon: 'success',
               duration: 2000
             }) 
-            wx.setStorageSync('name', that.data.name); 
-            wx.setStorageSync("sessionid", res.header["Set-Cookie"]);
+            storage.put('name', that.data.name, 6); 
+            storage.put("sessionid", res.header["Set-Cookie"], 6);
             wx.switchTab({
               url: '/pages/day/day'
             })

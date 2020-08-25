@@ -2,6 +2,7 @@
 const utils = require('../../utils/util.js')
 const config = require('../../utils/config.default.js')
 const computedBehavior = require('miniprogram-computed')
+import storage from '../../utils/storage.js'
 Component({
   behaviors: [computedBehavior],
   /**
@@ -84,7 +85,7 @@ Component({
       this.setData({
         form: {
           date: utils.formatTime(new Date()),
-          user: wx.getStorageSync('name')
+          user: storage.get('name')
         },
         now: utils.formatTime(new Date())
       });
@@ -148,7 +149,7 @@ Component({
         this.setData({
           form: {
             date: utils.formatTime(new Date()),
-            user: wx.getStorageSync('name'),
+            user: storage.get('name'),
             breakfast: '',
             lunch: '',
             dinner: '',
@@ -184,7 +185,7 @@ Component({
         this.setData({
           form: {
             date: utils.formatTime(new Date(formData.date)),
-            user: wx.getStorageSync('name'),
+            user: storage.get('name'),
             breakfast: formData.breakfast,
             lunch: formData.lunch,
             dinner: formData.dinner,
@@ -261,7 +262,7 @@ Component({
         data: obj,
         header: {
           'content-type': 'application/json', // 默认值
-          'cookie': wx.getStorageSync("sessionid")
+          'cookie': storage.get("sessionid")
           //读取sessionid,当作cookie传入后台将PHPSESSID做session_id使用
         },
         method: 'POST',
@@ -306,7 +307,7 @@ Component({
         data: obj,
         header: {
           'content-type': 'application/json', // 默认值
-          'cookie': wx.getStorageSync("sessionid")
+          'cookie': storage.get("sessionid")
           //读取sessionid,当作cookie传入后台将PHPSESSID做session_id使用
         },
         method: 'POST',
