@@ -194,20 +194,22 @@ Component({
     },
     'allData': function allData (_allData) {
       let allPropLen = this.data.allProp;
-      
-     for(let j in _allData){ 
-        for (let i = 0; i < allPropLen.length; i++) {
-          let str=j.split(')')[0].split('(')[1];
-          if (allPropLen[i].prop == str) {
-            console.log(_allData[j])
-            allPropLen[i].allCost = _allData[j].toFixed(2)
-          } 
+      for(let j in _allData){ 
+          for (let i = 0; i < allPropLen.length; i++) {
+            let str=j.split(')')[0].split('(')[1];
+            if (allPropLen[i].prop == str) {
+              allPropLen[i].allCost = _allData[j].toFixed(2)
+            }else if (allPropLen[i].prop == "id" || allPropLen[i].prop == "date"
+            || allPropLen[i].prop == "user" || (allPropLen[i].prop).indexOf("Remind") > -1) {
+              allPropLen[i].allCost = "---"
+            }else if ( allPropLen[i].prop == "sumCalc"){
+              allPropLen[i].allCost = _allData["allCost"]
+            } 
+          }
         }
-      }
-      console.log(allPropLen)
-      this.setData({
-        totalCost: allPropLen,
-      })
+        this.setData({
+          totalCost: allPropLen,
+        })
     }
   },
 

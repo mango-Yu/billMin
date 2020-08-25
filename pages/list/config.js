@@ -1,7 +1,7 @@
 export const tableHeader2 = [
   {
     prop: 'id', 
-    width: 50,
+    width: 80,
     label: 'ID',
     color: '#55C355'
   },
@@ -13,45 +13,45 @@ export const tableHeader2 = [
   },
   {
     prop: 'user', 
-    width: 50,
+    width: 80,
     label: '用户',
     color: '#55C355'
   },
   {
     prop: 'breakfast',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '早餐'
   },
   {
     prop: 'lunch',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '午餐'
   },
   {
     prop: 'dinner',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '晚餐'
   },
   {
     prop: 'traffic',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '交通'
 
   },
   {
     prop: 'sock',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '零食'
   },
   {
     prop: 'buy',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '购物'
   },
   {
@@ -62,7 +62,7 @@ export const tableHeader2 = [
   {
     prop: 'foods',
     allCost: 0,
-    width: 50,
+    width: 100,
     label: '食材超市'
   },
   {
@@ -84,7 +84,7 @@ export const tableHeader2 = [
   {
     prop: 'loans',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '贷款'
   },
   {
@@ -95,7 +95,7 @@ export const tableHeader2 = [
   {
     prop: 'clothes',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '衣服'
   },
   {
@@ -106,7 +106,7 @@ export const tableHeader2 = [
   {
     prop: 'skin',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '化妆品'
   },
   {
@@ -117,7 +117,7 @@ export const tableHeader2 = [
   {
     prop: 'health',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '医疗'
   },
   {
@@ -128,18 +128,18 @@ export const tableHeader2 = [
   {
     prop: 'insure',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '保险'
   },
   {
     prop: 'insureRemind', 
-    width: 120,
+    width: 150,
     label: '保险费用备注'
   },
   {
     prop: 'play',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '娱乐'
   },
   {
@@ -150,7 +150,7 @@ export const tableHeader2 = [
   {
     prop: 'others',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '其他'
   },
   {
@@ -161,7 +161,7 @@ export const tableHeader2 = [
   {
     prop: 'gifts',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '人情礼物'
   },
   {
@@ -172,12 +172,12 @@ export const tableHeader2 = [
   {
     prop: 'house',
     allCost: 0,
-    width: 50,
+    width: 80,
     label: '房租'
   },
   {
     prop: 'work', 
-    width: 50,
+    width: 80,
     label: '是否上班'
   },
   {

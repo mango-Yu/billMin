@@ -136,10 +136,7 @@ Component({
           if (res.data.code === 1) {
             let objData = data.allCostSumList[0];
             if (objData) {
-              that.setData({
-                allCostData: objData,
-                costTypeSumArr:[]
-              }) 
+              objData.allCost = 0;
               for(let i in objData){
                 if(objData[i]==null){
                   let str=i.split(')')[0].split('(')[1]
@@ -151,22 +148,21 @@ Component({
                 }else{
                   let str=i.split(')')[0].split('(')[1];
                   that.data.form[str]=parseFloat(objData[i]).toFixed(2); 
-                  that.data.form.allCost = 0;
+                  if (str === "visa" || str === "house") {
+                    objData.allCost += 0;
+                  }else{
+                    objData.allCost += parseFloat(objData[i]);
+                  }
                   that.setData({
                     form: that.data.form
                   });
                 }
               }
-              setTimeout(() => {
-                for(let j in  that.data.form){
-                  if (j.indexOf('visa') > -1 || j.indexOf('house') > -1) {
-                    that.data.form.allCost += 0;
-                  }else{
-                    that.data.form.allCost += parseFloat(that.data.form[j]) ;
-                  }
-                }
-                that.data.form.allCost = (that.data.form.allCost).toFixed(2);
-              }, 200);
+              objData.allCost = (objData.allCost).toFixed(2);
+              that.setData({
+                allCostData: objData,
+                costTypeSumArr:[]
+              }) 
               that.data.costTypeSumArr.push(
                 {"value": parseFloat(that.data.form.breakfast), "name": "早餐", "const": "const"},
                 {"value": parseFloat(that.data.form.lunch) , "name": "午餐", "const": "const"},
