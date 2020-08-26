@@ -94,12 +94,12 @@
   text-align: center;
 }
 
-.ofo-wrapper>view {
+.ofo-wrapper .pre-btn, .ofo-wrapper .next-btn, .ofo-wrapper .btn, .ofo-wrapper .all-page{
   margin: 0 6rpx;
   display: inline-block;
 }
 
-.ofo-wrapper input {
+.ofo-wrapper .page-input {
   width: 20px;
   padding: 6rpx;
   margin: 0rpx 8rpx;

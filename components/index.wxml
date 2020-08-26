@@ -5,9 +5,9 @@
         style="width:{{ scrolWidth }}px;"
     >
       <view 
-        wx:for="{{ headers }}" 
-        wx:key="*this" 
+        wx:for="{{ headers }}"
         class="td" 
+        wx:key="index" 
         style="width:{{ item.width }}px;"
       >
       {{ item.label }}
@@ -24,16 +24,16 @@
       <block 
         wx:if="{{ data.length > 0 }}" 
         wx:for-item="it" 
-        wx:for="{{ data }}" 
-        wx:key="*this" 
+        wx:key="index" 
+        wx:for="{{ data }}"
         wx:for-index="idx"
       >
         <view class="tbody-tr {{ stripe ? 'tbody-tr-stripe' : '' }} {{ border ? 'tbody-tr-border' : ''}} row-class-name">
           <view wx:for-item="head" 
-            wx:for="{{ headers }}" 
-            wx:key="*this" 
+            wx:for="{{ headers }}"
             class="td cell-class-name" 
-            data-it="{{it}}" 
+            data-it="{{it}}"
+            wx:key="index" 
             data-row="{{index}}" 
             data-column="{{idx+1}}"
             style="width:{{ headers[index].width }}px;color:{{ headers[index].color }};" 
@@ -54,9 +54,9 @@
         style="width:{{ scrolWidth }}px;"
     >
       <view 
-        wx:for="{{ totalCost }}" 
-        wx:key="*this" 
+        wx:for="{{ totalCost }}"
         class="td" 
+        wx:key="index" 
         data-it="{{allData}}" 
         style="width:{{ item.width }}px;"
       >
@@ -69,10 +69,10 @@
   
 <view class="ofo-wrapper" wx:if="{{ data.length > 0 }}">
     <text>共{{totalSize}}条</text>
-    <view bindtap="onPrevious" wx:if="{{ current > 1 }}"><text class="iconfont icon-arrow-left"></text></view>
-    每页<input class="page-input" type="number" value="{{ size }}" bindblur="onSizeBlur" />条/
-    <view>第{{ current }}页/共{{ pages }}页</view>
-    <view bindtap="onNext" wx:if="{{ current < pages }}"><text class="iconfont icon-arrow-right"></text></view>
+    <view class="pre-btn" bindtap="onPrevious" wx:if="{{ current > 1 }}"><text class="iconfont icon-arrow-left"></text></view>
+    每页<input class="page-input" type="number" value="{{ size }}" bindblur="onSizeBlur" />条
+    <view class="all-page">第{{ current }}页/共{{ pages }}页</view>
+    <view class="next-btn" bindtap="onNext" wx:if="{{ current < pages }}"><text class="iconfont icon-arrow-right"></text></view>
     <input class="page-input" type="number" value="{{ current }}" bindblur="onCurrentBlur" />
     <view class="btn" bindtap="onJump">跳转</view>
 </view>
