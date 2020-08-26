@@ -36,7 +36,7 @@ class storage {
       let _timeout = parseInt(timeout);
       data.setStorageSync(key, value);
       if (_timeout) {
-          data.setStorageSync(`${key}__separator__`, Date.now() + 1000 * 60 * 60 * _timeout);
+          data.setStorageSync(`${key}__separator__`, Date.now() + 1000 * 60 * 60 * 24 * _timeout);
       } else {
           data.removeStorageSync(`${key}__separator__`);
       }

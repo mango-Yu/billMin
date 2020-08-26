@@ -54,8 +54,8 @@ Component({
               icon: 'success',
               duration: 2000
             }) 
-            storage.put('name', that.data.name, 6); 
-            storage.put("sessionid", res.header["Set-Cookie"], 6);
+            storage.put('name', that.data.name, 5); 
+            storage.put("sessionid", res.header["Set-Cookie"], 5);
             wx.switchTab({
               url: '/pages/day/day'
             })
