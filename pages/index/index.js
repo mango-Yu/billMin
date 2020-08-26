@@ -20,6 +20,15 @@ Page({
     // wx.switchTab({ 
     //   url: '/pages/login/login'
     // })
+    if (storage.get('name') != "") {
+      wx.switchTab({ 
+        url: '/pages/day/day' 
+      })
+    }else{
+      wx.navigateTo({ 
+        url: '/pages/login/login' 
+      })
+    }
   },
   onLoad: function () {
     wx.checkSession({
@@ -78,5 +87,18 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+    if (storage.get('name') != "") {
+      setTimeout(function(){
+        wx.switchTab({ 
+          url: '/pages/day/day' 
+        })
+      },1500)
+    }else{
+      setTimeout(function(){
+        wx.navigateTo({ 
+          url: '/pages/login/login' 
+        })
+      },1500)
+    }
   }
 })

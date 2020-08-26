@@ -43,7 +43,7 @@ Component({
     stripe: true,
     border: true,
     outBorder: true,
-    height: '475px',
+    // height: '475px',
     row: [],
     msg: '没有打卡记录哦～',
     form: {

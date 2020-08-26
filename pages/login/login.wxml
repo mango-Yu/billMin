@@ -1,5 +1,5 @@
 <!--pages/login/login.wxml-->
-<view class="container">
+<view class="container-login">
   <view class="login">
       <text class="title">登陆</text>
   </view>

@@ -1,5 +1,14 @@
 /* pages/login/login.wxss */
-
+.container-login{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 280rpx 0;
+  box-sizing: border-box;
+  background: #fbf9fe;
+}
 .login {
   background: #fff;
   height: 100%;

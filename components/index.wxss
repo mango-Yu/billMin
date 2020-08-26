@@ -110,15 +110,15 @@
 }
 
 .ofo-wrapper .btn {
-  color: #ef4b4c;
-  padding: 10rpx 16rpx;
+  color: #55C355;
+  padding: 5px;
   box-sizing: border-box;
   border-radius: 16rpx;
-  border: 1rpx solid #ef4b4c;
+  border: 1rpx solid #55C355;
 }
 
 .ofo-wrapper .iconfont {
-  color: #ef4b4c;
+  color: #55C355;
   font-size: 50rpx;
   vertical-align: middle;
 }

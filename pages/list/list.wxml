@@ -1,8 +1,6 @@
 <!--pages/list/list.wxml-->
-<text>pages/list/list.wxml</text>
 <view class="group">
-    <view class="group-title">7.表格横向滑动</view>
-    <view class="group-explain">横向内容过多时，可选择左右滑动。</view>
+
     <view class="table-wrap">
         <table  
             header-row-class-name="header-class"
@@ -22,7 +20,7 @@
     </view>
     
 </view>
-<view class="container">   
+<view class="container-list">   
     <text>月度趋势图(￥)</text>  
     <ff-canvas class="f2-chart" id="lineChart" canvas-id="lineChart" opts="{{ opts }}"></ff-canvas>
     <text>日消费图(￥)</text>  
