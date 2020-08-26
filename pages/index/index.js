@@ -29,13 +29,13 @@ Page({
             wx.switchTab({ 
               url: '/pages/day/day' 
             })
-          },1000)
+          },1500)
         }else{
           setTimeout(function(){
             wx.navigateTo({ 
               url: '/pages/login/login' 
             })
-          },1000)
+          },1500)
         }
         //session_key 未过期，并且在本生命周期一直有效
       },

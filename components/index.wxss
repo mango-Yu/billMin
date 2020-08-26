@@ -1,6 +1,6 @@
 @import "./common.wxss";
 @import "./reset.wxss";
-
+@import "/icons/iconfont.wxss";
 .table {
   position: relative;
   font-size: 28rpx;
@@ -86,4 +86,39 @@
   padding: 50rpx;
   color: #666;
   justify-content: center;
+}
+
+.ofo-wrapper {
+  margin: 40rpx auto;
+  font-size: 28rpx;
+  text-align: center;
+}
+
+.ofo-wrapper>view {
+  margin: 0 6rpx;
+  display: inline-block;
+}
+
+.ofo-wrapper input {
+  width: 20px;
+  padding: 6rpx;
+  margin: 0rpx 8rpx;
+  vertical-align: top;
+  border: 1rpx solid #eeeeee;
+  border-radius: 10rpx;
+  display: inline-block;
+}
+
+.ofo-wrapper .btn {
+  color: #ef4b4c;
+  padding: 10rpx 16rpx;
+  box-sizing: border-box;
+  border-radius: 16rpx;
+  border: 1rpx solid #ef4b4c;
+}
+
+.ofo-wrapper .iconfont {
+  color: #ef4b4c;
+  font-size: 50rpx;
+  vertical-align: middle;
 }

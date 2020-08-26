@@ -11,8 +11,14 @@
             allData="{{ allCostData }}" 
             border="{{ border }}"
             height="{{ height }}"
+            pages="{{totalPage}}"
+            size="{{pageSize}}"
+            totalSize="{{total}}"
+            bind:size-change="handleSizeChange" 
+            bind:current-change="handleCurrentChange"
+            bind:prev-click="handlePrevChange" 
+            bind:next-click="handleNextChange"
         />
-         <text>共{{total}}条</text>
     </view>
     
 </view>

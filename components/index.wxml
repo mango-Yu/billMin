@@ -39,7 +39,7 @@
             style="width:{{ headers[index].width }}px;color:{{ headers[index].color }};" 
             bindtap="onRowClick"
           >     
-          {{head["prop"] == "id" ? idx+1 : it[head["prop"]]}}
+          {{head["prop"] == "id" ? it["idIndex"] : it[head["prop"]]}}
           </view>        
         </view>
       </block>
@@ -67,3 +67,12 @@
     <!-- 表格体 end -->
 </scroll-view>
   
+<view class="ofo-wrapper" wx:if="{{ data.length > 0 }}">
+    <text>共{{totalSize}}条</text>
+    <view bindtap="onPrevious" wx:if="{{ current > 1 }}"><text class="iconfont icon-arrow-left"></text></view>
+    每页<input class="page-input" type="number" value="{{ size }}" bindblur="onSizeBlur" />条/
+    <view>第{{ current }}页/共{{ pages }}页</view>
+    <view bindtap="onNext" wx:if="{{ current < pages }}"><text class="iconfont icon-arrow-right"></text></view>
+    <input class="page-input" type="number" value="{{ current }}" bindblur="onCurrentBlur" />
+    <view class="btn" bindtap="onJump">跳转</view>
+</view>

@@ -159,18 +159,30 @@ Component({
     msg: {
       type: String,
       value: '暂无数据~'
+    },
+    totalSize: { // 总数据条数
+      type: Number,
+      value: 0
+    },
+
+    pages: { // 总数据页数
+      type: Number,
+      value: 0
+    },
+    size: {
+        type: Number, // 每一页多少条数据
+        value: 0
     }
   },
   computed: {
-    detalData (json) {
-      console.log(json)
-    }
+    
   },
   /**
    * 组件的初始数据
    */
   data: {
     scrolWidth: '100%',
+    current: 1,
     totalCost: [],
     allProp: []
   },
@@ -210,7 +222,9 @@ Component({
         this.setData({
           totalCost: allPropLen,
         })
-    }
+    },
+    'pages': function(newData, oldData) {},
+    'size': function(newData, oldData) {}
   },
 
   /**
@@ -221,10 +235,41 @@ Component({
       // this.triggerEvent('rowClick', e, e.currentTarget.dataset.it);
      
     },
-    pagination(pageNo, pageSize, array) {
-      var offset = (pageNo - 1) * pageSize;
-      return (offset + pageSize >= array.length) ? array.slice(offset, array.length) : array.slice(offset, offset + pageSize);
-    }, 
+    onPrevious() {
+      if (this.data.current - 1 > 0) {
+          this.setData({
+              current: this.data.current - 1
+          });
+          
+      }
+      this.triggerEvent('prev-click', { current: this.data.current, size: this.data.size }, { bubbles: true });
+    },
+    onNext() {
+        if (this.data.current + 1 <= this.data.pages) {
+            this.setData({
+                current: this.data.current + 1
+            });
+            
+        }
+        this.triggerEvent('next-click', { current: this.data.current, size: this.data.size }, { bubbles: true });
+    },
+    onJump() {
+        this.triggerEvent('current-change', { current: this.data.current, size: this.data.size }, { bubbles: true });
+    },
+    onSizeBlur(e) {
+        this.triggerEvent('size-change', { size: parseInt(e.detail.value) }, { bubbles: true });
+    } ,
+    onCurrentBlur(e) {
+        if (Number(e.detail.value) > 0 && Number(e.detail.value) <= this.data.pages) {
+            this.setData({
+                current: Number(e.detail.value)
+            });
+        } else {
+            this.setData({
+                current: 1
+            });
+        }
+    },
   }
 });
 

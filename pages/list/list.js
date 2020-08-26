@@ -1,12 +1,14 @@
 // pages/list/list.js  
 const utils = require('../../utils/util.js')
-const configs = require('../../utils/config.default.js')  
+const configs = require('../../utils/config.default.js')
 const F2 = require('@antv/wx-f2');
-import {tableHeader2}  from './config.js'
+import {
+  tableHeader2
+} from './config.js'
 import storage from '../../utils/storage.js'
 
 let chart = null;
-Component({ 
+Component({
   /**
    * 组件的属性列表
    */
@@ -14,7 +16,7 @@ Component({
 
   },
   computed: {
-     
+
   },
   /**
    * 组件的初始数据
@@ -25,11 +27,10 @@ Component({
     total: 0,
     currentPage: 1,
     pageSize: 10,
+    totalPage: 0,
     tableData: [],
     objectData: [],
     allCostData: [],
-    currentPage: 1,
-    pageSize: 10,
     chartColumn: null,
     chartBar: null,
     dateArr: [],
@@ -42,7 +43,7 @@ Component({
     stripe: true,
     border: true,
     outBorder: true,
-    height: '300px',
+    height: '475px',
     row: [],
     msg: '没有打卡记录哦～',
     form: {
@@ -70,13 +71,13 @@ Component({
    * 组件的方法列表
    */
   methods: {
-     onLoad(){
-       let _this = this;
-       //  _this.initLineChart(dataTest)
-      this.funcGetListData()
+    onLoad() {
+      let _this = this;
+      //  _this.initLineChart(dataTest)
+      this.funcGetListData(this.data.currentPage-1,this.data.pageSize)
       this.funcGetSumData()
-     },
-     funcGetListData() {
+    },
+    funcGetListData(start, pageSize) {
       let that = this;
       wx.request({
         url: `${configs.api + '/getAllSpending'}`,
@@ -86,41 +87,42 @@ Component({
           //读取sessionid,当作cookie传入后台将PHPSESSID做session_id使用
         },
         method: 'POST',
-        data:{
-          start: 0,
-          pageSize: 10
+        data: {
+          start: start * pageSize,
+          pageSize: pageSize
         },
         dataType: "json",
         success: function (res) {
-          let data=res.data;
-          if(1 === data.code){
-            if(data.data.dataList.length>0){
+          let data = res.data;
+          if (1 === data.code) {
+            if (data.data.dataList.length > 0) {
               that.setData({
-                tableData:  data.data.dataList,
-                total: data.data.total
-              }) 
-              that.data.tableData.sort(function(a,b) {
-                return Date.parse((utils.formatDate(new Date(b.date), "yyyy-MM-dd")).replace(/-/g,"/"))-Date.parse((utils.formatDate(new Date(a.date), "yyyy-MM-dd")).replace(/-/g,"/"));
+                tableData: data.data.dataList,
+                total: data.data.total,
+                totalPage: Math.ceil(data.data.total / that.data.pageSize)
+              })
+              that.data.tableData.sort(function (a, b) {
+                return Date.parse((utils.formatDate(new Date(b.date), "yyyy-MM-dd")).replace(/-/g, "/")) - Date.parse((utils.formatDate(new Date(a.date), "yyyy-MM-dd")).replace(/-/g, "/"));
               });
               that.data.tableData.forEach((item, index) => {
-                item["idIndex"] = index+1;
+                item["idIndex"] = (index + 1) + start * pageSize;
                 that.data.tableData[index].date = utils.formatDate(new Date(that.data.tableData[index].date), "yyyy-MM-dd");
-                that.data.tableData[index].sumCalc = (parseFloat(item.breakfast)+parseFloat(item.lunch)+parseFloat(item.dinner)+
-                  parseFloat(item.traffic)+parseFloat(item.sock)+parseFloat(item.clothes)+
-                  parseFloat(item.play)+parseFloat(item.others)+parseFloat(item.gifts)+
-                  parseFloat(item.buy)+parseFloat(item.foods)+parseFloat(item.loans)+parseFloat(item.skin)+parseFloat(item.health)+parseFloat(item.insure)).toFixed(2);
+                that.data.tableData[index].sumCalc = (parseFloat(item.breakfast) + parseFloat(item.lunch) + parseFloat(item.dinner) +
+                  parseFloat(item.traffic) + parseFloat(item.sock) + parseFloat(item.clothes) +
+                  parseFloat(item.play) + parseFloat(item.others) + parseFloat(item.gifts) +
+                  parseFloat(item.buy) + parseFloat(item.foods) + parseFloat(item.loans) + parseFloat(item.skin) + parseFloat(item.health) + parseFloat(item.insure)).toFixed(2);
               });
               that.setData({
                 row: that.data.tableData
               })
-            }else{
+            } else {
 
             }
           }
         }
       })
     },
-    funcGetSumData(){
+    funcGetSumData() {
       let that = this;
       wx.request({
         url: `${configs.api + '/getSumByUser'}`,
@@ -137,20 +139,20 @@ Component({
             let objData = data.allCostSumList[0];
             if (objData) {
               objData.allCost = 0;
-              for(let i in objData){
-                if(objData[i]==null){
-                  let str=i.split(')')[0].split('(')[1]
-                  that.data.form[str]=0
+              for (let i in objData) {
+                if (objData[i] == null) {
+                  let str = i.split(')')[0].split('(')[1]
+                  that.data.form[str] = 0
                   that.data.form.allCost = 0;
                   that.setData({
                     form: that.data.form
                   });
-                }else{
-                  let str=i.split(')')[0].split('(')[1];
-                  that.data.form[str]=parseFloat(objData[i]).toFixed(2); 
+                } else {
+                  let str = i.split(')')[0].split('(')[1];
+                  that.data.form[str] = parseFloat(objData[i]).toFixed(2);
                   if (str === "visa" || str === "house") {
                     objData.allCost += 0;
-                  }else{
+                  } else {
                     objData.allCost += parseFloat(objData[i]);
                   }
                   that.setData({
@@ -161,56 +163,112 @@ Component({
               objData.allCost = (objData.allCost).toFixed(2);
               that.setData({
                 allCostData: objData,
-                costTypeSumArr:[]
-              }) 
-              that.data.costTypeSumArr.push(
-                {"value": parseFloat(that.data.form.breakfast), "name": "早餐", "const": "const"},
-                {"value": parseFloat(that.data.form.lunch) , "name": "午餐", "const": "const"},
-                {"value": parseFloat(that.data.form.dinner) , "name": "晚餐", "const": "const"},
-                {"value": parseFloat(that.data.form.breakfast+that.data.form.lunch+that.data.form.dinner),"name":"餐飲", "const": "const"},
-                {"value": parseFloat(that.data.form.traffic), "name": "交通", "const": "const"},
-                {"value": parseFloat(that.data.form.sock), "name": "零食", "const": "const"},
-                {"value": parseFloat(that.data.form.buy), "name": "购物", "const": "const"},
-                {"value": parseFloat(that.data.form.foods), "name": "食材超市", "const": "const"},
-                {"value": parseFloat(that.data.form.visa), "name": "信用花呗", "const": "const"},
-                {"value": parseFloat(that.data.form.loans), "name": "贷款", "const": "const"},
-                {"value": parseFloat(that.data.form.clothes), "name": "服装", "const": "const"},
-                {"value": parseFloat(that.data.form.skin), "name": "化妆品", "const": "const"},
-                {"value": parseFloat(that.data.form.health), "name": "医疗", "const": "const"},
-                {"value": parseFloat(that.data.form.insure), "name": "保险", "const": "const"},
-                {"value": parseFloat(that.data.form.play), "name": "娱乐", "const": "const"},
-                {"value": parseFloat(that.data.form.others), "name": "其他", "const": "const"},
-                {"value": parseFloat(that.data.form.gifts), "name": "人情", "const": "const"},
-                {"value": parseFloat(that.data.form.house), "name": "房租", "const": "const"}
-              );
+                costTypeSumArr: []
+              })
+              that.data.costTypeSumArr.push({
+                "value": parseFloat(that.data.form.breakfast),
+                "name": "早餐",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.lunch),
+                "name": "午餐",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.dinner),
+                "name": "晚餐",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.breakfast + that.data.form.lunch + that.data.form.dinner),
+                "name": "餐飲",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.traffic),
+                "name": "交通",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.sock),
+                "name": "零食",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.buy),
+                "name": "购物",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.foods),
+                "name": "食材超市",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.visa),
+                "name": "信用花呗",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.loans),
+                "name": "贷款",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.clothes),
+                "name": "服装",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.skin),
+                "name": "化妆品",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.health),
+                "name": "医疗",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.insure),
+                "name": "保险",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.play),
+                "name": "娱乐",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.others),
+                "name": "其他",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.gifts),
+                "name": "人情",
+                "const": "const"
+              }, {
+                "value": parseFloat(that.data.form.house),
+                "name": "房租",
+                "const": "const"
+              });
               that.initPieChart(that.data.costTypeSumArr)
             }
-            if ( data.allCostDataList.length > 0) {
+            if (data.allCostDataList.length > 0) {
               that.setData({
-                dateArr:[],
-                costArr:[],
-                objectData:  data.allCostDataList
-              }) 
-              that.data.objectData.sort(function(a,b) {
-                return Date.parse((utils.formatDate(new Date(b.date), "yyyy-MM-dd")).replace(/-/g,"/"))-Date.parse((utils.formatDate(new Date(a.date), "yyyy-MM-dd")).replace(/-/g,"/"));
+                dateArr: [],
+                costArr: [],
+                objectData: data.allCostDataList
+              })
+              that.data.objectData.sort(function (a, b) {
+                return Date.parse((utils.formatDate(new Date(b.date), "yyyy-MM-dd")).replace(/-/g, "/")) - Date.parse((utils.formatDate(new Date(a.date), "yyyy-MM-dd")).replace(/-/g, "/"));
               });
               that.data.objectData.forEach((item, index) => {
-                item["idIndex"] = index+1;
+                item["idIndex"] = index + 1;
                 that.data.objectData[index].date = utils.formatDate(new Date(that.data.objectData[index].date), "yyyy-MM-dd");
-                that.data.objectData[index].sumCalc = (parseFloat(item.breakfast)+parseFloat(item.lunch)+parseFloat(item.dinner)+
-                  parseFloat(item.traffic)+parseFloat(item.sock)+parseFloat(item.clothes)+
-                  parseFloat(item.play)+parseFloat(item.others)+parseFloat(item.gifts)+
-                  parseFloat(item.buy)+parseFloat(item.foods)+parseFloat(item.loans)+parseFloat(item.skin)+parseFloat(item.health)+parseFloat(item.insure)).toFixed(2);
+                that.data.objectData[index].sumCalc = (parseFloat(item.breakfast) + parseFloat(item.lunch) + parseFloat(item.dinner) +
+                  parseFloat(item.traffic) + parseFloat(item.sock) + parseFloat(item.clothes) +
+                  parseFloat(item.play) + parseFloat(item.others) + parseFloat(item.gifts) +
+                  parseFloat(item.buy) + parseFloat(item.foods) + parseFloat(item.loans) + parseFloat(item.skin) + parseFloat(item.health) + parseFloat(item.insure)).toFixed(2);
                 that.data.dateArr.push(utils.formatDate(new Date(item.date), "yyyy-MM-dd"));
-                that.data.costArr.push({"value":parseFloat(that.data.objectData[index].sumCalc),"date":utils.formatDate(new Date(item.date), "yyyy-MM-dd")});
+                that.data.costArr.push({
+                  "value": parseFloat(that.data.objectData[index].sumCalc),
+                  "date": utils.formatDate(new Date(item.date), "yyyy-MM-dd")
+                });
               });
               that.initLineChart(that.data.costArr, that.data.dateArr)
               that.initBarChart(that.data.costArr, that.data.dateArr)
-            }           
-          }else{
+            }
+          } else {
 
           }
-          
+
         }
       })
     },
@@ -230,9 +288,9 @@ Component({
         if (obj >= '2020-08-01') {
           originDates.push(obj);
         }
-      }); 
+      });
       _this.chartComponent = _this.selectComponent('#lineChart');
-      _this.chartComponent.init((canvas, width, height)=>{
+      _this.chartComponent.init((canvas, width, height) => {
         chart = new F2.Chart({
           el: canvas,
           width,
@@ -247,7 +305,7 @@ Component({
             mask: 'MM-DD'
           },
           value: {
-            tickCount: 5,  
+            tickCount: 5,
           }
         });
         chart.tooltip({
@@ -290,7 +348,7 @@ Component({
           }
         });
         chart.line().position('date*value').shape('smooth').style({
-          radius: [ 2, 2, 0, 0 ]
+          radius: [2, 2, 0, 0]
         });
         // chart.point()
         //   .position('date*value')
@@ -298,17 +356,17 @@ Component({
         //     lineWidth: 1,
         //     stroke: '#fff'
         //   });
-      // 定义进度条
-      chart.scrollBar({
-        mode: 'x',
-        xStyle: {
-          offsetY: -10
-        }
-      });
+        // 定义进度条
+        chart.scrollBar({
+          mode: 'x',
+          xStyle: {
+            offsetY: -10
+          }
+        });
         chart.interaction('pan');
-        
-        
-      
+
+
+
         // // 绘制 tag
         // chart.guide().tag({
         //   position: [ lineData[10].date, lineData[10].value ],
@@ -330,9 +388,9 @@ Component({
         if (obj >= '2020-08-01') {
           originDates.push(obj);
         }
-      }); 
+      });
       _this.chartComponent = _this.selectComponent('#barChart');
-      _this.chartComponent.init((canvas, width, height)=>{
+      _this.chartComponent.init((canvas, width, height) => {
         chart = new F2.Chart({
           el: canvas,
           width,
@@ -347,7 +405,7 @@ Component({
             mask: 'MM-DD'
           },
           value: {
-            tickCount: 15,  
+            tickCount: 15,
           }
         });
         chart.tooltip({
@@ -389,7 +447,7 @@ Component({
           }
         });
         chart.interval().position('date*value').shape('smooth').style({
-          radius: [ 2, 2, 0, 0 ]
+          radius: [2, 2, 0, 0]
         });
         // chart.point()
         //   .position('date*value')
@@ -397,17 +455,17 @@ Component({
         //     lineWidth: 1,
         //     stroke: '#fff'
         //   });
-      // 定义进度条
-      chart.scrollBar({
-        mode: 'x',
-        xStyle: {
-          offsetY: -10
-        }
-      });
+        // 定义进度条
+        chart.scrollBar({
+          mode: 'x',
+          xStyle: {
+            offsetY: -10
+          }
+        });
         chart.interaction('pan');
-        
-        
-      
+
+
+
         // // 绘制 tag
         // chart.guide().tag({
         //   position: [ lineData[10].date, lineData[10].value ],
@@ -424,14 +482,14 @@ Component({
     initPieChart(pieData) {
       let _this = this;
       _this.chartComponent = _this.selectComponent('#pieChart');
-      _this.chartComponent.init((canvas, width, height)=>{
+      _this.chartComponent.init((canvas, width, height) => {
         chart = new F2.Chart({
           el: canvas,
           width,
           height
         });
         chart.source(pieData, {
-           
+
         });
         chart.legend({
           position: 'bottom',
@@ -463,8 +521,9 @@ Component({
         chart.interval()
           .position('const*value')
           .color('name', ['#1890FF', '#13C2C2', '#2FC25B', '#FACC14', '#F04864', '#8543E0',
-                        '#decdc3', '#ffaa71', '#776d8a', '#8fc0a9', '#197163', '#56556e',
-                        '#ffa36c', '#00b7c2', '#e97171', '#93b5e1', '#e94560', '#8543E0'])
+            '#decdc3', '#ffaa71', '#776d8a', '#8fc0a9', '#197163', '#56556e',
+            '#ffa36c', '#00b7c2', '#e97171', '#93b5e1', '#e94560', '#8543E0'
+          ])
           .adjust('stack')
           .style({
             lineWidth: 1,
@@ -477,29 +536,27 @@ Component({
               duration: 1200,
               easing: 'bounceOut'
             }
-          }); 
+          });
         chart.render();
         return chart;
       })
     },
     // 选择每页显示条数
-    handleSizeChange(val){
+    handleSizeChange(e){
       let that = this;
-      that.data.pageSize = val;
-      that.data.currentPage = 1;
-      that.data.tableData = that.pagination(that.data.currentPage,that.data.pageSize,that.data.objectData);
+      that.funcGetListData(0, e.detail.size);
     },
-    handleCurrentChange(val) {
+    handleCurrentChange(e) {
       let that = this;
-      that.data.tableData = that.pagination(val,that.data.pageSize,that.data.objectData);
+      that.funcGetListData(e.detail.current-1, e.detail.size);
     },
-    handlePrevChange(val) {
+    handlePrevChange(e) {
       let that = this;
-      that.data.tableData = that.pagination(val,that.data.pageSize,that.data.objectData);
+      that.funcGetListData(e.detail.current-1, e.detail.size);
     },
-    handleNextChange(val) {
+    handleNextChange(e) {
       let that = this;
-      that.data.tableData = that.pagination(val,that.data.pageSize,that.data.objectData);
+      that.funcGetListData(e.detail.current-1, e.detail.size);
     },
   }
 })
