@@ -1,5 +1,6 @@
 // pages/register/register.js
 const config = require('../../utils/config.default.js')
+const utils = require('../../utils/util.js')
 Component({
 
   /**
@@ -77,28 +78,7 @@ Component({
         verifyNum: event.detail
       })
     },
-    CheckPassWord(password, type) {//必须为字母加数字且长度不小于6位
-      var str = password;
-      if (str != null) {
-        if (str.length > 6 && type === 0) {
-          return false;
-        } else if (str.length < 6 && type === 1) {
-          return false;
-        }
-      } else {
-        return false;
-      }
-      var reg1 = new RegExp(/^[0-9A-Za-z]+$/);
-      if (!reg1.test(str)) {
-        return false;
-      }
-      var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
-      if (reg.test(str)) {
-        return true;
-      } else {
-        return false;
-      }
-    },
+    
     captchaSuccess:function(result){
       console.log("captcha-Success!");
       this.setData({
@@ -218,7 +198,7 @@ Component({
         })
         return
       }
-      if (!that.CheckPassWord(this.data.name, 0)) {
+      if (!utils.CheckPassWord(this.data.name, 0)) {
         wx.showToast({
           title: '用户名需为字母加数字且长度不大于6位',
           icon: 'none',
@@ -234,7 +214,7 @@ Component({
         })
         return
       }
-      if (!that.CheckPassWord(this.data.password, 1)) {
+      if (!utils.CheckPassWord(this.data.password, 1)) {
         wx.showToast({
           title: '密码需为字母加数字且长度不小于6位',
           icon: 'none',

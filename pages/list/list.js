@@ -44,7 +44,6 @@ Component({
     border: true,
     outBorder: true,
     // height: '475px',
-    row: [],
     msg: '没有打卡记录哦～',
     form: {
       breakfast: 0,
@@ -73,7 +72,6 @@ Component({
   methods: {
     onLoad() {
       let _this = this;
-      //  _this.initLineChart(dataTest)
       this.funcGetListData(this.data.currentPage-1,this.data.pageSize)
       this.funcGetSumData()
     },
@@ -113,7 +111,7 @@ Component({
                   parseFloat(item.buy) + parseFloat(item.foods) + parseFloat(item.loans) + parseFloat(item.skin) + parseFloat(item.health) + parseFloat(item.insure)).toFixed(2);
               });
               that.setData({
-                row: that.data.tableData
+                tableData: that.data.tableData
               })
             } else {
 
@@ -271,10 +269,6 @@ Component({
 
         }
       })
-    },
-    pagination(pageNo, pageSize, array) {
-      var offset = (pageNo - 1) * pageSize;
-      return (offset + pageSize >= array.length) ? array.slice(offset, array.length) : array.slice(offset, offset + pageSize);
     },
     formatNumber(n) {
       var num = String(Math.floor(n * 100) / 100).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -481,6 +475,7 @@ Component({
     },
     initPieChart(pieData) {
       let _this = this;
+      console.log("JJJJJJJJJJJ")
       _this.chartComponent = _this.selectComponent('#pieChart');
       _this.chartComponent.init((canvas, width, height) => {
         chart = new F2.Chart({
@@ -513,7 +508,7 @@ Component({
             return {
               text: '￥' + String(Math.floor(data.value * 100) / 100).replace(/\B(?=(\d{3})+(?!\d))/g, ','),
               fill: '#808080',
-              fontWeight: 'bold',
+              fontWeight: 'normal',
               fontSize: '10'
             };
           }

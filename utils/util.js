@@ -53,11 +53,33 @@ const isNull = str => {
     return true;
   }
 }
-
+const CheckPassWord = (password, type) => {//必须为字母加数字且长度不小于6位
+  var str = password;
+  if (str != null) {
+    if (str.length > 6 && type === 0) {
+      return false;
+    } else if (str.length < 6 && type === 1) {
+      return false;
+    }
+  } else {
+    return false;
+  }
+  var reg1 = new RegExp(/^[0-9A-Za-z]+$/);
+  if (!reg1.test(str)) {
+    return false;
+  }
+  var reg = new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
+  if (reg.test(str)) {
+    return true;
+  } else {
+    return false;
+  }
+}
 module.exports = {
   formatTime: formatTime,
   funcDealNull: funcDealNull,
   isNull: isNull,
   formatDate: formatDate,
-  padLeftZero: padLeftZero
+  padLeftZero: padLeftZero,
+  CheckPassWord: CheckPassWord
 }

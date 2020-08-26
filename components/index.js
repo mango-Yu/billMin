@@ -222,9 +222,7 @@ Component({
         this.setData({
           totalCost: allPropLen,
         })
-    },
-    'pages': function(newData, oldData) {},
-    'size': function(newData, oldData) {}
+    }
   },
 
   /**

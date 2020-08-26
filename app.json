@@ -1,12 +1,12 @@
 {
   "pages": [
-    
     "pages/index/index",
-    "pages/list/list",
     "pages/login/login",
-    "pages/month/month",
-    "pages/day/day",
     "pages/register/register",
+    "pages/setting/setting",
+    "pages/day/day",
+    "pages/month/month",
+    "pages/list/list",
     "pages/logs/logs",
     "pages/test/test"
   ],
@@ -23,23 +23,33 @@
     }
   },
   "tabBar": {
-    "selectedColor":"#1296db",
-    "list": [{
-      "pagePath": "pages/day/day",
-      "text": "日",
-      "iconPath":"images/day_default.png",
-      "selectedIconPath":"images/day_select.png"
-    }, {
-      "pagePath": "pages/month/month",
-      "text": "月",
-      "iconPath":"images/month_default.png",
-      "selectedIconPath":"images/month_select.png"
-    }, {
-      "pagePath": "pages/list/list",
-      "text": "列表",
-      "iconPath":"images/day_default.png",
-      "selectedIconPath":"images/day_select.png"
-    }]
+    "selectedColor": "#1296db",
+    "list": [
+      {
+        "pagePath": "pages/day/day",
+        "text": "日",
+        "iconPath": "images/day_default.png",
+        "selectedIconPath": "images/day_select.png"
+      },
+      {
+        "pagePath": "pages/month/month",
+        "text": "月",
+        "iconPath": "images/month_default.png",
+        "selectedIconPath": "images/month_select.png"
+      },
+      {
+        "pagePath": "pages/list/list",
+        "text": "列表",
+        "iconPath": "images/list_default.png",
+        "selectedIconPath": "images/list.png"
+      },
+      {
+        "pagePath": "pages/setting/setting",
+        "text": "设置",
+        "iconPath": "images/set_default.png",
+        "selectedIconPath": "images/set.png"
+      }
+    ]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

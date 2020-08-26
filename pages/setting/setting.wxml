@@ -1,0 +1,35 @@
+<!--pages/setting/setting.wxml-->
+<view class="container-password">
+  <view class="password">
+      <text class="title">修改密码</text>
+  </view>
+  <view class="password_form">
+      <van-cell-group>
+        <van-field
+          value="{{ origain }}"
+          label="原来密码"
+          placeholder="请输入原来密码"
+          type="password"
+          bind:change="onInputPsw"
+        />
+        <van-field
+          value="{{ newword }}"
+          label="新的密码"
+          placeholder="请输入密码"
+          type="password"
+          bind:change="onInputNewPsw"
+        />
+         <van-field
+          value="{{ remewword }}"
+          label="重复密码"
+          placeholder="请再次输入密码"
+          type="password"
+          bind:change="onInputRePsw"
+        />
+      </van-cell-group>  
+  </view>
+  <view  class="passw_btn">
+    <van-button type="primary"  bindtap="onChage">修改</van-button>
+  </view>
+  
+</view>

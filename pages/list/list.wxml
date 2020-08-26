@@ -5,7 +5,7 @@
         <table  
             header-row-class-name="header-class"
             headers="{{tableHeader2}}" 
-            data="{{ row }}" 
+            data="{{ tableData }}" 
             allData="{{ allCostData }}" 
             border="{{ border }}"
             height="{{ height }}"
