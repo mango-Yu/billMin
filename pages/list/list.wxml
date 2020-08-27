@@ -1,30 +1,32 @@
 <!--pages/list/list.wxml-->
-<view class="group">
-
-    <view class="table-wrap">
-        <table  
-            header-row-class-name="header-class"
-            headers="{{tableHeader2}}" 
-            data="{{ tableData }}" 
-            allData="{{ allCostData }}" 
-            border="{{ border }}"
-            height="{{ height }}"
-            pages="{{totalPage}}"
-            size="{{pageSize}}"
-            totalSize="{{total}}"
-            bind:size-change="handleSizeChange" 
-            bind:current-change="handleCurrentChange"
-            bind:prev-click="handlePrevChange" 
-            bind:next-click="handleNextChange"
-        />
+<scroll-view scroll-y="true" style="width:100%;" >
+    <view class="group">
+    <text class="group-title">消费统计表格(￥)</text>  
+        <view class="table-wrap">
+            <table  
+                header-row-class-name="header-class"
+                headers="{{tableHeader2}}" 
+                data="{{ tableData }}" 
+                allData="{{ allCostData }}" 
+                border="{{ border }}"
+                height="{{ height }}"
+                pages="{{totalPage}}"
+                size="{{pageSize}}"
+                totalSize="{{total}}"
+                bind:size-change="handleSizeChange" 
+                bind:current-change="handleCurrentChange"
+                bind:prev-click="handlePrevChange" 
+                bind:next-click="handleNextChange"
+            />
+        </view>
+        
     </view>
-    
-</view>
-<view class="container-list">   
-    <text>月度趋势图(￥)</text>  
-    <ff-canvas class="f2-chart" id="lineChart" canvas-id="lineChart" opts="{{ opts }}"></ff-canvas>
-    <text>日消费图(￥)</text>  
-    <ff-canvas class="f2-chart" id="barChart" canvas-id="barChart" opts="{{ opts }}"></ff-canvas>
-    <text>类消费总计(￥)</text>  
-    <ff-canvas class="f2-chart-pie" id="pieChart" canvas-id="pieChart" opts="{{ opts }}"></ff-canvas>
-</view>
+    <view class="container-list">   
+        <text>月度趋势图(￥)</text>  
+        <ff-canvas class="f2-chart" id="lineChart" canvas-id="lineChart" opts="{{ opts }}"></ff-canvas>
+        <text>日消费图(￥)</text>  
+        <ff-canvas class="f2-chart" id="barChart" canvas-id="barChart" opts="{{ opts }}"></ff-canvas>
+        <text>类消费总计(￥)</text>  
+        <ff-canvas class="f2-chart-pie" id="pieChart" canvas-id="pieChart" opts="{{ opts }}"></ff-canvas>
+    </view>
+</scroll-view>

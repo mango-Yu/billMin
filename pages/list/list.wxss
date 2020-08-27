@@ -15,16 +15,19 @@
 }
 .f2-chart-pie{
   width: 100%;
-  height: 1200rpx;
+  height: 1400rpx;
 }
 .group {
   margin:60rpx 10rpx; 
+  text-align: center;
 }
 .group .group-title {
-  margin-bottom: 30rpx;
   font-size: 34rpx;
   font-weight: 700;
   color: #333;
+}
+.table-wrap{
+  margin-top: 20rpx;
 }
 .group .group-explain {
   margin-bottom: 20rpx;
