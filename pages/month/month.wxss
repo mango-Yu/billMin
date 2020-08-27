@@ -1,4 +1,7 @@
 /* pages/month/month.wxss */
+.month-group{
+  width: 100%;
+}
 .date {
   width: 100%;
   margin: 10px auto;

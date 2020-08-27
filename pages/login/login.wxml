@@ -4,7 +4,7 @@
       <text class="title">登陆</text>
   </view>
    <view class="desc">
-      <text class="remind">这是一个简单的记账本\r\n可以让你知道你的钱花在哪了</text> 
+      <text class="remind">这是一个简单的记账本\r\n</text> 
   </view>
   <view class="login_form">
       <van-cell-group>

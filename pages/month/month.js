@@ -132,6 +132,12 @@ Component({
       });
     },
     funcGetMonth() {
+      if (storage.get("sessionid") == ''){
+        wx.navigateTo({ 
+          url: '/pages/login/login' 
+        })
+        return;
+      }
       let that = this;
       let obj={
         month: this.data.month,

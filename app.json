@@ -12,8 +12,8 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarBackgroundColor": "#fbf9fe",
+    "navigationBarTitleText": "Mango记账",
     "navigationBarTextStyle": "black"
   },
   "plugins": {

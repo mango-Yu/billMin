@@ -4,7 +4,6 @@ const app = getApp()
 import storage from '../../utils/storage.js'
 Page({
   data: {
-    motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -13,13 +12,7 @@ Page({
   bindViewTap: function() {
     // wx.navigateTo({
     //   url: '../logs/logs'
-    // })
-    // wx.navigateTo({ 
-    //   url: '/pages/login/login'
-    // })
-    // wx.switchTab({ 
-    //   url: '/pages/login/login'
-    // })
+    // }) 
     if (storage.get('name') != "") {
       wx.switchTab({ 
         url: '/pages/day/day' 
@@ -31,29 +24,9 @@ Page({
     }
   },
   onLoad: function () {
-    wx.checkSession({
-      success () {
-        if (storage.get('name') != "") {
-          setTimeout(function(){
-            wx.switchTab({ 
-              url: '/pages/day/day' 
-            })
-          },1500)
-        }else{
-          setTimeout(function(){
-            wx.navigateTo({ 
-              url: '/pages/login/login' 
-            })
-          },1500)
-        }
-        //session_key 未过期，并且在本生命周期一直有效
-      },
-      fail () {
-        // session_key 已经失效，需要重新执行登录流程
-        wx.login() //重新登录
-      }
-    })
+    let that = this;
     if (app.globalData.userInfo) { 
+      that.bindViewTap();
       this.setData({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true
@@ -62,20 +35,27 @@ Page({
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
       app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
+        if (res.userInfo) {
+          that.bindViewTap();
           this.setData({
             userInfo: res.userInfo,
             hasUserInfo: true
           })
+        }
+      }
+    } else {
+      console.log(3)
+      // 在没有 open-type=getUserInfo 版本的兼容处理
+      wx.getUserInfo({
+        success: res => {
+          app.globalData.userInfo = res.userInfo
+          if (app.globalData.userInfo) {
+            that.bindViewTap();
+            this.setData({
+              userInfo: res.userInfo,
+              hasUserInfo: true
+            })
+          }
         }
       })
     }
@@ -83,22 +63,11 @@ Page({
   getUserInfo: function(e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
-    if (storage.get('name') != "") {
-      setTimeout(function(){
-        wx.switchTab({ 
-          url: '/pages/day/day' 
-        })
-      },1500)
-    }else{
-      setTimeout(function(){
-        wx.navigateTo({ 
-          url: '/pages/login/login' 
-        })
-      },1500)
+    if (app.globalData.userInfo) {
+      this.setData({
+        userInfo: e.detail.userInfo,
+        hasUserInfo: true
+      })
     }
   }
 })

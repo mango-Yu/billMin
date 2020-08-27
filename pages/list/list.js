@@ -63,6 +63,7 @@ Component({
       insure: 0,
       house: 0,
     },
+    onReachBottomDistance: 0
   },
 
   /**
@@ -75,6 +76,12 @@ Component({
       this.funcGetSumData()
     },
     funcGetListData(start, pageSize) {
+      if (storage.get("sessionid") == ''){
+        wx.navigateTo({ 
+          url: '/pages/login/login' 
+        })
+        return;
+      }
       let that = this;
       wx.request({
         url: `${configs.api + '/getAllSpending'}`,
@@ -120,6 +127,12 @@ Component({
       })
     },
     funcGetSumData() {
+      if (storage.get("sessionid") == ''){
+        wx.navigateTo({ 
+          url: '/pages/login/login' 
+        })
+        return;
+      }
       let that = this;
       wx.request({
         url: `${configs.api + '/getSumByUser'}`,
@@ -551,5 +564,8 @@ Component({
       let that = this;
       that.funcGetListData(e.detail.current-1, e.detail.size);
     },
+    onReachBottom: function () {
+       
+    }
   }
 })

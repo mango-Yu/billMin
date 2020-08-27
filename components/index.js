@@ -242,7 +242,7 @@ Component({
           });
           
       }
-      this.triggerEvent('prev-click', { current: this.data.current, size: this.data.size }, { bubbles: false, composed: false  });
+      this.triggerEvent('prev-click', { current: this.data.current, size: this.data.size }, { bubbles: true, composed: false  });
     },
     onNext() {
         if (this.data.current + 1 <= this.data.pages) {
@@ -250,13 +250,13 @@ Component({
                 current: this.data.current + 1
             });
         }
-        this.triggerEvent('next-click', { current: this.data.current, size: this.data.size }, { bubbles: false, composed: false  });
+        this.triggerEvent('next-click', { current: this.data.current, size: this.data.size }, { bubbles: true, composed: false  });
     },
     onJump() {
-        this.triggerEvent('current-change', { current: this.data.current, size: this.data.size }, { bubbles: false, composed: false  });
+        this.triggerEvent('current-change', { current: this.data.current, size: this.data.size }, { bubbles: true, composed: false  });
     },
     onSizeBlur(e) {
-        this.triggerEvent('size-change', { size: parseInt(e.detail.value) }, { bubbles: false, composed: false  });
+        this.triggerEvent('size-change', { size: parseInt(e.detail.value) }, { bubbles: true, composed: false  });
     } ,
     onCurrentBlur(e) {
         if (Number(e.detail.value) > 0 && Number(e.detail.value) <= this.data.pages) {

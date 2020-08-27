@@ -1,12 +1,11 @@
 /**app.wxss**/
-.container {
-  
-  height: 100%;
+page{
+  height: 100%;/*生效*/
+  background: #fbf9fe;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 290rpx 0;
   box-sizing: border-box;
-  background: #fbf9fe;
-} 
+}
+

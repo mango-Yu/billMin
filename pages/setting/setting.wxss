@@ -1,17 +1,9 @@
 /* pages/setting/setting.wxss */
 /* pages/login/login.wxss */
 .container-password{
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 280rpx 0;
-  box-sizing: border-box;
-  background: #fbf9fe;
+  margin-top: 280rpx;
 }
 .password {
-  height: 100%;
   text-align: center;
 }
  

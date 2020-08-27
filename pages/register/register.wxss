@@ -1,10 +1,9 @@
 /* pages/register/register.wxss */
 .register_out{
+  margin-top: 50rpx;
   text-align: center;
 }
 .register {
-  background: #fff;
-  height: 100%;
   text-align: center;
 }
 

@@ -1,5 +1,5 @@
 <!--pages/month/month.wxml-->
- <view>
+ <view class="month-group">
   <view class="date">
       <van-button class="date_btn" type="primary" size="normal" bindtap="showDate">{{month}}</van-button>
   </view>

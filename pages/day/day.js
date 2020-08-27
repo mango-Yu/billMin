@@ -253,6 +253,12 @@ Component({
       });
     },
     funcGetDay(d) {
+      if (storage.get("sessionid") == ''){
+        wx.navigateTo({ 
+          url: '/pages/login/login' 
+        })
+        return;
+      }
       let obj = {
         date: d
       }
