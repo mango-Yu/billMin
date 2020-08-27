@@ -29,7 +29,6 @@ Component({
     pageSize: 10,
     totalPage: 0,
     tableData: [],
-    objectData: [],
     allCostData: [],
     chartColumn: null,
     chartBar: null,
@@ -94,24 +93,24 @@ Component({
           let data = res.data;
           if (1 === data.code) {
             if (data.data.dataList.length > 0) {
+              let pageDataList = data.data.dataList;
               that.setData({
-                tableData: data.data.dataList,
                 total: data.data.total,
                 totalPage: Math.ceil(data.data.total / that.data.pageSize)
               })
-              that.data.tableData.sort(function (a, b) {
+              pageDataList.sort(function (a, b) {
                 return Date.parse((utils.formatDate(new Date(b.date), "yyyy-MM-dd")).replace(/-/g, "/")) - Date.parse((utils.formatDate(new Date(a.date), "yyyy-MM-dd")).replace(/-/g, "/"));
               });
-              that.data.tableData.forEach((item, index) => {
+               pageDataList.forEach((item, index) => {
                 item["idIndex"] = (index + 1) + start * pageSize;
-                that.data.tableData[index].date = utils.formatDate(new Date(that.data.tableData[index].date), "yyyy-MM-dd");
-                that.data.tableData[index].sumCalc = (parseFloat(item.breakfast) + parseFloat(item.lunch) + parseFloat(item.dinner) +
+                 pageDataList[index].date = utils.formatDate(new Date(pageDataList[index].date), "yyyy-MM-dd");
+                pageDataList[index].sumCalc = (parseFloat(item.breakfast) + parseFloat(item.lunch) + parseFloat(item.dinner) +
                   parseFloat(item.traffic) + parseFloat(item.sock) + parseFloat(item.clothes) +
                   parseFloat(item.play) + parseFloat(item.others) + parseFloat(item.gifts) +
                   parseFloat(item.buy) + parseFloat(item.foods) + parseFloat(item.loans) + parseFloat(item.skin) + parseFloat(item.health) + parseFloat(item.insure)).toFixed(2);
               });
               that.setData({
-                tableData: that.data.tableData
+                tableData: pageDataList
               })
             } else {
 
@@ -239,24 +238,24 @@ Component({
               that.initPieChart(that.data.costTypeSumArr)
             }
             if (data.allCostDataList.length > 0) {
+              let objectData = data.allCostDataList;
               that.setData({
                 dateArr: [],
                 costArr: [],
-                objectData: data.allCostDataList
               })
-              that.data.objectData.sort(function (a, b) {
+              objectData.sort(function (a, b) {
                 return Date.parse((utils.formatDate(new Date(b.date), "yyyy-MM-dd")).replace(/-/g, "/")) - Date.parse((utils.formatDate(new Date(a.date), "yyyy-MM-dd")).replace(/-/g, "/"));
               });
-              that.data.objectData.forEach((item, index) => {
+              objectData.forEach((item, index) => {
                 item["idIndex"] = index + 1;
-                that.data.objectData[index].date = utils.formatDate(new Date(that.data.objectData[index].date), "yyyy-MM-dd");
-                that.data.objectData[index].sumCalc = (parseFloat(item.breakfast) + parseFloat(item.lunch) + parseFloat(item.dinner) +
+                objectData[index].date = utils.formatDate(new Date(objectData[index].date), "yyyy-MM-dd");
+                objectData[index].sumCalc = (parseFloat(item.breakfast) + parseFloat(item.lunch) + parseFloat(item.dinner) +
                   parseFloat(item.traffic) + parseFloat(item.sock) + parseFloat(item.clothes) +
                   parseFloat(item.play) + parseFloat(item.others) + parseFloat(item.gifts) +
                   parseFloat(item.buy) + parseFloat(item.foods) + parseFloat(item.loans) + parseFloat(item.skin) + parseFloat(item.health) + parseFloat(item.insure)).toFixed(2);
                 that.data.dateArr.push(utils.formatDate(new Date(item.date), "yyyy-MM-dd"));
                 that.data.costArr.push({
-                  "value": parseFloat(that.data.objectData[index].sumCalc),
+                  "value": parseFloat(objectData[index].sumCalc),
                   "date": utils.formatDate(new Date(item.date), "yyyy-MM-dd")
                 });
               });
@@ -475,7 +474,6 @@ Component({
     },
     initPieChart(pieData) {
       let _this = this;
-      console.log("JJJJJJJJJJJ")
       _this.chartComponent = _this.selectComponent('#pieChart');
       _this.chartComponent.init((canvas, width, height) => {
         chart = new F2.Chart({

@@ -222,7 +222,9 @@ Component({
         this.setData({
           totalCost: allPropLen,
         })
-    }
+    },
+    'pages': function(newData, oldData) {},
+    'size': function(newData, oldData) {}
   },
 
   /**
@@ -240,22 +242,21 @@ Component({
           });
           
       }
-      this.triggerEvent('prev-click', { current: this.data.current, size: this.data.size }, { bubbles: true });
+      this.triggerEvent('prev-click', { current: this.data.current, size: this.data.size }, { bubbles: false, composed: false  });
     },
     onNext() {
         if (this.data.current + 1 <= this.data.pages) {
             this.setData({
                 current: this.data.current + 1
             });
-            
         }
-        this.triggerEvent('next-click', { current: this.data.current, size: this.data.size }, { bubbles: true });
+        this.triggerEvent('next-click', { current: this.data.current, size: this.data.size }, { bubbles: false, composed: false  });
     },
     onJump() {
-        this.triggerEvent('current-change', { current: this.data.current, size: this.data.size }, { bubbles: true });
+        this.triggerEvent('current-change', { current: this.data.current, size: this.data.size }, { bubbles: false, composed: false  });
     },
     onSizeBlur(e) {
-        this.triggerEvent('size-change', { size: parseInt(e.detail.value) }, { bubbles: true });
+        this.triggerEvent('size-change', { size: parseInt(e.detail.value) }, { bubbles: false, composed: false  });
     } ,
     onCurrentBlur(e) {
         if (Number(e.detail.value) > 0 && Number(e.detail.value) <= this.data.pages) {
