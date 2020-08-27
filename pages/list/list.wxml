@@ -1,5 +1,6 @@
 <!--pages/list/list.wxml-->
 <view class="group">
+    <text class="group-title">消费统计表格(￥)</text>  
     <view class="table-wrap">
         <table  
             header-row-class-name="header-class"
