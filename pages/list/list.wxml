@@ -21,8 +21,11 @@
     
 </view>
 <text>月度趋势图(￥)</text>  
-<ff-canvas class="f2-chart" id="lineChart" canvas-id="lineChart" opts="{{ opts }}"></ff-canvas>
+<ff-canvas class="f2-chart" wx:if="{{ allCostDataListLen > 0 }}" id="lineChart" canvas-id="lineChart" opts="{{ opts }}"></ff-canvas>
+<text wx:if="{{ allCostDataListLen === 0 }}" class="no-data">暂无数据~</text>
 <text>日消费图(￥)</text>  
-<ff-canvas class="f2-chart" id="barChart" canvas-id="barChart" opts="{{ opts }}"></ff-canvas>
+<ff-canvas class="f2-chart" wx:if="{{ allCostDataListLen > 0 }}" id="barChart" canvas-id="barChart" opts="{{ opts }}"></ff-canvas>
+<text wx:if="{{ allCostDataListLen === 0 }}" class="no-data">暂无数据~</text>
 <text>类消费总计(￥)</text>  
-<ff-canvas class="f2-chart-pie" id="pieChart" canvas-id="pieChart" opts="{{ opts }}"></ff-canvas>
+<ff-canvas class="f2-chart-pie" wx:if="{{ allCostData.allCost !== '0.00' }}" id="pieChart" canvas-id="pieChart" opts="{{ opts }}"></ff-canvas>
+<text wx:if="{{ allCostData.allCost == '0.00' }}" class="no-data">暂无数据~</text>

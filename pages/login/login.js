@@ -1,6 +1,8 @@
 // pages/login/login.js
 const config = require('../../utils/config.default.js')
 import storage from '../../utils/storage.js'
+const base64 = require('../../utils/base64.min')
+const CryptoJS = require('../../utils/CryptoJS')
 Component({
   /**
    * 组件的属性列表
@@ -36,25 +38,43 @@ Component({
 
     onSubmit() {
       var that = this;
+      if (this.data.name == '') {
+        wx.showToast({
+          title: '请输入用户名',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+      if (this.data.password == '') {
+        wx.showToast({
+          title: '请输入密码',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+      // var  enResult = base64.encode(CryptoJS.Encrypt());
+      // var deResult = CryptoJS.Decrypt(base64.decode());
+      // console.log(deResult)
       wx.request({
         url: `${config.api + '/login'}`,
         data: {
           name: this.data.name,
-          password: this.data.password
+          password: base64.encode(CryptoJS.Encrypt(this.data.password))
         },
         header: {
           'content-type': 'application/json'
         },
         method: 'POST',
         success: function (res) {
-          console.log(res)
           if (res.data.code == 1) {
             wx.showToast({
               title: '登陆成功',
               icon: 'success',
               duration: 2000
-            }) 
-            storage.put('name', that.data.name, 5); 
+            })
+            storage.put('name', that.data.name, 5);
             storage.put("sessionid", res.header["Set-Cookie"], 5);
             wx.switchTab({
               url: '/pages/day/day'

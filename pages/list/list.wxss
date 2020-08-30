@@ -41,3 +41,8 @@
 .row-class:nth-child(2n) {
   background-color: #c1e4c175;
 }
+.no-data{
+  margin: 50rpx;
+  font-weight: bolder;
+  color: red;
+}

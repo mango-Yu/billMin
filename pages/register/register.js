@@ -1,6 +1,9 @@
 // pages/register/register.js
 const config = require('../../utils/config.default.js')
 const utils = require('../../utils/util.js')
+const base64 = require('../../utils/base64.min')
+const CryptoJS = require('../../utils/CryptoJS')
+
 Component({
 
   /**
@@ -257,7 +260,7 @@ Component({
       }
       let obj = {
         name: this.data.name,
-        password: this.data.password,
+        password: base64.encode(CryptoJS.Encrypt(this.data.password)),
         phoneNum: this.data.phoneNum,
         verifyNum: this.data.verifyNum,
         sessionId: this.sessionId,

@@ -35,6 +35,7 @@ Component({
     dateArr: [],
     costArr: [],
     costTypeSumArr: [],
+    allCostDataListLen: 0,
     opts: {
       lazyLoad: true // 延迟加载组件
     },
@@ -72,13 +73,13 @@ Component({
   methods: {
     onLoad() {
       let _this = this;
-      this.funcGetListData(this.data.currentPage-1,this.data.pageSize)
+      this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
       this.funcGetSumData()
     },
     funcGetListData(start, pageSize) {
-      if (storage.get("sessionid") == ''){
-        wx.navigateTo({ 
-          url: '/pages/login/login' 
+      if (storage.get("sessionid") == '') {
+        wx.navigateTo({
+          url: '/pages/login/login'
         })
         return;
       }
@@ -108,9 +109,9 @@ Component({
               pageDataList.sort(function (a, b) {
                 return Date.parse((utils.formatDate(new Date(b.date), "yyyy-MM-dd")).replace(/-/g, "/")) - Date.parse((utils.formatDate(new Date(a.date), "yyyy-MM-dd")).replace(/-/g, "/"));
               });
-               pageDataList.forEach((item, index) => {
+              pageDataList.forEach((item, index) => {
                 item["idIndex"] = (index + 1) + start * pageSize;
-                 pageDataList[index].date = utils.formatDate(new Date(pageDataList[index].date), "yyyy-MM-dd");
+                pageDataList[index].date = utils.formatDate(new Date(pageDataList[index].date), "yyyy-MM-dd");
                 pageDataList[index].sumCalc = (parseFloat(item.breakfast) + parseFloat(item.lunch) + parseFloat(item.dinner) +
                   parseFloat(item.traffic) + parseFloat(item.sock) + parseFloat(item.clothes) +
                   parseFloat(item.play) + parseFloat(item.others) + parseFloat(item.gifts) +
@@ -127,9 +128,9 @@ Component({
       })
     },
     funcGetSumData() {
-      if (storage.get("sessionid") == ''){
-        wx.navigateTo({ 
-          url: '/pages/login/login' 
+      if (storage.get("sessionid") == '') {
+        wx.navigateTo({
+          url: '/pages/login/login'
         })
         return;
       }
@@ -151,14 +152,14 @@ Component({
               objData.allCost = 0;
               for (let i in objData) {
                 if (objData[i] == null) {
-                  let str = i.split(')')[0].split('(')[1]
+                  let str = i.split(')')[0].split('(')[2]
                   that.data.form[str] = 0
                   that.data.form.allCost = 0;
                   that.setData({
                     form: that.data.form
                   });
                 } else {
-                  let str = i.split(')')[0].split('(')[1];
+                  let str = i.split(')')[0].split('(')[2]
                   that.data.form[str] = parseFloat(objData[i]).toFixed(2);
                   if (str === "visa" || str === "house") {
                     objData.allCost += 0;
@@ -248,13 +249,16 @@ Component({
                 "name": "房租",
                 "const": "const"
               });
-              that.initPieChart(that.data.costTypeSumArr)
+              if (objData.allCost !== "0.00") {
+                that.initPieChart(that.data.costTypeSumArr)
+              }
             }
             if (data.allCostDataList.length > 0) {
               let objectData = data.allCostDataList;
               that.setData({
                 dateArr: [],
                 costArr: [],
+                allCostDataListLen: objectData.length
               })
               objectData.sort(function (a, b) {
                 return Date.parse((utils.formatDate(new Date(b.date), "yyyy-MM-dd")).replace(/-/g, "/")) - Date.parse((utils.formatDate(new Date(a.date), "yyyy-MM-dd")).replace(/-/g, "/"));
@@ -388,7 +392,6 @@ Component({
     },
     initBarChart(barData, dateData) {
       let _this = this;
-      // var originDates = dateData.slice(dateData.length-5, dateData.length);
       var originDates = [];
       dateData.forEach(obj => {
         if (obj >= '2020-08-01') {
@@ -548,24 +551,24 @@ Component({
       })
     },
     // 选择每页显示条数
-    handleSizeChange(e){
+    handleSizeChange(e) {
       let that = this;
       that.funcGetListData(0, e.detail.size);
     },
     handleCurrentChange(e) {
       let that = this;
-      that.funcGetListData(e.detail.current-1, e.detail.size);
+      that.funcGetListData(e.detail.current - 1, e.detail.size);
     },
     handlePrevChange(e) {
       let that = this;
-      that.funcGetListData(e.detail.current-1, e.detail.size);
+      that.funcGetListData(e.detail.current - 1, e.detail.size);
     },
     handleNextChange(e) {
       let that = this;
-      that.funcGetListData(e.detail.current-1, e.detail.size);
+      that.funcGetListData(e.detail.current - 1, e.detail.size);
     },
     onReachBottom: function () {
-       
+
     }
   }
 })

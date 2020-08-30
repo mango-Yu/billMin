@@ -36,9 +36,9 @@ Component({
       house: 0,
     },
     show: false,
-    month:"",
-    count:0,
-    now:"",
+    month: "",
+    count: 0,
+    now: "",
     currentDate: new Date().getTime(),
     minDate: new Date().getTime(),
     formatter(type, value) {
@@ -51,38 +51,38 @@ Component({
     }
   },
   computed: {
-    eat(data){
-      return (parseFloat(data.form.breakfast)+parseFloat(data.form.lunch)+parseFloat(data.form.dinner)).toFixed(2)
+    eat(data) {
+      return (parseFloat(data.form.breakfast) + parseFloat(data.form.lunch) + parseFloat(data.form.dinner)).toFixed(2)
     },
-    nextmonth(data){
-      let arr=data.month.split("-")
-      let time=""
-      if(parseInt(arr[1])==12){
-        time= (parseInt(arr[0])+1)+'-01'
-      }else {
-        let m=(parseInt(arr[1])+1);
-        time= arr[0]+'-'+((m<10)?('0'+m):m)
+    nextmonth(data) {
+      let arr = data.month.split("-")
+      let time = ""
+      if (parseInt(arr[1]) == 12) {
+        time = (parseInt(arr[0]) + 1) + '-01'
+      } else {
+        let m = (parseInt(arr[1]) + 1);
+        time = arr[0] + '-' + ((m < 10) ? ('0' + m) : m)
       }
       return time
     }
   },
-   
+
   /**
    * 组件的方法列表
    */
   methods: {
-    onLoad(){
-        let date=new Date();
-        let month=date.getMonth()+1
-        let year=date.getFullYear()
-        month=(month <10)?("0"+month):month
-        this.setData({
-          month: year+'-'+month
-        })
-        this.setData({
-          now: year+'-'+month
-        })
-        this.funcGetMonth();
+    onLoad() {
+      let date = new Date();
+      let month = date.getMonth() + 1
+      let year = date.getFullYear()
+      month = (month < 10) ? ("0" + month) : month
+      this.setData({
+        month: year + '-' + month
+      })
+      this.setData({
+        now: year + '-' + month
+      })
+      this.funcGetMonth();
     },
     showDate() {
       this.setData({
@@ -132,14 +132,14 @@ Component({
       });
     },
     funcGetMonth() {
-      if (storage.get("sessionid") == ''){
-        wx.navigateTo({ 
-          url: '/pages/login/login' 
+      if (storage.get("sessionid") == '') {
+        wx.navigateTo({
+          url: '/pages/login/login'
         })
         return;
       }
       let that = this;
-      let obj={
+      let obj = {
         month: this.data.month,
         nextmonth: this.data.nextmonth
       }
@@ -154,37 +154,37 @@ Component({
         method: 'POST',
         dataType: "json",
         success: function (res) {
-            let objData=res.data.data[0]
-            for(let i in objData){
-              if(objData[i]==null){
+          let objData = res.data.data[0]
+          for (let i in objData) {
+            if (objData[i] == null) {
+              that.setData({
+                count: that.data.count += 0
+              })
+              let str = i.split(')')[0].split('(')[2]
+              that.data.form[str] = 0
+              that.setData({
+                form: that.data.form
+              });
+            } else {
+              if (i.indexOf('visa') > 0 || i.indexOf('house') > 0) {
                 that.setData({
-                  count: that.data.count+=0
+                  count: that.data.count += 0
                 })
-                let str=i.split(')')[0].split('(')[1]
-                that.data.form[str]=0
+              } else {
                 that.setData({
-                  form: that.data.form
-                });
-              }else{
-                if (i.indexOf('visa') > 0 || i.indexOf('house') > 0) {
-                  that.setData({
-                    count: that.data.count+=0
-                  })
-                }else {
-                  that.setData({
-                    count: that.data.count+=objData[i]
-                  })
-                }
-                let str=i.split(')')[0].split('(')[1];
-                that.data.form[str]=parseFloat(objData[i]).toFixed(2);
-                that.setData({
-                  form: that.data.form
-                });
+                  count: that.data.count += objData[i]
+                })
               }
+              let str = i.split(')')[0].split('(')[2]
+              that.data.form[str] = parseFloat(objData[i]).toFixed(2);
+              that.setData({
+                form: that.data.form
+              });
             }
-            that.setData({
-              count: parseFloat(that.data.count).toFixed(2)
-            })
+          }
+          that.setData({
+            count: parseFloat(that.data.count).toFixed(2)
+          })
         }
       })
     }

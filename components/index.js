@@ -206,9 +206,10 @@ Component({
     },
     'allData': function allData (_allData) {
       let allPropLen = this.data.allProp;
-      for(let j in _allData){ 
+      if (_allData) {
+        for(let j in _allData){ 
           for (let i = 0; i < allPropLen.length; i++) {
-            let str=j.split(')')[0].split('(')[1];
+            let str=j.split(')')[0].split('(')[2]
             if (allPropLen[i].prop == str) {
               allPropLen[i].allCost = _allData[j].toFixed(2)
             }else if (allPropLen[i].prop == "id" || allPropLen[i].prop == "date"
@@ -222,6 +223,7 @@ Component({
         this.setData({
           totalCost: allPropLen,
         })
+      }
     },
     'pages': function(newData, oldData) {},
     'size': function(newData, oldData) {}

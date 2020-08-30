@@ -1,11 +1,13 @@
 <!--index.wxml-->
-<view class="container">
+<view class="container-user">
   <view class="userinfo">
-    <van-button  type="primary" wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">请授权微信登陆</van-button>
+    <van-button class="getUserInfo-btn" type="primary" wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">请授权微信登陆</van-button>
     <block wx:else>
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-      <van-button type="primary"  bindtap="bindViewTap">开始使用</van-button>
+      <view  class="user-box">
+        <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+        <van-button type="primary"  bindtap="bindViewTap">开始使用</van-button>
+      </view>
     </block>
   </view>
 </view>

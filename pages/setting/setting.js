@@ -2,6 +2,8 @@
 const utils = require('../../utils/util.js')
 const config = require('../../utils/config.default.js')
 import storage from '../../utils/storage.js'
+const base64 = require('../../utils/base64.min')
+const CryptoJS = require('../../utils/CryptoJS')
 Page({
 
   /**
@@ -64,17 +66,18 @@ Page({
       }) 
       return
     }
-    if (!utils.CheckPassWord(this.data.newword, 1)) {
-      wx.showToast({
-        title: '密码必须为字母加数字且长度不小于6位',
-        icon: 'none',
-        duration: 2000
-      }) 
-      return
-    }
+    // if (!utils.CheckPassWord(this.data.newword, 1)) {
+    //   wx.showToast({
+    //     title: '密码必须为字母加数字且长度不小于6位',
+    //     icon: 'none',
+    //     duration: 2000
+    //   }) 
+    //   return
+    // }
+    
     let obj={
-      password: that.data.origain,
-      newPas: that.data.newword
+      password: base64.encode(CryptoJS.Encrypt(that.data.origain)),
+      newPas: base64.encode(CryptoJS.Encrypt(that.data.newword))
     }
     wx.request({
       url: `${config.api + '/changePassword'}`,
@@ -98,6 +101,11 @@ Page({
             newword: '',
             remewword: ''
           })
+          wx.navigateTo({ 
+            url: '/pages/login/login' 
+          })
+          storage.remove("name");
+          storage.remove("sessionid");
         }else{
           wx.showToast({
             title: response.msg,

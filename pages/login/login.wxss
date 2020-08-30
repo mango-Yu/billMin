@@ -1,6 +1,6 @@
 /* pages/login/login.wxss */
 .container-login{
-  margin-top: 280rpx;
+  padding-top: 280rpx;
 }
 .login {
   text-align: center;
@@ -15,12 +15,14 @@
 .title {
   font-size: 20px;
   margin-bottom: 20px;
+  font-weight: bolder;
 }
 
 .remind {
   font-size: 14px;
   color: #999;
   margin-bottom: 50px;
+  font-weight: bolder;
 }
 
 .login_btn {

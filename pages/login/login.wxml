@@ -4,7 +4,7 @@
       <text class="title">登陆</text>
   </view>
    <view class="desc">
-      <text class="remind">这是一个简单的记账本\r\n</text> 
+      <text class="remind">这是一个简单的记账本\r\n花好每一分钱，每一分钱都值得被记录</text> 
   </view>
   <view class="login_form">
       <van-cell-group>
