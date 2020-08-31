@@ -31,12 +31,12 @@
   color: #666;
 }
 .header-class {
-  border: 1rpx solid #55C355;
-  background-color: #55C355;
+  border: 1rpx solid #FFD13C;
+  background-image: linear-gradient(to right, #FFA41C, #FFD13C); 
   color: #fff!important;
 }
 .header-class .td:first-child {
-  color: #55C355;
+  color: #FFD13C;
 }
 .row-class:nth-child(2n) {
   background-color: #c1e4c175;
@@ -44,5 +44,5 @@
 .no-data{
   margin: 50rpx;
   font-weight: bolder;
-  color: red;
+  color: #FFD13C;
 }

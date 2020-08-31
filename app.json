@@ -1,12 +1,12 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/login/login",
-    "pages/register/register",
     "pages/setting/setting",
     "pages/day/day",
+    "pages/login/login",
+    "pages/register/register",
     "pages/month/month",
     "pages/list/list",
+    "pages/index/index",
     "pages/logs/logs",
     "pages/test/test"
   ],
@@ -45,7 +45,7 @@
       },
       {
         "pagePath": "pages/setting/setting",
-        "text": "设置",
+        "text": "我的",
         "iconPath": "images/set_default.png",
         "selectedIconPath": "images/set.png"
       }

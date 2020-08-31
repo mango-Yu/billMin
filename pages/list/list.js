@@ -29,7 +29,7 @@ Component({
     pageSize: 10,
     totalPage: 0,
     tableData: [],
-    allCostData: [],
+    allCostData: {'allCost':'0.00'},
     chartColumn: null,
     chartBar: null,
     dateArr: [],
@@ -77,12 +77,12 @@ Component({
       this.funcGetSumData()
     },
     funcGetListData(start, pageSize) {
-      if (storage.get("sessionid") == '') {
-        wx.navigateTo({
-          url: '/pages/login/login'
-        })
-        return;
-      }
+      // if (storage.get("sessionid") == '') {
+      //   wx.navigateTo({
+      //     url: '/pages/login/login'
+      //   })
+      //   return;
+      // }
       let that = this;
       wx.request({
         url: `${configs.api + '/getAllSpending'}`,
@@ -128,12 +128,12 @@ Component({
       })
     },
     funcGetSumData() {
-      if (storage.get("sessionid") == '') {
-        wx.navigateTo({
-          url: '/pages/login/login'
-        })
-        return;
-      }
+      // if (storage.get("sessionid") == '') {
+      //   wx.navigateTo({
+      //     url: '/pages/login/login'
+      //   })
+      //   return;
+      // }
       let that = this;
       wx.request({
         url: `${configs.api + '/getSumByUser'}`,

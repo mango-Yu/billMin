@@ -27,5 +27,5 @@
 <ff-canvas class="f2-chart" wx:if="{{ allCostDataListLen > 0 }}" id="barChart" canvas-id="barChart" opts="{{ opts }}"></ff-canvas>
 <text wx:if="{{ allCostDataListLen === 0 }}" class="no-data">暂无数据~</text>
 <text>类消费总计(￥)</text>  
-<ff-canvas class="f2-chart-pie" wx:if="{{ allCostData.allCost !== '0.00' }}" id="pieChart" canvas-id="pieChart" opts="{{ opts }}"></ff-canvas>
-<text wx:if="{{ allCostData.allCost == '0.00' }}" class="no-data">暂无数据~</text>
+<ff-canvas class="f2-chart-pie" wx:if="{{ allCostData && allCostData.allCost !== '0.00' }}" id="pieChart" canvas-id="pieChart" opts="{{ opts }}"></ff-canvas>
+<text wx:if="{{ !allCostData || allCostData.allCost == '0.00' }}" class="no-data">暂无数据~</text>

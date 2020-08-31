@@ -24,7 +24,7 @@
       </van-cell-group>  
   </view>
   <view  class="login_btn">
-    <van-button type="primary"  bindtap="onSubmit">登陆</van-button> <van-button type="default" bindtap="toRegister">注册</van-button>
+    <van-button type="primary"  bindtap="onSubmit">登陆</van-button>
   </view>
   
 </view>

@@ -1,35 +1,55 @@
 <!--pages/setting/setting.wxml-->
-<view class="container-password">
-  <view class="password">
-      <text class="title">修改密码</text>
+<view class="myinfo"> 
+  <view class="userinfo" wx:if="{{myloginInfo == ''}}">
+    <van-button class="getUserInfo-btn" type="primary" wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">立即注册体验</van-button>
+    <block wx:else>
+      <view  class="user-box">
+        <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+        <van-button type="primary"  bindtap="toLogin">登陆</van-button> 
+        <van-button type="default" bindtap="toRegister">注册</van-button>
+      </view>
+    </block>
   </view>
-  <view class="password_form">
-      <van-cell-group>
-        <van-field
-          value="{{ origain }}"
-          label="原来密码"
-          placeholder="请输入原来密码"
-          type="password"
-          bind:change="onInputPsw"
-        />
-        <van-field
-          value="{{ newword }}"
-          label="新的密码"
-          placeholder="请输入密码"
-          type="password"
-          bind:change="onInputNewPsw"
-        />
-         <van-field
-          value="{{ remewword }}"
-          label="重复密码"
-          placeholder="请再次输入密码"
-          type="password"
-          bind:change="onInputRePsw"
-        />
-      </van-cell-group>  
+  <view  wx:if="{{myloginInfo != ''}}" class="my-login-info">
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+    <text class="userinfo-nickname">昵称：{{myloginInfo}}</text>
+    <van-button type="primary"  bindtap="showPopup">修改密码</van-button>
   </view>
-  <view  class="passw_btn">
-    <van-button type="primary"  bindtap="onChage">修改</van-button>
-  </view>
-  
+  <van-popup show="{{ show }}" bind:close="onClose" class="password-prop">
+    <view class="container-password"> 
+      <view class="password_form">
+          <van-cell-group>
+            <van-field
+              value="{{ origain }}"
+              label="原来密码"
+              placeholder="请输入原来密码"
+              type="password"
+              bind:change="onInputPsw"
+            />
+            <van-field
+              value="{{ newword }}"
+              label="新的密码"
+              placeholder="请输入密码"
+              type="password"
+              bind:change="onInputNewPsw"
+            />
+            <van-field
+              value="{{ remewword }}"
+              label="重复密码"
+              placeholder="请再次输入密码"
+              type="password"
+              bind:change="onInputRePsw"
+            />
+          </van-cell-group>  
+      </view>
+      <view  class="passw_btn">
+        <van-button type="primary"  bindtap="onChage">修改</van-button>
+         <van-button type="default"  bindtap="onClose">取消</van-button>
+      </view>
+    </view>
+  </van-popup>
 </view>
+
+
+

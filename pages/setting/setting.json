@@ -2,6 +2,9 @@
   "component": true,
   "usingComponents": {
     "van-button": "@vant/weapp/button",
-    "van-field": "@vant/weapp/field"
+    "van-field": "@vant/weapp/field",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-popup": "@vant/weapp/popup/index"
   }
 }

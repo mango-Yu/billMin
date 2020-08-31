@@ -91,11 +91,6 @@ Component({
           console.log(res);
         }
       })
-    },
-    toRegister() {
-      wx.navigateTo({
-        url: '/pages/register/register'
-      })
     }
   }
 })
