@@ -16,7 +16,7 @@ Page({
     remewword:"",
     show: false,
     myloginInfo: storage.get('name'),
-    userInfo: {},
+    userInfo:  storage.get('userInfo'),
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
@@ -144,6 +144,12 @@ Page({
   onClose() {
     this.setData({ show: false });
   },
+  exitLogin() {
+    storage.remove('userInfo');
+    storage.remove('name');
+    storage.remove('sessionid');
+    this.onLoad();
+  },
   bindViewTap: function() {
     // wx.navigateTo({
     //   url: '../logs/logs'
@@ -160,8 +166,18 @@ Page({
   },
   onLoad: function () {
     let that = this;
+    if (storage.get('name') != '') {
+      that.setData({
+        myloginInfo: storage.get('name')
+      })
+    }else{
+      that.setData({
+        myloginInfo: ''
+      })
+    }
     if (app.globalData.userInfo) { 
       // that.bindViewTap();
+      storage.put('userInfo', app.globalData.userInfo, 5)
       this.setData({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true
@@ -172,6 +188,7 @@ Page({
       app.userInfoReadyCallback = res => {
         if (res.userInfo) {
           // that.bindViewTap();
+          storage.put('userInfo', res.userInfo, 5)
           this.setData({
             userInfo: res.userInfo,
             hasUserInfo: true
@@ -186,6 +203,7 @@ Page({
           app.globalData.userInfo = res.userInfo
           if (app.globalData.userInfo) {
             // that.bindViewTap();
+            storage.put('userInfo', res.userInfo, 5)
             this.setData({
               userInfo: res.userInfo,
               hasUserInfo: true
@@ -199,6 +217,7 @@ Page({
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     if (app.globalData.userInfo) {
+      storage.put('userInfo', app.globalData.userInfo, 5)
       this.setData({
         userInfo: e.detail.userInfo,
         hasUserInfo: true

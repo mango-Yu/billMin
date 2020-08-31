@@ -77,7 +77,12 @@ Component({
             storage.put('name', that.data.name, 5);
             storage.put("sessionid", res.header["Set-Cookie"], 5);
             wx.switchTab({
-              url: '/pages/day/day'
+              url: '/pages/setting/setting',
+              success() {
+                var page = getCurrentPages().pop();
+                if (page == undefined || page == null) return;
+                page.onLoad();
+              }
             })
           } else {
             wx.showToast({
