@@ -143,12 +143,12 @@ Component({
         show: false
       });
     },
-    funcSetData(type, formData) {
+    funcSetData(type, formData, date) {
       let that = this;
       if (type === 2) {
         this.setData({
           form: {
-            date: utils.formatTime(new Date()),
+            date: date,
             user: storage.get('name'),
             breakfast: '',
             lunch: '',
@@ -253,9 +253,9 @@ Component({
       });
     },
     funcGetDay(d) {
-      if (storage.get("sessionid") == ''){
-        wx.navigateTo({ 
-          url: '/pages/login/login' 
+      if (storage.get("sessionid") == '') {
+        wx.navigateTo({
+          url: '/pages/login/login'
         })
         return;
       }
@@ -278,9 +278,9 @@ Component({
           if (data.code == 1) {
             if (data.data.length > 0) {
               data.data[0].date = utils.formatTime(new Date(data.data[0].date), "yyyy-MM-dd")
-              that.funcSetData(1, data.data[0]);
+              that.funcSetData(1, data.data[0], '');
             } else {
-              that.funcSetData(2);
+              that.funcSetData(2, '', d);
             }
           } else {
             wx.showToast({
