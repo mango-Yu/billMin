@@ -48,7 +48,8 @@ Component({
         return `${value}月`;
       }
       return value;
-    }
+    },
+    first: 0
   },
   computed: {
     eat(data) {
@@ -80,9 +81,15 @@ Component({
         month: year + '-' + month
       })
       this.setData({
-        now: year + '-' + month
+        now: year + '-' + month,
+        first: 1
       })
       this.funcGetMonth();
+    },
+    onHide(){
+      this.setData({
+        first: 0
+      })
     },
     onTabItemTap(item) {
       if (storage.get('name') == ""){
@@ -93,6 +100,12 @@ Component({
           form: this.data.form,
           count: 0
         })
+      }else{
+        if (this.data.count === 0) {
+          if (this.data.first !== 1) {
+            this.onLoad();
+          }
+        }
       }
     },
     showDate() {
@@ -127,7 +140,8 @@ Component({
             this.data.form[i] = 0;
           }
           this.setData({
-            form: this.data.form
+            form: this.data.form,
+            count: 0
           })
         }else{
           this.funcGetMonth();
@@ -146,7 +160,8 @@ Component({
             this.data.form[i] = 0;
           }
           this.setData({
-            form: this.data.form
+            form: this.data.form,
+            count: 0
           })
         }else{
           this.funcGetMonth();
@@ -157,7 +172,8 @@ Component({
             this.data.form[i] = 0;
           }
           this.setData({
-            form: this.data.form
+            form: this.data.form,
+            count: 0
           })
         }else{
           this.funcGetMonth();
@@ -194,10 +210,11 @@ Component({
         dataType: "json",
         success: function (res) {
           let objData = res.data.data[0]
+          let allMonth = 0;
           for (let i in objData) {
             if (objData[i] == null) {
               that.setData({
-                count: that.data.count += 0
+                count: 0
               })
               let str = i.split(')')[0].split('(')[2]
               that.data.form[str] = 0
@@ -206,13 +223,15 @@ Component({
               });
             } else {
               if (i.indexOf('visa') > 0 || i.indexOf('house') > 0) {
-                that.setData({
-                  count: that.data.count += 0
-                })
+                allMonth += 0
+                // that.setData({
+                //   count: that.data.count += 0
+                // })
               } else {
-                that.setData({
-                  count: that.data.count += objData[i]
-                })
+                allMonth += objData[i]
+                // that.setData({
+                //   count: that.data.count += objData[i]
+                // })
               }
               let str = i.split(')')[0].split('(')[2]
               that.data.form[str] = parseFloat(objData[i]).toFixed(2);
@@ -222,7 +241,7 @@ Component({
             }
           }
           that.setData({
-            count: parseFloat(that.data.count).toFixed(2)
+            count: parseFloat(allMonth).toFixed(2)
           })
         }
       })

@@ -64,7 +64,8 @@ Component({
       insure: 0,
       house: 0,
     },
-    onReachBottomDistance: 0
+    onReachBottomDistance: 0,
+    first: 0
   },
 
   /**
@@ -73,12 +74,21 @@ Component({
   methods: {
     onLoad() {
       let _this = this;
-      this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
-      this.funcGetSumData()
+      _this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
+      _this.funcGetSumData()
+      _this.setData({
+        first: 1
+      })
+    },
+    onHide(){
+      this.setData({
+        first: 0
+      })
     },
     onTabItemTap(item) {
+      let _this = this;
       if (storage.get('name') == ""){
-        this.setData({
+        _this.setData({
           tableData: [],
           allCostData: {'allCost':'0.00'},
           costTypeSumArr: [],
@@ -86,6 +96,13 @@ Component({
           costArr: [],
           allCostDataListLen: 0
         })
+      }else{
+        if (_this.data.allCostDataListLen === 0) {
+          if (_this.data.first !== 1) {
+            _this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
+            _this.funcGetSumData()
+          }
+        }
       }
     },
     funcGetListData(start, pageSize) {

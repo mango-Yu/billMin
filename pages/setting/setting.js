@@ -156,7 +156,7 @@ Page({
     // }) 
     if (storage.get('name') != "") {
       wx.switchTab({ 
-        url: '/pages/day/day' 
+        url: '/pages/day/day'
       })
     }else{
       wx.navigateTo({ 
@@ -171,7 +171,7 @@ Page({
         myloginInfo: storage.get('name')
       })
       wx.switchTab({ 
-        url: '/pages/day/day' 
+        url: '/pages/day/day'
       })
     }else{
       that.setData({

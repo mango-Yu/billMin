@@ -61,7 +61,8 @@ Component({
       }
       return value;
     },
-
+    first: 0,
+    clicks: 0
   },
   computed: {
     eat(data) {
@@ -82,18 +83,38 @@ Component({
    */
   methods: {
     onLoad() {
+      console.log(this.data.first)
       this.setData({
         form: {
           date: utils.formatTime(new Date()),
           user: storage.get('name')
         },
-        now: utils.formatTime(new Date())
+        now: utils.formatTime(new Date()),
+        first: 1,
       });
       this.funcGetDay(utils.formatTime(new Date()))
     },
+    onShow() {
+      console.log(this.data.clicks)
+      if (this.data.first === 0 && storage.get('name') !== "") {
+        console.log(this.data.clicks)
+        this.funcGetDay(utils.formatTime(new Date()))
+        this.setData({
+          first: 1
+        })
+      }
+    },
+    // onHide(){
+    //   this.setData({
+    //     first: 1,
+    //   })
+    // },
     onTabItemTap(item) {
       if (storage.get('name') == ""){
         this.funcSetData(2, '', this.data.form.date);
+        this.setData({
+          first: 0
+        })
       }
     },
     showDate() {
@@ -258,6 +279,7 @@ Component({
     blurInput(e) {
       let key = e.currentTarget.dataset.key;
       let inputVal = e.detail.value + "";
+      console.log(inputVal)
       if (key.indexOf('Remind') > 0) {
         inputVal = inputVal.replace(/(^\s*)|(\s*$)/g, "");
       } else {
@@ -270,6 +292,7 @@ Component({
       this.setData({
         form: this.data.form
       });
+      console.log(this.data.form)
     },
     funcGetDay(d) {
       // if (storage.get("sessionid") == '') {
@@ -312,7 +335,9 @@ Component({
       })
     },
     onSubmitDay() {
-      var obj = this.data.form;
+      let that = this;
+      var obj = that.data.form;
+      
       for (let i in obj) {
         if (!(i == "playRemind" || i == "clothesRemind" || i == "othersRemind" || i == "giftsRemind" ||
             i == "buysRemind" || i == "loansRemind" || i == "visaRemind" || i == "foodsRemind" || i == "skinRemind" || i == "healthRemind" || i == "insureRemind" ||
@@ -326,43 +351,44 @@ Component({
           }
         }
       }
-      var that = this;
-      wx.request({
-        url: `${config.api + '/subSpending'}`,
-        data: obj,
-        header: {
-          'content-type': 'application/json', // 默认值
-          'cookie': storage.get("sessionid")
-          //读取sessionid,当作cookie传入后台将PHPSESSID做session_id使用
-        },
-        method: 'POST',
-        dataType: "json",
-        success: function (res) {
-          let data = res.data
-          if (data.code == 1) {
-            wx.showToast({
-              title: '提交成功',
-              icon: 'success',
-              duration: 2000
-            })
-            that.funcGetDay(that.data.form.date)
-          } else {
+      setTimeout(function(){
+        wx.request({
+          url: `${config.api + '/subSpending'}`,
+          data: obj,
+          header: {
+            'content-type': 'application/json', // 默认值
+            'cookie': storage.get("sessionid")
+            //读取sessionid,当作cookie传入后台将PHPSESSID做session_id使用
+          },
+          method: 'POST',
+          dataType: "json",
+          success: function (res) {
+            let data = res.data
+            if (data.code == 1) {
+              wx.showToast({
+                title: '提交成功',
+                icon: 'success',
+                duration: 2000
+              })
+              that.funcGetDay(that.data.form.date)
+            } else {
+              wx.showToast({
+                title: '提交失败',
+                image: '../../images/fail.png',
+                duration: 2000
+              })
+            }
+          },
+          fail: function (err) {
+            console.log(err)
             wx.showToast({
               title: '提交失败',
               image: '../../images/fail.png',
               duration: 2000
             })
           }
-        },
-        fail: function (err) {
-          console.log(err)
-          wx.showToast({
-            title: '提交失败',
-            image: '../../images/fail.png',
-            duration: 2000
-          })
-        }
-      })
+        })
+      }, 500)
     }
   }
 })
