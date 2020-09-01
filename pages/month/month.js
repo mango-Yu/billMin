@@ -84,6 +84,17 @@ Component({
       })
       this.funcGetMonth();
     },
+    onTabItemTap(item) {
+      if (storage.get('name') == ""){
+        for(let i in this.data.form){
+          this.data.form[i] = 0;
+        }
+        this.setData({
+          form: this.data.form,
+          count: 0
+        })
+      }
+    },
     showDate() {
       this.setData({
         show: true
@@ -111,8 +122,17 @@ Component({
           icon: 'none',
           duration: 2000
         })
-      }
-      if (selcetTime > that.data.now) {
+        if (storage.get('name') == ""){
+          for(let i in this.data.form){
+            this.data.form[i] = 0;
+          }
+          this.setData({
+            form: this.data.form
+          })
+        }else{
+          this.funcGetMonth();
+        }
+      }else if (selcetTime > that.data.now) {
         this.setData({
           month: that.data.now
         });
@@ -121,9 +141,28 @@ Component({
           icon: 'none',
           duration: 2000
         })
-
+        if (storage.get('name') == ""){
+          for(let i in this.data.form){
+            this.data.form[i] = 0;
+          }
+          this.setData({
+            form: this.data.form
+          })
+        }else{
+          this.funcGetMonth();
+        }
+      }else{
+        if (storage.get('name') == ""){
+          for(let i in this.data.form){
+            this.data.form[i] = 0;
+          }
+          this.setData({
+            form: this.data.form
+          })
+        }else{
+          this.funcGetMonth();
+        }
       }
-      this.funcGetMonth();
       // this.funcGetDay(utils.formatTime(dateTime))
     },
     cancelDate() {

@@ -284,6 +284,9 @@ Component({
                 icon: 'success',
                 duration: 2000
               })
+              wx.navigateTo({ 
+                url: '/pages/login/login' 
+              })
             } else {
               wx.showToast({
                 title: res.msg,

@@ -21,6 +21,10 @@
   bottom: 100rpx;
   width: 100%;
 }
+.my-login-info .van-button--small{
+  width: 200rpx;
+  margin: 0 5px;
+}
 .userinfo-avatar {
   width: 100rpx;
   height: 100rpx;

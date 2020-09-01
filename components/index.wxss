@@ -84,7 +84,7 @@
 .no-data {
   text-align: left;
   padding: 50rpx;
-  color: #666;
+  color: #FFA41C;
   justify-content: center;
 }
 
@@ -110,15 +110,15 @@
 }
 
 .ofo-wrapper .btn {
-  color: #FFD13C;
+  color: #FFA41C;
   padding: 5px;
   box-sizing: border-box;
   border-radius: 16rpx;
-  border: 1rpx solid #FFD13C;
+  border: 1rpx solid #FFA41C;
 }
 
 .ofo-wrapper .iconfont {
-  color: #FFD13C;
+  color: #FFA41C;
   font-size: 50rpx;
   vertical-align: middle;
 }

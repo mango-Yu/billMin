@@ -170,6 +170,9 @@ Page({
       that.setData({
         myloginInfo: storage.get('name')
       })
+      wx.switchTab({ 
+        url: '/pages/day/day' 
+      })
     }else{
       that.setData({
         myloginInfo: ''

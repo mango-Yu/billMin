@@ -91,6 +91,11 @@ Component({
       });
       this.funcGetDay(utils.formatTime(new Date()))
     },
+    onTabItemTap(item) {
+      if (storage.get('name') == ""){
+        this.funcSetData(2, '', this.data.form.date);
+      }
+    },
     showDate() {
       this.setData({
         show: true
@@ -122,8 +127,12 @@ Component({
           icon: 'none',
           duration: 2000
         })
-      }
-      if (selcetTime > that.data.now) {
+        if (storage.get('name') == ""){
+          this.funcSetData(2, '', '2020-01-01');
+        }else{
+          this.funcGetDay('2020-01-01')
+        }
+      } else if (selcetTime > that.data.now) {
         this.setData({
           form: {
             date: that.data.now
@@ -134,9 +143,19 @@ Component({
           icon: 'none',
           duration: 2000
         })
-
+        if (storage.get('name') == ""){
+          this.funcSetData(2, '', that.data.now);
+        }else{
+          this.funcGetDay(that.data.now)
+        }
+      }else{
+        if (storage.get('name') == ""){
+          this.funcSetData(2, '', utils.formatTime(dateTime));
+        }else{
+          this.funcGetDay(utils.formatTime(dateTime))
+        }
       }
-      this.funcGetDay(utils.formatTime(dateTime))
+      
     },
     cancelDate() {
       this.setData({

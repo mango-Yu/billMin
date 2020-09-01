@@ -76,6 +76,18 @@ Component({
       this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
       this.funcGetSumData()
     },
+    onTabItemTap(item) {
+      if (storage.get('name') == ""){
+        this.setData({
+          tableData: [],
+          allCostData: {'allCost':'0.00'},
+          costTypeSumArr: [],
+          dateArr: [],
+          costArr: [],
+          allCostDataListLen: 0
+        })
+      }
+    },
     funcGetListData(start, pageSize) {
       // if (storage.get("sessionid") == '') {
       //   wx.navigateTo({

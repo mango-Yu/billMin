@@ -14,8 +14,8 @@
   <view  wx:if="{{myloginInfo != ''}}" class="my-login-info">
     <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
     <text class="userinfo-nickname">昵称：{{myloginInfo}}</text>
-    <van-button type="primary"  bindtap="showPopup">修改密码</van-button>
-    <van-button type="primary"  bindtap="exitLogin">退出登陆</van-button>
+    <van-button type="primary" size="small"  bindtap="showPopup">修改密码</van-button>
+    <van-button type="primary" size="small"   bindtap="exitLogin">退出登陆</van-button>
   </view>
   <van-popup show="{{ show }}" bind:close="onClose" class="password-prop">
     <view class="container-password"> 

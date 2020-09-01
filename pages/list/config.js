@@ -3,19 +3,19 @@ export const tableHeader2 = [
     prop: 'id', 
     width: 80,
     label: 'ID',
-    color: '#55C355'
+    color: '#FFA41C'
   },
   {
     prop: 'date', 
     width: 100,
     label: '日期',
-    color: '#55C355'
+    color: '#FFA41C'
   },
   {
     prop: 'user', 
     width: 80,
     label: '用户',
-    color: '#55C355'
+    color: '#FFA41C'
   },
   {
     prop: 'breakfast',

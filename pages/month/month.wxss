@@ -28,5 +28,11 @@
 .total-group{
   font-size: medium;
   font-weight: bolder;
-
+}
+.month-group .van-cell__title{
+  width: 300rpx !important;
+}
+.month-group .van-cell__value{
+  width: 100rpx !important;
+  float: right;
 }
