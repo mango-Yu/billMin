@@ -60,9 +60,7 @@ Component({
         return `${value}月`;
       }
       return value;
-    },
-    first: 0,
-    clicks: 0
+    }
   },
   computed: {
     eat(data) {
@@ -83,40 +81,28 @@ Component({
    */
   methods: {
     onLoad() {
-      console.log(this.data.first)
+      console.log(1)
       this.setData({
         form: {
           date: utils.formatTime(new Date()),
           user: storage.get('name')
         },
-        now: utils.formatTime(new Date()),
-        first: 1,
+        now: utils.formatTime(new Date())
       });
       this.funcGetDay(utils.formatTime(new Date()))
     },
-    onShow() {
-      console.log(this.data.clicks)
-      if (this.data.first === 0 && storage.get('name') !== "") {
-        console.log(this.data.clicks)
-        this.funcGetDay(utils.formatTime(new Date()))
-        this.setData({
-          first: 1
-        })
-      }
-    },
-    // onHide(){
-    //   this.setData({
-    //     first: 1,
-    //   })
-    // },
-    onTabItemTap(item) {
-      if (storage.get('name') == ""){
+    onShow(){
+      if (storage.get('name') !== ""){
+        if (!storage.get('exit')) {
+          this.funcGetDay(utils.formatTime(new Date()))
+        }else{
+          this.funcGetDay(utils.formatTime(new Date()))
+        }
+      }else{
         this.funcSetData(2, '', this.data.form.date);
-        this.setData({
-          first: 0
-        })
       }
     },
+     
     showDate() {
       this.setData({
         show: true

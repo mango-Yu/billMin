@@ -56,8 +56,7 @@
       <view 
         wx:for="{{ totalCost }}"
         class="td" 
-        wx:key="index" 
-        data-it="{{allData}}" 
+        wx:key="index"
         style="width:{{ item.width }}px;"
       >
      {{ totalCost[index].allCost}}

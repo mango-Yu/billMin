@@ -73,18 +73,14 @@ Component({
    */
   methods: {
     onLoad() {
+      console.log(3)
       let _this = this;
-      _this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
-      _this.funcGetSumData()
-      _this.setData({
-        first: 1
-      })
+      if (storage.get('exit')) {
+        _this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
+        _this.funcGetSumData()
+      }
     },
-    onHide(){
-      this.setData({
-        first: 0
-      })
-    },
+     
     onTabItemTap(item) {
       let _this = this;
       if (storage.get('name') == ""){
@@ -94,14 +90,19 @@ Component({
           costTypeSumArr: [],
           dateArr: [],
           costArr: [],
+          tableHeader2:tableHeader2,
           allCostDataListLen: 0
         })
       }else{
-        if (_this.data.allCostDataListLen === 0) {
-          if (_this.data.first !== 1) {
-            _this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
+        if (!storage.get('exit') && _this.data.tableData.length != 0) {
+          console.log(_this.data.tableData)
+          _this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
+          _this.funcGetSumData()
+        }else{
+          _this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
+          setTimeout(() => {
             _this.funcGetSumData()
-          }
+          }, 500);
         }
       }
     },
@@ -150,8 +151,18 @@ Component({
                 tableData: pageDataList
               })
             } else {
-
+              that.setData({
+                tableData: [],
+                total: 0,
+                totalPage: 0
+              })
             }
+          }else{
+            _this.setData({
+              tableData: [],
+              total: 0,
+              totalPage: 0
+            })
           }
         }
       })
@@ -307,11 +318,23 @@ Component({
               });
               that.initLineChart(that.data.costArr, that.data.dateArr)
               that.initBarChart(that.data.costArr, that.data.dateArr)
+            }else{
+              that.setData({
+                dateArr: [],
+                costArr: [],
+                allCostDataListLen: 0
+              })
             }
           } else {
-
+            _this.setData({
+              allCostData: {'allCost':'0.00'},
+              costTypeSumArr: [],
+              dateArr: [],
+              costArr: [],
+              tableHeader2:tableHeader2,
+              allCostDataListLen: 0
+            })
           }
-
         }
       })
     },

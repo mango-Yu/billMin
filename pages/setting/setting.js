@@ -148,6 +148,7 @@ Page({
     storage.remove('userInfo');
     storage.remove('name');
     storage.remove('sessionid');
+    storage.put('exit', 1, 5);//退出
     this.onLoad();
   },
   bindViewTap: function() {

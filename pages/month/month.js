@@ -48,8 +48,7 @@ Component({
         return `${value}月`;
       }
       return value;
-    },
-    first: 0
+    }
   },
   computed: {
     eat(data) {
@@ -73,6 +72,7 @@ Component({
    */
   methods: {
     onLoad() {
+      console.log(2)
       let date = new Date();
       let month = date.getMonth() + 1
       let year = date.getFullYear()
@@ -81,15 +81,11 @@ Component({
         month: year + '-' + month
       })
       this.setData({
-        now: year + '-' + month,
-        first: 1
+        now: year + '-' + month
       })
-      this.funcGetMonth();
-    },
-    onHide(){
-      this.setData({
-        first: 0
-      })
+      if (storage.get('exit')) {
+        this.funcGetMonth();
+      }
     },
     onTabItemTap(item) {
       if (storage.get('name') == ""){
@@ -101,10 +97,10 @@ Component({
           count: 0
         })
       }else{
-        if (this.data.count === 0) {
-          if (this.data.first !== 1) {
-            this.onLoad();
-          }
+        if (!storage.get('exit')) {
+          this.funcGetMonth();
+        }else{
+          this.funcGetMonth();
         }
       }
     },
