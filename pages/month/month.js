@@ -72,7 +72,6 @@ Component({
    */
   methods: {
     onLoad() {
-      console.log(2)
       let date = new Date();
       let month = date.getMonth() + 1
       let year = date.getFullYear()
@@ -83,11 +82,11 @@ Component({
       this.setData({
         now: year + '-' + month
       })
-      if (storage.get('exit')) {
-        this.funcGetMonth();
-      }
+      // if (storage.get('exit')) {
+      //   this.funcGetMonth();
+      // }
     },
-    onTabItemTap(item) {
+    onShow(item) {
       if (storage.get('name') == ""){
         for(let i in this.data.form){
           this.data.form[i] = 0;
@@ -97,11 +96,7 @@ Component({
           count: 0
         })
       }else{
-        if (!storage.get('exit')) {
-          this.funcGetMonth();
-        }else{
-          this.funcGetMonth();
-        }
+        this.funcGetMonth();
       }
     },
     showDate() {

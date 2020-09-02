@@ -76,14 +76,6 @@ Component({
             })
             storage.put('name', that.data.name, 5);
             storage.put("sessionid", res.header["Set-Cookie"], 5);
-            console.log(storage.get('exit'))
-            if (storage.get('exit') != '' && storage.get('exit') == 1) {//退出
-              storage.put('exit', '', 5);//重新登陆
-              console.log('jj')
-            }else{
-              console.log('aaa')
-              storage.put('exit', 2, 5);//登陆
-            }
             wx.switchTab({
               url: '/pages/setting/setting',
               success() {

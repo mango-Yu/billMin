@@ -81,7 +81,6 @@ Component({
    */
   methods: {
     onLoad() {
-      console.log(1)
       this.setData({
         form: {
           date: utils.formatTime(new Date()),
@@ -89,15 +88,10 @@ Component({
         },
         now: utils.formatTime(new Date())
       });
-      this.funcGetDay(utils.formatTime(new Date()))
     },
     onShow(){
       if (storage.get('name') !== ""){
-        if (!storage.get('exit')) {
-          this.funcGetDay(utils.formatTime(new Date()))
-        }else{
-          this.funcGetDay(utils.formatTime(new Date()))
-        }
+        this.funcGetDay(this.data.form.date)
       }else{
         this.funcSetData(2, '', this.data.form.date);
       }

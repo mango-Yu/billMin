@@ -73,15 +73,14 @@ Component({
    */
   methods: {
     onLoad() {
-      console.log(3)
       let _this = this;
-      if (storage.get('exit')) {
-        _this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
-        _this.funcGetSumData()
-      }
+      // if (storage.get('exit')) {
+      //   _this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
+      //   _this.funcGetSumData()
+      // }
     },
      
-    onTabItemTap(item) {
+    onShow(item) {
       let _this = this;
       if (storage.get('name') == ""){
         _this.setData({
@@ -94,16 +93,10 @@ Component({
           allCostDataListLen: 0
         })
       }else{
-        if (!storage.get('exit') && _this.data.tableData.length != 0) {
-          console.log(_this.data.tableData)
-          _this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
-          _this.funcGetSumData()
-        }else{
-          _this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
+        _this.funcGetListData(this.data.currentPage - 1, this.data.pageSize)
           setTimeout(() => {
             _this.funcGetSumData()
           }, 500);
-        }
       }
     },
     funcGetListData(start, pageSize) {
