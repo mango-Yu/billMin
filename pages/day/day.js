@@ -250,6 +250,10 @@ Component({
         if (num == "" || num < 0) {
           return;
         }
+        let rgex = /^[0]+[0-9]*$/gi;
+        if (num && num.match(rgex)){
+          num = parseFloat(num)
+        }
         this.data.form[key] = num;
       }
       this.setData({
@@ -259,7 +263,6 @@ Component({
     blurInput(e) {
       let key = e.currentTarget.dataset.key;
       let inputVal = e.detail.value + "";
-      console.log(inputVal)
       if (key.indexOf('Remind') > 0) {
         inputVal = inputVal.replace(/(^\s*)|(\s*$)/g, "");
       } else {
@@ -267,12 +270,15 @@ Component({
         if (inputVal == "" || inputVal < 0) {
           inputVal = 0
         }
+        let rgex = /^[0]+[0-9]*$/gi;
+        if (inputVal && inputVal.match(rgex)){
+          inputVal = parseFloat(inputVal)
+        }
       }
       this.data.form[key] = inputVal;
       this.setData({
         form: this.data.form
       });
-      console.log(this.data.form)
     },
     funcGetDay(d) {
       // if (storage.get("sessionid") == '') {
@@ -317,58 +323,66 @@ Component({
     onSubmitDay() {
       let that = this;
       var obj = that.data.form;
-      
-      for (let i in obj) {
-        if (!(i == "playRemind" || i == "clothesRemind" || i == "othersRemind" || i == "giftsRemind" ||
-            i == "buysRemind" || i == "loansRemind" || i == "visaRemind" || i == "foodsRemind" || i == "skinRemind" || i == "healthRemind" || i == "insureRemind" ||
-            i == "date" || i == 'user')) {
-          if (i === "work") {
-            obj[i] = obj[i] ? 1 : 0;
-          } else {
-            if ((obj[i] + "") == "") {
-              obj[i] = isNaN(parseFloat(obj[i])) ? 0 : parseFloat(obj[i])
+      if (storage.get('sessionid')) {
+        for (let i in obj) {
+          if (!(i == "playRemind" || i == "clothesRemind" || i == "othersRemind" || i == "giftsRemind" ||
+              i == "buysRemind" || i == "loansRemind" || i == "visaRemind" || i == "foodsRemind" || i == "skinRemind" || i == "healthRemind" || i == "insureRemind" ||
+              i == "date" || i == 'user')) {
+            if (i === "work") {
+              obj[i] = obj[i] ? 1 : 0;
+            } else {
+              if ((obj[i] + "") == "") {
+                obj[i] = isNaN(parseFloat(obj[i])) ? 0 : parseFloat(obj[i])
+              }
             }
           }
         }
-      }
-      setTimeout(function(){
-        wx.request({
-          url: `${config.api + '/subSpending'}`,
-          data: obj,
-          header: {
-            'content-type': 'application/json', // 默认值
-            'cookie': storage.get("sessionid")
-            //读取sessionid,当作cookie传入后台将PHPSESSID做session_id使用
-          },
-          method: 'POST',
-          dataType: "json",
-          success: function (res) {
-            let data = res.data
-            if (data.code == 1) {
-              wx.showToast({
-                title: '提交成功',
-                icon: 'success',
-                duration: 2000
-              })
-              that.funcGetDay(that.data.form.date)
-            } else {
+        setTimeout(function(){
+          wx.request({
+            url: `${config.api + '/subSpending'}`,
+            data: obj,
+            header: {
+              'content-type': 'application/json', // 默认值
+              'cookie': storage.get("sessionid")
+              //读取sessionid,当作cookie传入后台将PHPSESSID做session_id使用
+            },
+            method: 'POST',
+            dataType: "json",
+            success: function (res) {
+              let data = res.data
+              if (data.code == 1) {
+                wx.showToast({
+                  title: '提交成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+                that.funcGetDay(that.data.form.date)
+              } else {
+                wx.showToast({
+                  title: '提交失败',
+                  image: '../../images/fail.png',
+                  duration: 2000
+                })
+              }
+            },
+            fail: function (err) {
+              console.log(err)
               wx.showToast({
                 title: '提交失败',
                 image: '../../images/fail.png',
                 duration: 2000
               })
             }
-          },
-          fail: function (err) {
-            console.log(err)
-            wx.showToast({
-              title: '提交失败',
-              image: '../../images/fail.png',
-              duration: 2000
-            })
-          }
+          })
+        }, 500)
+      }else{
+        wx.showToast({
+          title: '请先登录',
+          image: '../../images/fail.png',
+          duration: 2000
         })
-      }, 500)
+      }
+      
     },
     onShareAppMessage: function () {
       return {
