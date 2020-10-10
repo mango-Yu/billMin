@@ -1,0 +1,94 @@
+/* components/compute/index.wxss */
+.key-container {
+  margin-top: 50px;
+  width: 100%;
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input-box {
+  font-size: 35px;
+  font-weight: bold;
+  height: 40px;
+  border-bottom: 1px solid #aaa;
+  padding: 10px 15px;
+  text-align: right;
+  width: 90%;
+}
+
+.keyboard {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 240px;
+  width: 100%;
+}
+
+.keyboard .key-row {
+  display: flex;
+  display: -webkit-flex;
+  position: relative;
+  height: 60px;
+  line-height: 60px;
+}
+
+.keyboard .key-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 1px;
+  border-top: 1px solid #d5d5d6;
+  color: #d5d5d6;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+}
+
+.keyboard .key-cell {
+  flex: 1;
+  -webkit-box-flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.keyboard .key-cell::after {
+  content: '';
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 200%;
+  border-right: 1px solid #d5d5d6;
+  color: #d5d5d6;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+}
+
+.keyboard .key-cell:nth-last-child(1)::after {
+  border-right: 0;
+}
+
+.keyboard .disabled {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.keyboard .key-confirm {
+  position: absolute;
+  text-align: center;
+  height: 118px;
+  width: 25%;
+  line-height: 118px;
+  background: #fff;
+  z-index: 5;
+  right: 0;
+  bottom: 1px;
+}
