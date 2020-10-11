@@ -1,6 +1,5 @@
 <!--components/compute/index.wxml-->
 <view class='key-container'>
-    <view class='key-title'>请输入金额</view>
     <view class='input-box'>{{ money }}</view>
     <view class='keyboard' bindtap='_handleKeyPress'>
       <view class='key-row'>
@@ -22,7 +21,7 @@
         <view class='key-cell' data-num='-1'></view>
       </view>
       <view class='key-row'>
-        <view class='key-cell disabled' data-num='-1'></view>
+        <view class='key-cell' data-num='+'>+</view>
         <view class='key-cell' data-num='.'>.</view>
         <view class='key-cell' data-num='0'>0</view>
         <view class='key-cell' data-num='-1'></view>

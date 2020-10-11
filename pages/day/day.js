@@ -17,6 +17,7 @@ Component({
    */
   data: {
     show: false,
+    keyboard: false,
     form: {
       date: '',
       breakfast: '',
@@ -60,7 +61,9 @@ Component({
         return `${value}月`;
       }
       return value;
-    }
+    },
+    money: 0,
+    formKey: ''
   },
   computed: {
     eat(data) {
@@ -279,6 +282,21 @@ Component({
       this.setData({
         form: this.data.form
       });
+    },
+    focusInput(e){
+      this.setData({
+        keyboard: true,
+        formKey: e.currentTarget.dataset.key
+      });
+    },
+    _handleKeyPress(e){
+      console.log(e.detail.money);
+      this.data.form[this.data.formKey] = e.detail.money ? e.detail.money : '';
+      this.setData({
+        form: this.data.form,
+        keyboard: e.detail.keyboard,
+      })
+      console.log(this.data.form)
     },
     funcGetDay(d) {
       // if (storage.get("sessionid") == '') {

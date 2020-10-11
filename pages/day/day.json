@@ -6,6 +6,7 @@
     "van-field": "@vant/weapp/field",
     "van-switch": "@vant/weapp/switch",
     "van-cell": "@vant/weapp/cell",
-    "van-cell-group": "@vant/weapp/cell-group"
+    "van-cell-group": "@vant/weapp/cell-group",
+    "keyboard":"../../components/keyboard"
   }
 }

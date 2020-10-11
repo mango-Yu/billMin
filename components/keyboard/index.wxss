@@ -25,6 +25,8 @@
   left: 0;
   height: 240px;
   width: 100%;
+  background: #fff;
+  z-index: 10;
 }
 
 .keyboard .key-row {

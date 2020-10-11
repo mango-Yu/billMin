@@ -9,7 +9,7 @@
 	<view class="group_con">
 		<text  class="van-doc-demo-block__title">{{ eat }}</text>
 		<van-cell-group>
-			<van-field value="{{ form.breakfast }}" label="早餐" type="digit" input-align="right" placeholder="0" data-key="breakfast" bind:input="changeInput" bind:blur="blurInput" />
+			<van-field value="{{ form.breakfast }}" label="早餐" type="digit" input-align="right" placeholder="0" data-key="breakfast" bind:input="changeInput" bind:blur="blurInput" bind:focus="focusInput" />
 			<van-field value="{{ form.lunch }}" label="中餐" type="digit" input-align="right" placeholder="0" data-key="lunch" bind:input="changeInput" bind:blur="blurInput" />
 			<van-field value="{{ form.dinner }}" label="晚餐" type="digit" input-align="right" placeholder="0" data-key="dinner" bind:input="changeInput" bind:blur="blurInput" />
 		</van-cell-group>
@@ -112,3 +112,7 @@
 		<van-button type="primary" bindtap="onSubmitDay">提交</van-button>
 	</view>
 </view>
+<keyboard class="keyboard" 
+	wx:if="{{keyboard}}"
+	bind:handle-Key-Press="_handleKeyPress"
+></keyboard>
