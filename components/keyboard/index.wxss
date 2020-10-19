@@ -8,18 +8,7 @@
   align-items: center;
   justify-content: space-between;
 }
-
-.input-box {
-  font-size: 35px;
-  font-weight: bold;
-  height: 40px;
-  border-bottom: 1px solid #aaa;
-  padding: 10px 15px;
-  text-align: right;
-  width: 90%;
-}
-
-.keyboard {
+.key-container-box{
   position: fixed;
   bottom: 0;
   left: 0;
@@ -28,7 +17,19 @@
   background: #fff;
   z-index: 10;
 }
-
+.input-box {
+  font-size: 35px;
+  font-weight: bold;
+  height: 40px;
+  border-bottom: 1px solid #aaa;
+  padding: 10px 15px;
+  text-align: right;
+  width: 90%;
+  background: #fff ;
+  position: absolute;
+  top: -60px;
+  left: 0;
+}
 .keyboard .key-row {
   display: flex;
   display: -webkit-flex;

@@ -290,7 +290,7 @@ Component({
       });
     },
     _handleKeyPress(e){
-      console.log(e.detail.money);
+      // console.log(e.detail.money);
       this.data.form[this.data.formKey] = e.detail.money ? e.detail.money : '';
       this.setData({
         form: this.data.form,

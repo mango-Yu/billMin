@@ -1,5 +1,4 @@
 // components/compute/index.js
-var sum = 0;
 Component({
   /**
    * 组件的属性列表
@@ -12,11 +11,30 @@ Component({
    * 组件的初始数据
    */
   data: {
-    money: '',
-    value: null, // 上次计算后的结果，null表示没有上次计算的结果
-    displayValue: '0', // 显示数值
-    operator: null, // 上次计算符号，null表示没有未完成的计算
-    waitingForOperand: false, // 前一按键是否为计算符号
+    screenData:"0",
+    operaSymbo:{"＋":"+","－":"-","×":"*","÷":"/",".":"."},
+    lastIsOperaSymbo:false,
+    arr:[],
+    logs:[],
+    idb:"back",
+    idc:"clear",
+    idt:"toggle",
+    idadd:"+",
+    id9:"9",
+    id8:"8",
+    id7:"7",
+    idj:"－",
+    id6:"6",
+    id5:"5",
+    id4:"4",
+    idx:"×",
+    id3:"3",
+    id2:"2",
+    id1:"1",
+    iddiv:"÷",
+    id0:"0",
+    idd:".",
+    ide:"＝",
   },
 
   /**
@@ -31,9 +49,9 @@ Component({
       if (num == -1) return false;
       switch (String(num)) {
         //小数点
-        case '.':
-          this._handleDecimalPoint();
-          break;
+        // case '.':
+        //   this._handleDecimalPoint();
+        //   break;
         //删除键
         case 'D':
           this._handleDeleteKey();
@@ -46,108 +64,126 @@ Component({
         case 'S':
           this._handleConfirmKey();
           break;
-        //加号键
-        case '+':
-          this._handleAddSumKey();
-          break;
+        // //加号键
+        // case '+':
+        //   this._handleAddSumKey(num);
+        //   break;
 
         default:
           this._handleNumberKey(num);
           break;
       }
     },
-    //处理小数点函数
-    _handleDecimalPoint() {
-      //如果包含小数点，直接返回
-      if (this.data.money.indexOf('.') > -1) return false;
-      //如果小数点是第一位，补0
-      if (!this.data.money.length)
-        this.data.money = '0.';
-
-      //如果不是，添加一个小数点
-      else
-        this.data.money = this.data.money + '.';
-      this.triggerEvent('handle-Key-Press', { money: this.data.money }, { bubbles: true, composed: false  });
-    },
     //处理删除键
     _handleDeleteKey() {
-      let S = this.data.money;
-      //如果没有输入，直接返回
-      if (!S.length) return false;
-      //否则删除最后一个
-      this.data.money = S.substring(0, S.length - 1);
-      this.triggerEvent('handle-Key-Press', { money: this.data.money }, { bubbles: true, composed: false  });
+      var data = this.data.screenData;
+      if(data == "0"){
+          return;
+      }
+      data = data.substring(0,data.length-1);
+      if(data == "" || data == "－"){
+          data = 0;
+      }
+      this.setData({"screenData":data});
+      this.data.arr.pop();
+      this.triggerEvent('handle-Key-Press', { money: this.data.screenData }, { bubbles: true, composed: false  });
     },
     //处理清空键
     _handleClearKey() {
-      this.data.money = '';
-      this.setData({
-        waitingForOperand: false,
-        value: null
-      })
-      sum = 0;
-      this.triggerEvent('handle-Key-Press', { money: this.data.money }, { bubbles: true, composed: false  });
+      this.setData({"screenData":"0"});
+      this.data.arr.length = 0;
+      this.triggerEvent('handle-Key-Press', { money: this.data.screenData }, { bubbles: true, composed: false  });
     },
     //处理数字
-    _handleNumberKey(num) {
-      let S = this.data.money;
-      if (this.data.waitingForOperand) {
-        sum = Number(num) + Number(this.data.value);
-        // console.log(num)
-        // console.log(sum)
-        this.setData({
-          waitingForOperand: false
-        })
-        this.triggerEvent('handle-Key-Press', { money: sum }, { bubbles: true, composed: false  });
-      }else{
-        //如果有小数点且小数点位数不小于2
-        if (S.indexOf('.') > -1 && S.substring(S.indexOf('.') + 1).length < 2)
-        this.data.money = S + num;
-        //没有小数点
-        if (!(S.indexOf('.') > -1)) {
-        //如果第一位是0，只能输入小数点
-        if (num == 0 && S.length == 0)
-          this.data.money = '0.';
-
-        else {
-          if (S.length && Number(S.charAt(0)) === 0) return;
-          this.data.money = S + num;
+    _handleNumberKey(id) {
+      if(this.data.operaSymbo[id]){ //如果是符号+-*/
+        if(this.data.lastIsOperaSymbo || this.data.screenData == "0"){
+          return;
         }
-        }
-        this.triggerEvent('handle-Key-Press', { money: sum === 0 ? '' + this.data.money : sum+num}, { bubbles: true, composed: false  });
-        sum = sum === 0 ? '' + this.data.money : sum+num;
       }
+      var sd = this.data.screenData;
+      var data;
+      if(sd == 0){
+        data = id;
+      }else{
+        data = sd + id;
+      }
+      this.setData({"screenData":data});
+      this.data.arr.push(id);
+
+      if(this.data.operaSymbo[id]){
+        this.setData({"lastIsOperaSymbo":true});
+      }else{
+        this.setData({"lastIsOperaSymbo":false});
+      }
+      this.triggerEvent('handle-Key-Press', { money: this.data.screenData }, { bubbles: true, composed: false  });
     },
+    //+-
     _handleAddSumKey(){
-      console.log(sum)
-      this.setData({
-        waitingForOperand: true,
-        value: sum
-      })
+      var data = this.data.screenData;
+      if(data == "0"){
+          return;
+      }
+      var firstWord = data.charAt(0);
+      if(data == "－"){
+        data = data.substr(1);
+        this.data.arr.shift();
+      }else{
+        data = "－" + data;
+        this.data.arr.unshift("－");
+      }
+      this.setData({"screenData":data});
     },
     //提交
     _handleConfirmKey() {
-      // let S = this.data.money;
-      // //未输入
-      // if (!S.length) {
-      //   alert('您目前未输入!')
-      //   return false;
-      // }
-
-      // //将 8. 这种转换成 8.00
-      // if (S.indexOf('.') > -1 && S.indexOf('.') == (S.length - 1))
-      //   S = Number(S.substring(0, S.length - 1)).toFixed(2);
-      // //保留两位
-      // S = Number(S).toFixed(2);
-      // // this.$emit('confirmEvent', S)
-      // console.log(S)
-      this.triggerEvent('handle-Key-Press', {money: sum, keyboard: false }, { bubbles: true, composed: false  });
-      this.data.money = '';
-      this.setData({
-        waitingForOperand: false,
-        value: null
-      })
-      sum = 0;
+      var data = this.data.screenData;
+      if(data == "0"){
+          return;
+      }
+      //eval是js中window的一个方法，而微信页面的脚本逻辑在是在JsCore中运行，JsCore是一个没有窗口对象的环境，所以不能再脚本中使用window，也无法在脚本中操作组件                 
+      //var result = eval(newData);           
+      
+      var lastWord = data.charAt(data.length);
+      if(isNaN(lastWord)){
+        return;
+      }
+      var num = "";
+      var lastOperator = "";
+      var arr = this.data.arr;
+      var optarr = [];
+      for(var i in arr){
+        if(isNaN(arr[i]) == false || arr[i] == this.data.idd || arr[i] == this.data.idt){
+          num += arr[i];
+        }else{
+          lastOperator = arr[i];
+          optarr.push(num);
+          optarr.push(arr[i]);
+          num = "";
+        }
+      }
+      optarr.push(Number(num));
+      var result = Number(optarr[0])*1.0;
+      console.log(result);
+      for(var i=1; i<optarr.length; i++){
+        if(isNaN(optarr[i])){
+          console.log(optarr[1] == this.data.idadd)
+          console.log(optarr[1])
+          console.log(this.data.idadd)
+            if(optarr[1] == this.data.idadd){
+                result += Number(optarr[i + 1]);
+            }else if(optarr[1] == this.data.idj){
+                result -= Number(optarr[i + 1]);
+            }else if(optarr[1] == this.data.idx){
+                result *= Number(optarr[i + 1]);
+            }else if(optarr[1] == this.data.iddiv){
+                result /= Number(optarr[i + 1]);
+            }
+        }
+      }
+      this.data.arr.length = 0;
+      this.data.arr.push(result);
+      this.setData({"screenData":result+""});
+      this.triggerEvent('handle-Key-Press', { money: this.data.screenData, keyboard: false }, { bubbles: true, composed: false  });
     }
   }
 })
