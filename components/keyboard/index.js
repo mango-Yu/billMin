@@ -4,7 +4,10 @@ Component({
    * 组件的属性列表
    */
   properties: {
-     
+    computeMoney:{
+      type: String,
+      value: '0'
+    }
   },
 
   /**
@@ -12,7 +15,7 @@ Component({
    */
   data: {
     screenData:"0",
-    operaSymbo:{"＋":"+","－":"-","×":"*","÷":"/",".":"."},
+    operaSymbo:{"+":"+","-":"-","×":"*","÷":"/",".":"."},
     lastIsOperaSymbo:false,
     arr:[],
     logs:[],
@@ -86,13 +89,13 @@ Component({
       }
       this.setData({"screenData":data});
       this.data.arr.pop();
-      this.triggerEvent('handle-Key-Press', { money: this.data.screenData }, { bubbles: true, composed: false  });
+      this.triggerEvent('handle-Key-Press', { money: this.data.screenData, keyboard: true }, { bubbles: true, composed: false  });
     },
     //处理清空键
     _handleClearKey() {
       this.setData({"screenData":"0"});
       this.data.arr.length = 0;
-      this.triggerEvent('handle-Key-Press', { money: this.data.screenData }, { bubbles: true, composed: false  });
+      this.triggerEvent('handle-Key-Press', { money: this.data.screenData, keyboard: true }, { bubbles: true, composed: false  });
     },
     //处理数字
     _handleNumberKey(id) {
@@ -116,7 +119,7 @@ Component({
       }else{
         this.setData({"lastIsOperaSymbo":false});
       }
-      this.triggerEvent('handle-Key-Press', { money: this.data.screenData }, { bubbles: true, composed: false  });
+      this.triggerEvent('handle-Key-Press', { money: this.data.screenData, keyboard: true }, { bubbles: true, composed: false  });
     },
     //+-
     _handleAddSumKey(){
@@ -138,11 +141,11 @@ Component({
     _handleConfirmKey() {
       var data = this.data.screenData;
       if(data == "0"){
+          this.triggerEvent('handle-Key-Press', { money: this.data.screenData, keyboard: false }, { bubbles: true, composed: false  });
           return;
       }
       //eval是js中window的一个方法，而微信页面的脚本逻辑在是在JsCore中运行，JsCore是一个没有窗口对象的环境，所以不能再脚本中使用window，也无法在脚本中操作组件                 
-      //var result = eval(newData);           
-      
+      //var result = eval(newData);
       var lastWord = data.charAt(data.length);
       if(isNaN(lastWord)){
         return;
@@ -163,12 +166,9 @@ Component({
       }
       optarr.push(Number(num));
       var result = Number(optarr[0])*1.0;
-      console.log(result);
+      // console.log(result);
       for(var i=1; i<optarr.length; i++){
         if(isNaN(optarr[i])){
-          console.log(optarr[1] == this.data.idadd)
-          console.log(optarr[1])
-          console.log(this.data.idadd)
             if(optarr[1] == this.data.idadd){
                 result += Number(optarr[i + 1]);
             }else if(optarr[1] == this.data.idj){
@@ -184,6 +184,27 @@ Component({
       this.data.arr.push(result);
       this.setData({"screenData":result+""});
       this.triggerEvent('handle-Key-Press', { money: this.data.screenData, keyboard: false }, { bubbles: true, composed: false  });
+    }
+  },
+  observers:{
+    "computeMoney": function computeMoney(_computeMoney){
+      this.setData({
+        screenData: _computeMoney
+      })
+      if (_computeMoney == "0") {
+        this.data.arr.length = 0;
+      }else{
+        let html = '';
+        for(let i = 0;i<this.data.arr.length;i++) {
+           html += this.data.arr[i];
+        }
+        if (html == _computeMoney){
+          return;
+        }else{
+          this.data.arr.push(_computeMoney);
+        }
+      }
+      this.triggerEvent('handle-Key-Press', { money: this.data.screenData, keyboard: true }, { bubbles: true, composed: false  });
     }
   }
 })

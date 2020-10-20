@@ -268,15 +268,6 @@ Component({
       let inputVal = e.detail.value + "";
       if (key.indexOf('Remind') > 0) {
         inputVal = inputVal.replace(/(^\s*)|(\s*$)/g, "");
-      } else {
-        inputVal = inputVal.replace(/[^\-?\d.]/g, '');
-        if (inputVal == "" || inputVal < 0) {
-          inputVal = 0
-        }
-        let rgex = /^[0]+[0-9]*$/gi;
-        if (inputVal && inputVal.match(rgex)){
-          inputVal = parseFloat(inputVal)
-        }
       }
       this.data.form[key] = inputVal;
       this.setData({
@@ -284,10 +275,27 @@ Component({
       });
     },
     focusInput(e){
-      this.setData({
-        keyboard: true,
-        formKey: e.currentTarget.dataset.key
-      });
+      let key = e.currentTarget.dataset.key;
+      if (key.indexOf('Remind') > 0) {
+        this.setData({
+          keyboard: false
+        });
+      }else{
+        wx.hideKeyboard();
+        if (e.detail.value != '0' && e.detail.value != '') {
+          this.setData({
+            keyboard: true,
+            money: e.detail.value,
+            formKey: e.currentTarget.dataset.key
+          });
+        }else{
+          this.setData({
+            keyboard: true,
+            money: '0',
+            formKey: e.currentTarget.dataset.key
+          });
+        }
+      }
     },
     _handleKeyPress(e){
       // console.log(e.detail.money);
@@ -296,7 +304,7 @@ Component({
         form: this.data.form,
         keyboard: e.detail.keyboard,
       })
-      console.log(this.data.form)
+      // console.log(this.data.form)
     },
     funcGetDay(d) {
       // if (storage.get("sessionid") == '') {

@@ -9,25 +9,25 @@
 	<view class="group_con">
 		<text  class="van-doc-demo-block__title">{{ eat }}</text>
 		<van-cell-group>
-			<van-field value="{{ form.breakfast }}" label="早餐" type="digit" input-align="right" placeholder="0" data-key="breakfast" bind:focus="focusInput" />
-			<van-field value="{{ form.lunch }}" label="中餐" type="digit" input-align="right" placeholder="0" data-key="lunch" bind:focus="focusInput" />
-			<van-field value="{{ form.dinner }}" label="晚餐" type="digit" input-align="right" placeholder="0" data-key="dinner" bind:focus="focusInput" />
+			<van-field value="{{ form.breakfast }}" label="早餐" type="number" input-align="right" placeholder="0" data-key="breakfast" bind:focus="focusInput" adjust-position="true" adjust-position="true"/>
+			<van-field value="{{ form.lunch }}" label="中餐" type="number" input-align="right" placeholder="0" data-key="lunch" bind:focus="focusInput" adjust-position="true" />
+			<van-field value="{{ form.dinner }}" label="晚餐" type="number" input-align="right" placeholder="0" data-key="dinner" bind:focus="focusInput" adjust-position="true" />
 		</van-cell-group>
 	</view>
 	<view class="group_con">
 		<van-cell-group>
-			<van-field value="{{ form.traffic }}" label="交通" type="digit" input-align="right" placeholder="0" data-key="traffic" bind:focus="focusInput" />
+			<van-field value="{{ form.traffic }}" label="交通" type="number" input-align="right" placeholder="0" data-key="traffic" bind:focus="focusInput" adjust-position="true" />
 		</van-cell-group>
 	</view>
 	<view class="group_con">
 		<van-cell-group>
-			<van-field value="{{ form.sock }}" label="零食费用" type="digit" input-align="right" placeholder="0" data-key="sock" bind:focus="focusInput" />
+			<van-field value="{{ form.sock }}" label="零食费用" type="number" input-align="right" placeholder="0" data-key="sock" bind:focus="focusInput" adjust-position="true" />
 			<text class="desc">包含饮料，零食，肯德基麦当劳等各种小吃</text>
 		</van-cell-group>
 	</view>
 	<view class="group_con">
 		<van-cell-group>
-			<van-field value="{{ form.house }}" label="房租" type="digit" input-align="right" placeholder="0" data-key="house" bind:focus="focusInput" />
+			<van-field value="{{ form.house }}" label="房租" type="number" input-align="right" placeholder="0" data-key="house" bind:focus="focusInput" adjust-position="true" />
 		</van-cell-group>
 	</view>
 	<view class="group_con">
@@ -39,68 +39,68 @@
 	</view>
 	<view class="group_con">
 		<van-cell-group>
-			<van-field value="{{ form.buy }}" label="网购费用" type="digit" input-align="right" placeholder="0" data-key="buy" bind:focus="focusInput" />
-			<van-field value="{{ form.buysRemind }}" type="textarea" input-align="left" placeholder="网购费用备注" autosize data-key="buysRemind" bind:blur="blurInput" />
+			<van-field value="{{ form.buy }}" label="网购费用" type="number" input-align="right" placeholder="0" data-key="buy" bind:focus="focusInput" adjust-position="true" />
+			<van-field value="{{ form.buysRemind }}" type="textarea" input-align="left" placeholder="网购费用备注" autosize data-key="buysRemind" bind:focus="focusInput" adjust-position="true" bind:blur="blurInput" />
 		</van-cell-group>
 	</view>
 	<view class="group_con">
 		<van-cell-group>
-			<van-field value="{{ form.foods }}" label="食材超市费用" type="digit" input-align="right" placeholder="0" data-key="foods" bind:focus="focusInput" />
-			<van-field value="{{ form.foodsRemind }}" type="textarea" input-align="left" placeholder="食材超市费用备注" autosize data-key="foodsRemind" bind:blur="blurInput" />
+			<van-field value="{{ form.foods }}" label="食材超市费用" type="number" input-align="right" placeholder="0" data-key="foods" bind:focus="focusInput" adjust-position="true" />
+			<van-field value="{{ form.foodsRemind }}" type="textarea" input-align="left" placeholder="食材超市费用备注" autosize data-key="foodsRemind" bind:focus="focusInput" adjust-position="true" bind:blur="blurInput" />
 		</van-cell-group>
 	</view>
 	<view class="group_con">
 		<van-cell-group>
-			<van-field value="{{ form.loans }}" label="贷款费用" type="digit" input-align="right" placeholder="0" data-key="loans" bind:focus="focusInput" />
-			<van-field value="{{ form.loansRemind }}" type="textarea" input-align="left" placeholder="贷款费用备注" autosize data-key="loansRemind" bind:blur="blurInput" />
+			<van-field value="{{ form.loans }}" label="贷款费用" type="number" input-align="right" placeholder="0" data-key="loans" bind:focus="focusInput" adjust-position="true" />
+			<van-field value="{{ form.loansRemind }}" type="textarea" input-align="left" placeholder="贷款费用备注" autosize data-key="loansRemind" bind:focus="focusInput" adjust-position="true" bind:blur="blurInput" />
 		</van-cell-group>
 	</view>
 	<view class="group_con">
 		<van-cell-group>
-			<van-field value="{{ form.visa }}" label="信用卡花呗费用" type="digit" input-align="right" placeholder="0" data-key="visa" bind:focus="focusInput" />
-			<van-field value="{{ form.visaRemind }}" type="textarea" input-align="left" placeholder="信用卡花呗费用备注(不计总费用)" autosize data-key="visaRemind" bind:blur="blurInput" />
+			<van-field value="{{ form.visa }}" label="信用卡花呗费用" type="number" input-align="right" placeholder="0" data-key="visa" bind:focus="focusInput" adjust-position="true" />
+			<van-field value="{{ form.visaRemind }}" type="textarea" input-align="left" placeholder="信用卡花呗费用备注(不计总费用)" autosize data-key="visaRemind" bind:focus="focusInput" adjust-position="true" bind:blur="blurInput" />
 		</van-cell-group>
 	</view>
 	<view class="group_con">
 		<van-cell-group>
-			<van-field value="{{ form.clothes }}" label="服装费用" type="digit" input-align="right" placeholder="0" data-key="clothes" bind:focus="focusInput" />
-			<van-field value="{{ form.clothesRemind }}" type="textarea" input-align="left" placeholder="服装费用备注" autosize data-key="clothesRemind" bind:blur="blurInput" />
+			<van-field value="{{ form.clothes }}" label="服装费用" type="number" input-align="right" placeholder="0" data-key="clothes" bind:focus="focusInput" adjust-position="true" />
+			<van-field value="{{ form.clothesRemind }}" type="textarea" input-align="left" placeholder="服装费用备注" autosize data-key="clothesRemind" bind:focus="focusInput" adjust-position="true" bind:blur="blurInput" />
 		</van-cell-group>
 	</view>
 	<view class="group_con">
 		<van-cell-group>
-			<van-field value="{{ form.skin }}" label="化妆品费用" type="digit" input-align="right" placeholder="0" data-key="skin" bind:focus="focusInput" />
-			<van-field value="{{ form.skinRemind }}" type="textarea" input-align="left" placeholder="化妆品费用备注" autosize data-key="skinRemind" bind:blur="blurInput" />
+			<van-field value="{{ form.skin }}" label="化妆品费用" type="number" input-align="right" placeholder="0" data-key="skin" bind:focus="focusInput" adjust-position="true" />
+			<van-field value="{{ form.skinRemind }}" type="textarea" input-align="left" placeholder="化妆品费用备注" autosize data-key="skinRemind" bind:focus="focusInput" adjust-position="true" bind:blur="blurInput" />
 		</van-cell-group>
 	</view>
 	<view class="group_con">
 		<van-cell-group>
-			<van-field value="{{ form.health }}" label="医疗费用" type="digit" input-align="right" placeholder="0" data-key="health" bind:focus="focusInput" />
-			<van-field value="{{ form.healthRemind }}" type="textarea" input-align="left" placeholder="医疗费用备注" autosize data-key="healthRemind" bind:blur="blurInput" />
+			<van-field value="{{ form.health }}" label="医疗费用" type="number" input-align="right" placeholder="0" data-key="health" bind:focus="focusInput" adjust-position="true" />
+			<van-field value="{{ form.healthRemind }}" type="textarea" input-align="left" placeholder="医疗费用备注" autosize data-key="healthRemind" bind:focus="focusInput" adjust-position="true" bind:blur="blurInput" />
 		</van-cell-group>
 	</view>
 	<view class="group_con">
 		<van-cell-group>
-			<van-field value="{{ form.insure }}" label="保险费用" type="digit" input-align="right" placeholder="0" data-key="insure" bind:focus="focusInput" />
-			<van-field value="{{ form.insureRemind }}" type="textarea" input-align="left" placeholder="保险费用备注" autosize data-key="insureRemind" bind:blur="blurInput" />
+			<van-field value="{{ form.insure }}" label="保险费用" type="number" input-align="right" placeholder="0" data-key="insure" bind:focus="focusInput" adjust-position="true" />
+			<van-field value="{{ form.insureRemind }}" type="textarea" input-align="left" placeholder="保险费用备注" autosize data-key="insureRemind" bind:focus="focusInput" adjust-position="true" bind:blur="blurInput" />
 		</van-cell-group>
 	</view>
 	<view class="group_con">
 		<van-cell-group>
-			<van-field value="{{ form.play }}" label="旅游费用" type="digit" input-align="right" placeholder="0" data-key="play" bind:focus="focusInput" />
-			<van-field value="{{ form.playRemind }}" type="textarea" input-align="left" placeholder="旅游费用备注" autosize data-key="playRemind" bind:blur="blurInput" />
+			<van-field value="{{ form.play }}" label="旅游费用" type="number" input-align="right" placeholder="0" data-key="play" bind:focus="focusInput" adjust-position="true" />
+			<van-field value="{{ form.playRemind }}" type="textarea" input-align="left" placeholder="旅游费用备注" autosize data-key="playRemind" bind:focus="focusInput" adjust-position="true" bind:blur="blurInput" />
 		</van-cell-group>
 	</view>
 	<view class="group_con">
 		<van-cell-group>
-			<van-field value="{{ form.gifts }}" label="人情费用" type="digit" input-align="right" placeholder="0" data-key="gifts" bind:focus="focusInput" />
-			<van-field value="{{ form.giftsRemind }}" type="textarea" input-align="left" placeholder="人情费用备注" autosize data-key="giftsRemind" bind:blur="blurInput" />
+			<van-field value="{{ form.gifts }}" label="人情费用" type="number" input-align="right" placeholder="0" data-key="gifts" bind:focus="focusInput" adjust-position="true" />
+			<van-field value="{{ form.giftsRemind }}" type="textarea" input-align="left" placeholder="人情费用备注" autosize data-key="giftsRemind" bind:focus="focusInput" adjust-position="true" bind:blur="blurInput" />
 		</van-cell-group>
 	</view>
 	<view class="group_con">
 		<van-cell-group>
-			<van-field value="{{ form.others }}" label="其他费用" type="digit" input-align="right" placeholder="0" data-key="others" bind:focus="focusInput" />
-			<van-field value="{{ form.othersRemind }}" type="textarea" input-align="left" placeholder="其他费用备注" data-key="othersRemind" bind:blur="blurInput" autosize />
+			<van-field value="{{ form.others }}" label="其他费用" type="number" input-align="right" placeholder="0" data-key="others" bind:focus="focusInput" adjust-position="true" />
+			<van-field value="{{ form.othersRemind }}" type="textarea" input-align="left" placeholder="其他费用备注" data-key="othersRemind" bind:focus="focusInput" adjust-position="true" bind:blur="blurInput" autosize />
 		</van-cell-group>
 	</view>
 	<view>
@@ -114,5 +114,6 @@
 </view>
 <keyboard class="keyboard" 
 	wx:if="{{keyboard}}"
+	computeMoney="{{money}}"
 	bind:handle-Key-Press="_handleKeyPress"
 ></keyboard>
