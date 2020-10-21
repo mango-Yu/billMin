@@ -31,8 +31,20 @@
 }
 .month-group .van-cell__title{
   width: 300rpx !important;
+  margin-left: 40px;
 }
 .month-group .van-cell__value{
   width: 100rpx !important;
   float: right;
+}
+.item-cell{
+  position: relative;
+}
+image{
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  z-index: 10;
 }

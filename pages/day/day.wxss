@@ -23,8 +23,34 @@
 .group_con {
   margin: 10px 0;
   background: #fff;
+  position: relative;
 }
 
+image{
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  z-index: 10;
+}
+.group_con-eatting-img{
+  width: 35px;
+  height: 35px;
+  position: relative;
+  top: 5px;
+  left: 10px;
+  z-index: 10;
+}
+.group_con-eatting image:nth-child(1){
+  top: 5px;
+}
+.group_con-eatting image:nth-child(3){
+  top: 50px;
+}
+.group_con-eatting image:nth-child(5){
+  top: 90px;
+}
 .desc {
   margin-left: 10px;
   color: rgba(69, 90, 100, 0.6);
@@ -34,12 +60,11 @@
 }
 
 .van-doc-demo-block__title {
-  margin: 0;
-  padding: 32px 16px 16px;
   color: rgba(69, 90, 100, 0.6);
   font-weight: normal;
   font-size: 14px;
   line-height: 16px;
+  margin-left: 20px;
 }
 
 .van-doc-demo-block__card {
@@ -63,4 +88,7 @@
 }
 .van-field__label{
   width: 200rpx;
+}
+.van-cell__title{
+  margin-left: 40px;
 }
