@@ -275,24 +275,23 @@ Component({
       });
     },
     focusInput(e){
-      let key = e.currentTarget.dataset.key;
+      let key = e.target.dataset.key;
       if (key.indexOf('Remind') > 0) {
         this.setData({
           keyboard: false
         });
       }else{
-        wx.hideKeyboard();
-        if (e.detail.value != '0' && e.detail.value != '') {
+        if (e.target.dataset.value != '0' && e.target.dataset.value != '') {
           this.setData({
             keyboard: true,
-            money: e.detail.value,
-            formKey: e.currentTarget.dataset.key
+            money: e.target.dataset.value,
+            formKey: e.target.dataset.key
           });
         }else{
           this.setData({
             keyboard: true,
             money: '0',
-            formKey: e.currentTarget.dataset.key
+            formKey: e.target.dataset.key
           });
         }
       }
