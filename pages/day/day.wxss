@@ -92,3 +92,9 @@ image{
 .van-cell__title{
   margin-left: 40px;
 }
+.van-field__label--disabled{
+  color: #333 !important;
+}
+.van-field__input--disabled{
+  color: #333 !important;
+}

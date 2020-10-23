@@ -111,6 +111,21 @@ Component({
       }else{
         data = sd + id;
       }
+      if (data.indexOf('+') > 0 || data.indexOf('.') > 0) {
+        let str = data.split("+");
+        for(let i =0;i<str.length;i++){
+          let index = str[i].indexOf('.');
+          let strLen = str[i].substring(index, str[i].length)
+          if ( strLen.length > 3 && str[i].indexOf('.') > 0  && str[i].indexOf('+') < 0){
+            wx.showToast({
+              title: '请保留两位小数',
+              icon: 'success',
+              duration: 2000
+            })
+            return;
+          }
+        }
+      }
       this.setData({"screenData":data});
       this.data.arr.push(id);
 
@@ -182,7 +197,7 @@ Component({
       }
       this.data.arr.length = 0;
       this.data.arr.push(result);
-      this.setData({"screenData":result+""});
+      this.setData({"screenData":parseFloat(result).toFixed(2)+""});
       this.triggerEvent('handle-Key-Press', { money: this.data.screenData, keyboard: false }, { bubbles: true, composed: false  });
     }
   },

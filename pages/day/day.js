@@ -63,7 +63,8 @@ Component({
       return value;
     },
     money: 0,
-    formKey: ''
+    formKey: '',
+    top: 0
   },
   computed: {
     eat(data) {
@@ -275,18 +276,48 @@ Component({
       });
     },
     focusInput(e){
+      if (e.detail.y >= 270) {
+        wx.pageScrollTo({
+          scrollTop: e.detail.y - 120,
+          duration: 300
+        })
+      }
+      if (e.detail.y >= 1400) {
+        this.setData({
+          top: 300 +"px"
+        })
+        wx.pageScrollTo({
+          scrollTop: e.detail.y,
+          duration: 300
+        })
+      }
       let key = e.target.dataset.key;
       if (key.indexOf('Remind') > 0) {
         this.setData({
           keyboard: false
         });
-      }else{
+      }else{        
         if (e.target.dataset.value != '0' && e.target.dataset.value != '') {
-          this.setData({
-            keyboard: true,
-            money: e.target.dataset.value,
-            formKey: e.target.dataset.key
-          });
+          if ((e.target.dataset.value).indexOf("+") > 0) {
+            let moneyArr = (e.target.dataset.value).split("+");
+            let addMoney = 0;
+            for(let i=0; i<moneyArr.length; i++){
+              if(!isNaN(moneyArr[i])){
+                addMoney += Number(moneyArr[i]);
+              }
+            }
+            this.setData({
+              keyboard: true,
+              money:  addMoney,
+              formKey: e.target.dataset.key
+            });
+          }else{
+            this.setData({
+              keyboard: true,
+              money: e.target.dataset.value,
+              formKey: e.target.dataset.key
+            });
+          }
         }else{
           this.setData({
             keyboard: true,
@@ -297,12 +328,16 @@ Component({
       }
     },
     _handleKeyPress(e){
-      // console.log(e.detail.money);
       this.data.form[this.data.formKey] = e.detail.money ? e.detail.money : '';
       this.setData({
         form: this.data.form,
         keyboard: e.detail.keyboard,
       })
+      if (!e.detail.keyboard) {
+        this.setData({
+          top: 0
+        })
+      }
       // console.log(this.data.form)
     },
     funcGetDay(d) {
