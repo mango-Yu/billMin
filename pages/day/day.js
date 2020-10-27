@@ -62,7 +62,7 @@ Component({
       }
       return value;
     },
-    money: 0,
+    money: {"money": 0, "key": ""},
     formKey: '',
     top: 0
   },
@@ -298,6 +298,9 @@ Component({
         });
       }else{        
         if (e.target.dataset.value != '0' && e.target.dataset.value != '') {
+          if (this.data.formKey == e.target.dataset.key && this.data.keyboard) {
+            return;
+          }
           if ((e.target.dataset.value).indexOf("+") > 0) {
             let moneyArr = (e.target.dataset.value).split("+");
             let addMoney = 0;
@@ -308,20 +311,20 @@ Component({
             }
             this.setData({
               keyboard: true,
-              money:  addMoney,
+              money:  {"money": String(addMoney), "key": e.target.dataset.key},
               formKey: e.target.dataset.key
             });
           }else{
             this.setData({
               keyboard: true,
-              money: e.target.dataset.value,
+              money: {"money": e.target.dataset.value, "key": e.target.dataset.key},
               formKey: e.target.dataset.key
             });
           }
         }else{
           this.setData({
             keyboard: true,
-            money: '0',
+            money: {"money": 0, "key": e.target.dataset.key},
             formKey: e.target.dataset.key
           });
         }

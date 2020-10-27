@@ -1,12 +1,13 @@
 // components/compute/index.js
+let keyValur = '' ;
 Component({
   /**
    * 组件的属性列表
    */
   properties: {
     computeMoney:{
-      type: String,
-      value: '0'
+      type: Object,
+      value: {}
     }
   },
 
@@ -204,19 +205,23 @@ Component({
   observers:{
     "computeMoney": function computeMoney(_computeMoney){
       this.setData({
-        screenData: _computeMoney
+        screenData: _computeMoney.money
       })
-      if (_computeMoney == "0") {
+      if (keyValur != _computeMoney.key) {
+        keyValur = _computeMoney.key;
+        this.data.arr.length = 0;
+      }
+      if (_computeMoney.money == "0") {
         this.data.arr.length = 0;
       }else{
         let html = '';
         for(let i = 0;i<this.data.arr.length;i++) {
            html += this.data.arr[i];
         }
-        if (html == _computeMoney){
+        if (html == _computeMoney.money){
           return;
         }else{
-          this.data.arr.push(_computeMoney);
+          this.data.arr.push(_computeMoney.money);
         }
       }
       this.triggerEvent('handle-Key-Press', { money: this.data.screenData, keyboard: true }, { bubbles: true, composed: false  });
