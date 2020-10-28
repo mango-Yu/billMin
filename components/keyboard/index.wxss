@@ -12,30 +12,31 @@
   position: fixed;
   bottom: 0;
   left: 0;
-  height: 240px;
+  height: 200px;
   width: 100%;
   background: #fff;
-  z-index: 10;
+  z-index: 99;
 }
 .input-box {
-  font-size: 35px;
+  font-size: 24px;
   font-weight: bold;
-  height: 40px;
   border-bottom: 1px solid #aaa;
-  padding: 10px 15px;
   text-align: right;
-  width: 90%;
+  width: 100%;
   background: #fff ;
   position: absolute;
-  top: -60px;
+  top: -30px;
   left: 0;
+}
+.input-box-data{
+  margin: 0 15px;
 }
 .keyboard .key-row {
   display: flex;
   display: -webkit-flex;
   position: relative;
-  height: 60px;
-  line-height: 60px;
+  height: 50px;
+  line-height: 50px;
 }
 
 .keyboard .key-row::before {
@@ -87,9 +88,9 @@
 .keyboard .key-confirm {
   position: absolute;
   text-align: center;
-  height: 118px;
+  height: 75px;
   width: 25%;
-  line-height: 118px;
+  line-height: 75px;
   background: #fff;
   z-index: 5;
   right: 0;

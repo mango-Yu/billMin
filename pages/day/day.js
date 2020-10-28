@@ -278,13 +278,13 @@ Component({
     focusInput(e){
       if (e.detail.y >= 270) {
         wx.pageScrollTo({
-          scrollTop: e.detail.y - 120,
+          scrollTop: e.detail.y - 150,
           duration: 300
         })
       }
       if (e.detail.y >= 1400) {
         this.setData({
-          top: 300 +"px"
+          top: 100 +"px"
         })
         wx.pageScrollTo({
           scrollTop: e.detail.y,

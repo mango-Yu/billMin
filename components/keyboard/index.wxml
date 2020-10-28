@@ -1,7 +1,9 @@
 <!--components/compute/index.wxml-->
 <view class='key-container'>
     <view class="key-container-box">
-      <view class='input-box'>{{ screenData }}</view>
+      <view class='input-box'>
+        <view class='input-box-data'>{{ screenData }}</view>
+      </view>
       <view class='keyboard' bindtap='_handleKeyPress'>
         <view class='key-row'>
           <view class='key-cell' data-num='7'>7</view>
