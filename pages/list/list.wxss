@@ -1,6 +1,6 @@
 /* pages/list/list.wxss */
 .container-list{
-  height: 500rpx;
+  height: 3000rpx;
   width: 100%;
   margin-top: 10rpx;
 }

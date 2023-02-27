@@ -21,11 +21,20 @@
     
 </view>
 <text>月度趋势图(￥)</text>  
-<ff-canvas class="f2-chart" wx:if="{{ allCostDataListLen > 0 }}" id="lineChart" canvas-id="lineChart" opts="{{ opts }}"></ff-canvas>
-<text wx:if="{{ allCostDataListLen === 0 }}" class="no-data">暂无数据~</text>
-<text>日消费图(￥)</text>  
-<ff-canvas class="f2-chart" wx:if="{{ allCostDataListLen > 0 }}" id="barChart" canvas-id="barChart" opts="{{ opts }}"></ff-canvas>
-<text wx:if="{{ allCostDataListLen === 0 }}" class="no-data">暂无数据~</text>
-<text>类消费总计(￥)</text>  
-<ff-canvas class="f2-chart-pie" wx:if="{{ allCostData && allCostData.allCost !== '0.00' }}" id="pieChart" canvas-id="pieChart" opts="{{ opts }}"></ff-canvas>
-<text wx:if="{{ !allCostData || allCostData.allCost == '0.00' }}" class="no-data">暂无数据~</text>
+<view class="container-list">
+    <view class="f2-chart">
+    <ff-canvas class="" wx:if="{{ allCostDataListLen > 0 }}" id="lineChart" canvas-id="lineChart" opts="{{ opts }}"></ff-canvas>
+    <text wx:if="{{ allCostDataListLen === 0 }}" class="no-data">暂无数据~</text>
+</view>
+<view class="f2-chart">
+    <text>日消费图(￥)</text>  
+    <ff-canvas   wx:if="{{ allCostDataListLen > 0 }}" id="barChart" canvas-id="barChart" opts="{{ opts }}"></ff-canvas>
+    <text wx:if="{{ allCostDataListLen === 0 }}" class="no-data">暂无数据~</text>
+</view>
+<view class="f2-chart-pie">
+    <text>类消费总计(￥)</text>  
+    <ff-canvas  wx:if="{{ allCostData && allCostData.allCost !== '0.00' }}" id="pieChart" canvas-id="pieChart" opts="{{ opts }}"></ff-canvas>
+    <text wx:if="{{ !allCostData || allCostData.allCost == '0.00' }}" class="no-data">暂无数据~</text>
+</view>
+
+</view>
